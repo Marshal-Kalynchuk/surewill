@@ -3,8 +3,11 @@
 <%= render @will %>
 
 <div>
-  <%= link_to "Edit this will", edit_will_path(@will) %> |
+  <% if @will == current_user.will %>
+    <%= link_to "Edit this will", edit_will_path(@will) %>
+  <% end %>
+
   <%= link_to "Back to wills", wills_path %>
 
-  <%= button_to "Destroy this will", @will, method: :delete %>
+  
 </div>

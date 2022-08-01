@@ -1,4 +1,4 @@
-<%= form_with(model: will) do |form| %>
+<%= form_for(@will) do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
@@ -12,18 +12,13 @@
   <% end %>
 
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
+    <%= form.label :is_public, style: "display: block" %>
+    <%= form.check_box :is_public %>
   </div>
 
   <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div>
-    <%= form.label :prepaid, style: "display: block" %>
-    <%= form.check_box :prepaid %>
+    <%= form.label :is_prepaid, style: "display: block" %>
+    <%= form.check_box :is_prepaid %>
   </div>
 
   <div>

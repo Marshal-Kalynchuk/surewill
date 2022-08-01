@@ -1,5 +1,6 @@
 class WillsController < ApplicationController
-  before_action :authenticate_user!, :set_will, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[ index new ]
+  before_action :set_will, only: %i[ show edit update destroy ]
 
   # GET /wills or /wills.json
   def index
@@ -12,17 +13,20 @@ class WillsController < ApplicationController
 
   # GET /wills/new
   def new
+    if user_signed_in? && current_user.will
+        redirect_to edit_will_path(current_user.will)
+    end
     @will = Will.new
   end
 
   # GET /wills/1/edit
   def edit
+    @will = current_user.will
   end
 
   # POST /wills or /wills.json
   def create
-    @will = Will.new(will_params)
-
+    @will = current_user.build_will(will_params)
     respond_to do |format|
       if @will.save
         format.html { redirect_to will_url(@will), notice: "Will was successfully created." }
@@ -65,6 +69,6 @@ class WillsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def will_params
-      params.require(:will).permit(:user_id, :status, :prepaid)
+      params.require(:will).permit(:user_id, :is_public, :is_prepaid)
     end
 end
