@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_action :set_subscription, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, :set_subscription, only: %i[ show edit update destroy ]
 
   # GET /subscriptions or /subscriptions.json
   def index
