@@ -1,6 +1,6 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!, except: %i[ index new ]
-  before_action :set_will, only: %i[ show edit update destroy ]
+  before_action :set_will, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
@@ -14,7 +14,7 @@ class WillsController < ApplicationController
   # GET /wills/new
   def new
     if user_signed_in? && current_user.will
-        redirect_to edit_will_path(current_user.will)
+      redirect_to edit_will_path(current_user.will)
     end
     @will = Will.new
   end
@@ -26,6 +26,9 @@ class WillsController < ApplicationController
 
   # POST /wills or /wills.json
   def create
+    if user_signed_in? && current_user.will
+      redirect_to edit_will_path(current_user.will)
+    end
     @will = current_user.build_will(will_params)
     respond_to do |format|
       if @will.save
@@ -54,7 +57,6 @@ class WillsController < ApplicationController
   # DELETE /wills/1 or /wills/1.json
   def destroy
     @will.destroy
-
     respond_to do |format|
       format.html { redirect_to wills_url, notice: "Will was successfully destroyed." }
       format.json { head :no_content }
@@ -62,6 +64,7 @@ class WillsController < ApplicationController
   end
 
   private
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = Will.find(params[:id])
@@ -69,6 +72,8 @@ class WillsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def will_params
-      params.require(:will).permit(:user_id, :is_public, :is_prepaid)
+      params.require(:will).permit(
+        :user_id, :is_public, :is_prepaid)
     end
+
 end

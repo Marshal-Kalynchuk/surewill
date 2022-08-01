@@ -1,4 +1,4 @@
-<%= form_for(@will) do |form| %>
+<%= form_with model: @will do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
@@ -20,6 +20,11 @@
     <%= form.label :is_prepaid, style: "display: block" %>
     <%= form.check_box :is_prepaid %>
   </div>
+
+  <%= form.fields_for :subscriptions do |sub_form| %>
+    <%= sub_form.label :email %>
+    <%= sub_form.text_field :email %>
+  <% end %>
 
   <div>
     <%= form.submit %>

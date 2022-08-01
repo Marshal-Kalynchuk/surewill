@@ -7,5 +7,6 @@ class User < ApplicationRecord
 
   has_one :will
   has_many :subscriptions
+  belongs_to :mailer
   
 end
