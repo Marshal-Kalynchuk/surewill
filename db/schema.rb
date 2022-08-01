@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_035957) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_155815) do
   create_table "subscriptions", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.integer "will_id", null: false
     t.boolean "is_payed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email", null: false
+    t.string "relation"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
     t.index ["will_id"], name: "index_subscriptions_on_will_id"
   end
