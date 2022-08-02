@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_035957) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_02_171220) do
+  create_table "mailboxes", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.boolean "deliverable", default: true, null: false
+    t.boolean "receive_promotions", default: true, null: false
+    t.boolean "receive_notifications", default: true, null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_mailboxes_on_email", unique: true
+    t.index ["user_id"], name: "index_mailboxes_on_user_id"
+  end
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "will_id", null: false
+    t.integer "mailbox_id", null: false
     t.boolean "payed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["mailbox_id"], name: "index_subscriptions_on_mailbox_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
     t.index ["will_id"], name: "index_subscriptions_on_will_id"
   end
@@ -52,6 +66,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_035957) do
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
+  add_foreign_key "mailboxes", "users"
+  add_foreign_key "subscriptions", "mailboxes"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "subscriptions", "wills"
   add_foreign_key "wills", "users"

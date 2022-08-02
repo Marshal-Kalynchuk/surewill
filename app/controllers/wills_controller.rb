@@ -30,6 +30,7 @@ class WillsController < ApplicationController
       redirect_to edit_will_path(current_user.will)
     end
     @will = current_user.build_will(will_params)
+
     respond_to do |format|
       if @will.save
         format.html { redirect_to will_url(@will), notice: "Will was successfully created." }
@@ -73,7 +74,7 @@ class WillsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :user_id, :is_public, :is_prepaid)
+        :user_id, :public, :prepaid)
     end
 
 end

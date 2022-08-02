@@ -12,19 +12,14 @@
   <% end %>
 
   <div>
-    <%= form.label :is_public, style: "display: block" %>
-    <%= form.check_box :is_public %>
+    <%= form.label :public, style: "display: block" %>
+    <%= form.check_box :public %>
   </div>
 
   <div>
-    <%= form.label :is_prepaid, style: "display: block" %>
-    <%= form.check_box :is_prepaid %>
+    <%= form.label :prepaid, style: "display: block" %>
+    <%= form.check_box :prepaid %>
   </div>
-
-  <%= form.fields_for :subscriptions do |sub_form| %>
-    <%= sub_form.label :email %>
-    <%= sub_form.text_field :email %>
-  <% end %>
 
   <div>
     <%= form.submit %>
