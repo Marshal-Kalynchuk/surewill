@@ -10,24 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_230819) do
-  create_table "mailers", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_mailers_on_email", unique: true
-  end
-
-  create_table "notifiers", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.integer "mailer_id", null: false
-    t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["mailer_id"], name: "index_notifiers_on_mailer_id"
-    t.index ["will_id"], name: "index_notifiers_on_will_id"
-  end
-
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_035957) do
   create_table "subscriptions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "will_id", null: false
@@ -55,10 +38,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_230819) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "mailer_id", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["mailer_id"], name: "index_users_on_mailer_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -71,10 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_230819) do
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
-  add_foreign_key "notifiers", "mailers"
-  add_foreign_key "notifiers", "wills"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "subscriptions", "wills"
-  add_foreign_key "users", "mailers"
   add_foreign_key "wills", "users"
 end
