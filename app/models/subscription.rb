@@ -24,7 +24,4 @@ class Subscription < ApplicationRecord
       self.mailbox_id = mailbox.id
     end
   end
-  def valid_email?
-
-  end
 end

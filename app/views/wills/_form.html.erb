@@ -21,6 +21,11 @@
     <%= form.check_box :prepaid %>
   </div>
 
+  <%= form.fields_for :subscriptions do |sub_form| %>
+    <%= sub_form.label :email %>
+    <%= sub_form.text_field :email %>
+  <% end %>
+
   <div>
     <%= form.submit %>
   </div>

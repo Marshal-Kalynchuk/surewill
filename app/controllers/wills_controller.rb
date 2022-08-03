@@ -1,6 +1,7 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!, except: %i[ index new ]
   before_action :set_will, only: %i[ show update destroy ]
+  before_action :set_subs, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
@@ -22,6 +23,7 @@ class WillsController < ApplicationController
   # GET /wills/1/edit
   def edit
     @will = current_user.will
+    set_subs
   end
 
   # POST /wills or /wills.json
@@ -69,12 +71,28 @@ class WillsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = Will.find(params[:id])
+      set_subs
     end
+    def set_subs
 
+      @will.subscriptions = @will.subscriptions.collect do |subscription|
+        subscription.email = subscription.mailbox.email
+        subscription
+      end
+
+       # @will.subscriptions = @will.subscriptions.collect do |subscription|
+      #   if subscription.visible
+      #     subscription.email = subscription.mailbox.email
+      #     subscription
+      #   end
+      # end.compact
+
+    end
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :user_id, :public, :prepaid)
+        :user_id, :public, :prepaid,
+      subscriptions_attributes: [ :email ])
     end
 
 end
