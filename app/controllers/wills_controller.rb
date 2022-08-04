@@ -17,6 +17,7 @@ class WillsController < ApplicationController
     @will = Will.new
     @will.beneficiaries.build
     @will.assets.build
+    @will.accessors.build
   end
 
   # GET /wills/1/edit
@@ -25,6 +26,7 @@ class WillsController < ApplicationController
     @will = current_user.will
     @will.beneficiaries.build 
     @will.assets.build
+    @will.accessors.build
   end
 
   # POST /wills or /wills.json
@@ -80,7 +82,8 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :user_id, :public, :prepaid,
       beneficiaries_attributes: [ :name, :id ],
-      assets_attributes: [ :title, :description, :images, :id ]
+      assets_attributes: [ :title, :description, :images, :id ],
+      accessors_attributes: [ :email, :id ]
     )
     end
 end
