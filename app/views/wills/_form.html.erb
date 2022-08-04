@@ -21,14 +21,30 @@
     <%= form.check_box :prepaid %>
   </div>
 
-  <div>
-    <%= form.fields_for :beneficiaries do |subform| %>
-      <%= subform.label :email, style: "display: block" %>
-      <%= subform.text_field :email %>
-    <% end %>
-  </div>
+  <h3>Beneficiaries</h3>
+  <%= form.fields_for :beneficiaries do |subform| %>
+    <div>
+      <%= subform.label :name, style: "display: block" %>
+      <%= subform.text_field :name %>
+    </div>
+  <% end %>
+
+  <br/>
+  <h3>Assets</h3>
+  <%= form.fields_for :assets do |subform| %>
+    <div>
+      <%= subform.label :title, style: "display: block" %>
+      <%= subform.text_field :title %>
+    </div>
+
+    <div>
+      <%= subform.label :description, style: "display: block" %>
+      <%= subform.text_area :description %>
+    </div>
+  <% end %>
 
   <div>
     <%= form.submit %>
   </div>
+
 <% end %>

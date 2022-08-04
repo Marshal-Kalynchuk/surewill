@@ -10,15 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_03_175029) do
-  create_table "beneficiaries", force: :cascade do |t|
-    t.integer "user_id", null: false
+ActiveRecord::Schema[7.0].define(version: 2022_08_04_145644) do
+  create_table "assets", force: :cascade do |t|
     t.integer "will_id", null: false
-    t.boolean "payed"
+    t.string "title", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_beneficiaries_on_user_id"
+    t.index ["will_id"], name: "index_assets_on_will_id"
+  end
+
+  create_table "beneficiaries", force: :cascade do |t|
+    t.integer "will_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_beneficiaries_on_will_id"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "will_id", null: false
+    t.boolean "payed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_subscribers_on_user_id"
+    t.index ["will_id"], name: "index_subscribers_on_will_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,7 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_03_175029) do
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
-  add_foreign_key "beneficiaries", "users"
+  add_foreign_key "assets", "wills"
   add_foreign_key "beneficiaries", "wills"
+  add_foreign_key "subscribers", "users"
+  add_foreign_key "subscribers", "wills"
   add_foreign_key "wills", "users"
 end
