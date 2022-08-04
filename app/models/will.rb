@@ -6,5 +6,5 @@ class Will < ApplicationRecord
 
   has_many :beneficiaries, dependent: :destroy
   accepts_nested_attributes_for :beneficiaries
-
+  
 end

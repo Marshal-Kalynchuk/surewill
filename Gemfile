@@ -6,7 +6,18 @@ ruby "3.1.2"
 # Devise authentication
 gem 'devise'
 
+# Devise invitation and temp account creation
 gem 'devise_invitable'
+
+# Cloud storage 
+gem 'google-cloud-storage'
+
+# Cloud storage requirments. Required install seperately like sqllite
+# Not currently installed
+# libcips for image analysis and transforamtions
+# libjpeg-turbo-dev
+# ffmpeg for video and ffprobe for video/audio analysis
+# poppler or muPDF for PDF previews
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.3", ">= 7.0.3.1"
