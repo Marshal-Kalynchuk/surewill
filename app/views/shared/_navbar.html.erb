@@ -8,7 +8,7 @@
         <%= link_to "See wills", wills_path %>
       </li>
       <% if user_signed_in? %>
-        <li>
+        <li> 
           <% if current_user.will %>
             <%= link_to "View will", will_path(current_user.will.id)%>
           <% else %>

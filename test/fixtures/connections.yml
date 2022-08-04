@@ -3,9 +3,9 @@
 one:
   user: one
   will: one
-  is_payed: false
+  payed: false
 
 two:
   user: two
   will: two
-  is_payed: false
+  payed: false

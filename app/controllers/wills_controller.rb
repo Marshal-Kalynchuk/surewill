@@ -1,7 +1,6 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!, except: %i[ index new ]
   before_action :set_will, only: %i[ show update destroy ]
-  before_action :set_subs, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
@@ -18,12 +17,17 @@ class WillsController < ApplicationController
       redirect_to edit_will_path(current_user.will)
     end
     @will = Will.new
+    @will.beneficiaries.build
   end
 
   # GET /wills/1/edit
   def edit
     @will = current_user.will
-    set_subs
+    @will.beneficiaries = @will.beneficiaries.collect do |b| 
+      b.set_email
+      b
+    end
+    @will.beneficiaries.build 
   end
 
   # POST /wills or /wills.json
@@ -32,7 +36,6 @@ class WillsController < ApplicationController
       redirect_to edit_will_path(current_user.will)
     end
     @will = current_user.build_will(will_params)
-
     respond_to do |format|
       if @will.save
         format.html { redirect_to will_url(@will), notice: "Will was successfully created." }
@@ -47,6 +50,7 @@ class WillsController < ApplicationController
   # PATCH/PUT /wills/1 or /wills/1.json
   def update
     respond_to do |format|
+      puts will_params
       if @will.update(will_params)
         format.html { redirect_to will_url(@will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
@@ -71,28 +75,12 @@ class WillsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = Will.find(params[:id])
-      set_subs
     end
-    def set_subs
 
-      @will.subscriptions = @will.subscriptions.collect do |subscription|
-        subscription.email = subscription.mailbox.email
-        subscription
-      end
-
-       # @will.subscriptions = @will.subscriptions.collect do |subscription|
-      #   if subscription.visible
-      #     subscription.email = subscription.mailbox.email
-      #     subscription
-      #   end
-      # end.compact
-
-    end
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
         :user_id, :public, :prepaid,
-      subscriptions_attributes: [ :email ])
+      beneficiaries_attributes: [ :email, :id ])
     end
-
 end

@@ -1,18 +1,7 @@
 class Will < ApplicationRecord
   belongs_to :user
-  has_many :subscriptions
-  has_many :mailboxes, through: :subscriptions
-  accepts_nested_attributes_for :subscriptions
-
-  # Validation:
-
-
-  def mail_subs
-
-  end
-
-  def do_stuff
-
-  end
+  has_many :beneficiaries, dependent: :destroy
+  has_many :users, through: :beneficiaries
+  accepts_nested_attributes_for :beneficiaries
 
 end

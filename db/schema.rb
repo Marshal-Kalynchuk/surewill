@@ -10,30 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_03_001626) do
-  create_table "mailboxes", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.boolean "deliverable", default: true, null: false
-    t.boolean "receive_promotions", default: true, null: false
-    t.boolean "receive_notifications", default: true, null: false
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_mailboxes_on_email", unique: true
-    t.index ["user_id"], name: "index_mailboxes_on_user_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.integer "user_id"
+ActiveRecord::Schema[7.0].define(version: 2022_08_03_175029) do
+  create_table "beneficiaries", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.integer "will_id", null: false
-    t.integer "mailbox_id", null: false
-    t.boolean "payed", default: false, null: false
+    t.boolean "payed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "visible", default: true, null: false
-    t.index ["mailbox_id"], name: "index_subscriptions_on_mailbox_id"
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
-    t.index ["will_id"], name: "index_subscriptions_on_will_id"
+    t.index ["user_id"], name: "index_beneficiaries_on_user_id"
+    t.index ["will_id"], name: "index_beneficiaries_on_will_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,23 +38,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_03_001626) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.integer "invited_by_id"
+    t.integer "invitations_count", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "wills", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.boolean "public", default: false, null: false
+    t.boolean "released", default: false, null: false
     t.boolean "prepaid", default: false, null: false
+    t.boolean "public", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
-  add_foreign_key "mailboxes", "users"
-  add_foreign_key "subscriptions", "mailboxes"
-  add_foreign_key "subscriptions", "users"
-  add_foreign_key "subscriptions", "wills"
+  add_foreign_key "beneficiaries", "users"
+  add_foreign_key "beneficiaries", "wills"
   add_foreign_key "wills", "users"
 end
