@@ -1,10 +1,10 @@
 class WillsController < ApplicationController
-  before_action :authenticate_user!, except: %i[ index new ]
+  before_action :authenticate_user!, except: %i[ new ]
   before_action :set_will, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
-    @wills = Will.all
+    @wills = current_user.wills
   end
 
   # GET /wills/1 or /wills/1.json
@@ -13,7 +13,9 @@ class WillsController < ApplicationController
 
   # GET /wills/new
   def new
-    redirect_to edit_will_path(current_user) if current_user.will
+    if user_signed_in? && current_user.will
+      redirect_to edit_will_path(current_user)
+    end
     @will = Will.new
     @will.beneficiaries.build
     @will.assets.build
@@ -24,9 +26,9 @@ class WillsController < ApplicationController
   def edit
     redirect_to new_will_path unless current_user.will
     @will = current_user.will
-    @will.beneficiaries.build 
-    @will.assets.build
-    @will.accessors.build
+    @will.beneficiaries.build unless @will.beneficiaries
+    @will.assets.build unless @will.assets
+    @will.accessors.build unless @will.accessors
   end
 
   # POST /wills or /wills.json
@@ -75,14 +77,17 @@ class WillsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = Will.find(params[:id])
+      @beneficiaries = @will.beneficiaries
+      @assets = @will.assets 
+      @accessors = @will.accessors
     end
 
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :user_id, :public, :prepaid,
+        :testator, :user_id, :public, :prepaid,
       beneficiaries_attributes: [ :name, :id ],
-      assets_attributes: [ :title, :description, :images, :id ],
+      assets_attributes: [ :title, :description, :image, :id ],
       accessors_attributes: [ :email, :id ]
     )
     end

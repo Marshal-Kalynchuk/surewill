@@ -4,9 +4,14 @@
 
 <div id="wills">
   <% @wills.each do |will| %>
-    <%= render will %>
+    <h3><%= will.testator %>'s will<h3>
+    <% unless will.released? %>
+      <p>Status: Not released</p>
+    <% else %>
+      <p>Status: Released</p>
+    <% end %>
     <p>
-      <%= link_to "Show this will", will %>
+      <%= link_to "Access this will", will %>
     </p>
   <% end %>
 </div>

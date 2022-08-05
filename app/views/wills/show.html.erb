@@ -1,13 +1,33 @@
-<p style="color: green"><%= notice %></p>
+<div>
+  <div>
+    <h1>Will Creator:</h1>
+    <%= @will.testator %>
+  </div>
 
-<%= render @will %>
-
+  <% if @will.released? || @will.user == current_user%>
+    <div>
+      <h2>Beneficiaries:</h2>
+      <% @beneficiaries.each do |beneficiary| %>
+        <h4>Name:</h4>
+        <%= beneficiary.name %>
+        <% end %>
+    </div>
+    <div>
+      <h2>Assets:</h2>
+      <% @assets.each do |asset| %>
+        <h3><%= asset.title%></h3>
+        <p><%= asset.description%></p>
+      <% end %>
+    </div>
+  <% else %>
+    <h2>This will has not been released yet.</h2>
+    <h3>Have a death certificate? Send it to us and we will release the will</h3>
+  <% end %>
+</div>
 <div>
   <% if @will == current_user.will %>
     <%= link_to "Edit this will", edit_will_path(@will) %>
+    <br/>
   <% end %>
-
   <%= link_to "Back to wills", wills_path %>
-
-  
 </div>

@@ -1,6 +1,6 @@
-class CreateSubscribers < ActiveRecord::Migration[7.0]
+class CreateSubscription < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscribers do |t|
+    create_table :subscriptions do |t|
       t.references :user, null: false, foreign_key: true
       t.references :will, null: false, foreign_key: true
       t.boolean :payed, null: false, default: false

@@ -1,0 +1,17 @@
+<h1>Subscriber#index</h1>
+<p>Find me in app/views/subscriber/index.html.erb</p>
+<p style="color: green"><%= notice %></p>
+
+<h1>Wills</h1>
+
+<div id="subscriptions">
+  <% @subscriptions.each do |subscription| %>
+
+      <%= render subscription %>
+      <p>
+        <%= link_to "Show this will", subscription_path(subscription.id) %>
+      </p>
+
+  <% end %>
+</div>
+

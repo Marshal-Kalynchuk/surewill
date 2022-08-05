@@ -11,6 +11,10 @@
       </ul>
     </div>
   <% end %>
+  <div>
+    <%= form.label :testator, value: 'Name', style: "display: block" %>
+    <%= form.text_field :testator %>
+  </div>
 
   <div>
     <%= form.label :public, style: "display: block" %>
@@ -42,6 +46,12 @@
       <%= subform.label :description, style: "display: block" %>
       <%= subform.text_area :description %>
     </div>
+
+    <div>
+      <%= subform.label :image, style: "display: block" %>
+      <%= subform.file_field :image %>
+    </div>
+
   <% end %>
 
   <h3>Access list:</h3>

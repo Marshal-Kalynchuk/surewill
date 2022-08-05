@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   has_one :will, dependent: :destroy
-  has_many :subscriptions, class_name: 'subscriber', dependent: :destroy
-  
+  has_many :subscriptions, dependent: :destroy
+  has_many :wills, through: :subscriptions
 
 end
