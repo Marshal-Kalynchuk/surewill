@@ -3,15 +3,7 @@
     <h1>Will Creator:</h1>
     <%= @will.testator %>
   </div>
-
   <% if @will.released? || @will.user == current_user%>
-    <div>
-      <h2>Beneficiaries:</h2>
-      <% @beneficiaries.each do |beneficiary| %>
-        <h4>Name:</h4>
-        <%= beneficiary.name %>
-        <% end %>
-    </div>
     <div>
       <h2>Assets:</h2>
       <% @assets.each do |asset| %>
@@ -29,5 +21,5 @@
     <%= link_to "Edit this will", edit_will_path(@will) %>
     <br/>
   <% end %>
-  <%= link_to "Back to wills", wills_path %>
+  <%= link_to "Back to wills", user_wills_path(current_user) %>
 </div>

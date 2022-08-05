@@ -4,15 +4,16 @@
       <li>
         <%= link_to "Home", root_path%>
       </li>
-      <li>
-        <%= link_to "See wills", wills_path %>
-      </li>
+      
       <% if user_signed_in? %>
+        <li>
+          <%= link_to "See wills", user_wills_path(current_user) %>
+        </li>
         <li> 
           <% if current_user.will && current_user.will.persisted? %>
-            <%= link_to "View will", will_path(current_user.will.id)%>
+            <%= link_to "View will", user_will_path(current_user)%>
           <% else %>
-            <%= link_to "Create will", new_will_path%>
+            <%= link_to "Create will", new_user_will_path(current_user)%>
           <% end %>
         </li>
         <li>

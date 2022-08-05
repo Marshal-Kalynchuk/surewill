@@ -1,5 +1,4 @@
-
-<%= form_with model: @will do |form| %>
+<%= form_with model: @will, url: user_wills_path(current_user) do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
@@ -16,24 +15,23 @@
     <%= form.text_field :testator %>
   </div>
 
-  <div>
-    <%= form.label :public, style: "display: block" %>
-    <%= form.check_box :public %>
-  </div>
-
-  <div>
-    <%= form.label :prepaid, style: "display: block" %>
-    <%= form.check_box :prepaid %>
-  </div>
-
   <h3>Beneficiaries</h3>
-  <p>This the where you put beneficiaries.</p>
-  <%= form.fields_for :beneficiaries do |subform| %>
+  <%= form.fields_for :accessors do |subform| %>
+    <div>
+      <%= subform.label :type, style: "display: block" %>
+      <%= subform.select :type, ['Executor', 'Beneficiary', 'Notificiary']%>
+    </div>
     <div>
       <%= subform.label :name, style: "display: block" %>
       <%= subform.text_field :name %>
     </div>
+    <div>
+      <%= subform.label :email, style: "display: block" %>
+      <%= subform.text_field :email %>
+    </div>
+    <br/>
   <% end %>
+
   <h3>Assets</h3>
   <p>This the where you put your house.</p>
   <%= form.fields_for :assets do |subform| %>
@@ -53,16 +51,17 @@
     </div>
 
   <% end %>
+  <div>
+    <%= form.label :public, style: "display: block" %>
+    <%= form.check_box :public %>
+  </div>
 
-  <h3>Access list:</h3>
-  <p>These emails will be notified of the will status and will be able to access your will after it is released.</p>
-  <%= form.fields_for :accessors do |subform| %>
-    <div>
-      <%= subform.label :email, style: "display: block" %>
-      <%= subform.text_field :email %>
-    </div>
-  <% end %>
-  
+  <div>
+    <%= form.label :prepaid, style: "display: block" %>
+    <%= form.check_box :prepaid %>
+  </div>
+
+
   <div>
     <%= form.submit %>
   </div>
