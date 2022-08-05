@@ -9,7 +9,7 @@ class User < ApplicationRecord
   attr_accessor :testator_name
 
   has_one :will, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-  has_many :wills, through: :subscriptions
 
+  has_many :acccessors, dependent: :destroy
+  
 end

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class BeneficiaryTest < ActiveSupport::TestCase
+class AccessorTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

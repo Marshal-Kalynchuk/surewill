@@ -6,14 +6,11 @@ class Will < ApplicationRecord
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets
 
-  has_many :beneficiaries, dependent: :destroy
-  accepts_nested_attributes_for :beneficiaries
-
-  has_many :accessors, class_name: 'Subscription', dependent: :destroy
+  has_many :accessors, dependent: :destroy
   accepts_nested_attributes_for :accessors
 
   # Validates
-  validates :accessors, :assets, :beneficiaries, presence: true
+  validates :accessors, :assets, presence: true
 
   def released?
     self.released
@@ -21,6 +18,5 @@ class Will < ApplicationRecord
   def public?
     self.public
   end
-
 
 end
