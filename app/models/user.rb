@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable
 
+  # Pass values though to invite
+  attr_accessor :testator_name
+
   has_one :will, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :wills, through: :subscriptions
