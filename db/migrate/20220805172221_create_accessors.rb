@@ -3,7 +3,7 @@ class CreateAccessors < ActiveRecord::Migration[7.0]
     create_table :accessors do |t|
       t.references :user, null: false, foreign_key: true
       t.references :will, null: false, foreign_key: true
-      t.string :type, null: false
+      t.string :accessor_type, null: false
       t.boolean :payed, null: false, default: false
       t.string :name, null: false
 

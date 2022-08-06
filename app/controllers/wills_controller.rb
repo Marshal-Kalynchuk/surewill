@@ -85,7 +85,7 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :prepaid,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :id ]
+      accessors_attributes: [ :name, :email, :accessor_type, :id ]
     )
     end
 end

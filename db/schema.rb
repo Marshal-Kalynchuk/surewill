@@ -14,7 +14,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_05_172221) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
-    t.string "type", null: false
+    t.string "accessor_type", null: false
     t.boolean "payed", default: false, null: false
     t.string "name", null: false
     t.datetime "created_at", null: false

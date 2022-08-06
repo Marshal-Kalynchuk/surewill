@@ -9,6 +9,8 @@ class Will < ApplicationRecord
   has_many :accessors, dependent: :destroy
   accepts_nested_attributes_for :accessors
 
+  has_one_attached :death_certificate
+
   # Validates
   validates :accessors, :assets, presence: true
 
