@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   # get '/wills/new', to: 'wills#new'
-  resources :users do 
-    resources :wills
-  end
+  resources :users
+  
+  resources :wills
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

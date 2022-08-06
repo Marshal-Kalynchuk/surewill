@@ -1,4 +1,4 @@
-<%= form_with model: @will, url: user_wills_path(current_user) do |form| %>
+<%= form_with model: @will do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
@@ -18,8 +18,8 @@
   <h3>Beneficiaries</h3>
   <%= form.fields_for :accessors do |subform| %>
     <div>
-      <%= subform.label :type, style: "display: block" %>
-      <%= subform.select :type, ['Executor', 'Beneficiary', 'Notificiary']%>
+      <%= subform.label :accessor_type, style: "display: block" %>
+      <%= subform.select :accessor_type, ['Executor', 'Beneficiary', 'Notificiary']%>
     </div>
     <div>
       <%= subform.label :name, style: "display: block" %>

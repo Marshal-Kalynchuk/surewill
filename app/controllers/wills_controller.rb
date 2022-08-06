@@ -37,7 +37,7 @@ class WillsController < ApplicationController
       @will = current_user.build_will(will_params)
       respond_to do |format|
         if @will.save
-          format.html { redirect_to will_url(@will), notice: "Will was successfully created." }
+          format.html { redirect_to @will, notice: "Will was successfully created." }
           format.json { render :show, status: :created, location: @will }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class WillsController < ApplicationController
   def update
     respond_to do |format|
       if @will.update(will_params)
-        format.html { redirect_to will_url(@will), notice: "Will was successfully updated." }
+        format.html { redirect_to @will, notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -75,7 +75,6 @@ class WillsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = Will.find(params[:id])
-      @beneficiaries = @will.beneficiaries
       @assets = @will.assets 
       @accessors = @will.accessors
     end
