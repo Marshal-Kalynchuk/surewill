@@ -6,21 +6,25 @@
       </li>
       
       <% if user_signed_in? %>
+
         <li>
-          <%= link_to "See wills", wills_path(current_user) %>
+          <%= link_to "Access wills" %>
         </li>
+
         <li> 
           <% if current_user.will && current_user.will.persisted? %>
-            <%= link_to "View will", will_path(current_user)%>
+            <%= link_to "View will", user_will_path(current_user, current_user.will) %>
           <% else %>
-            <%= link_to "Create will", new_will_path(current_user)%>
+            <%= link_to "Create will", new_user_will_path(current_user) %>
           <% end %>
         </li>
+
         <li>
           <%= link_to "Sign Out", destroy_user_session_path, data: { "turbo-method": :delete } %>
         </li>
 
       <% else %>
+
         <li>
           <%= link_to "Login", new_user_session_path %>
         </li>

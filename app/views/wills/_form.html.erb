@@ -1,8 +1,7 @@
-<%= form_with model: @will do |form| %>
+<%= form_with model: [:user, @will] do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
-
       <ul>
         <% will.errors.each do |error| %>
           <li><%= error.full_message %></li>

@@ -37,7 +37,7 @@ class WillsController < ApplicationController
       @will = current_user.build_will(will_params)
       respond_to do |format|
         if @will.save
-          format.html { redirect_to @will, notice: "Will was successfully created." }
+          format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully created." }
           format.json { render :show, status: :created, location: @will }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class WillsController < ApplicationController
   def update
     respond_to do |format|
       if @will.update(will_params)
-        format.html { redirect_to @will, notice: "Will was successfully updated." }
+        format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -82,9 +82,9 @@ class WillsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :testator, :user_id, :public, :prepaid,
+        :testator, :user_id, :public, :prepaid, :death_certificate,
       assets_attributes: [ :title, :description, :image, :id ],
       accessors_attributes: [ :name, :email, :accessor_type, :id ]
-    )
+      )
     end
 end
