@@ -40,6 +40,7 @@ class WillsController < ApplicationController
     if user_signed_in? && current_user.will
       redirect_to edit_user_will_path(current_user.will)
     else
+      link_users
       @will = current_user.build_will(will_params)
       respond_to do |format|
         if @will.save
@@ -56,6 +57,8 @@ class WillsController < ApplicationController
   # PATCH/PUT /wills/1 or /wills/1.json
   def update
     respond_to do |format|
+      link_users
+      puts will_params
       if @will.update(will_params)
         format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
@@ -76,7 +79,6 @@ class WillsController < ApplicationController
   end
 
   def release
-    puts params
     if @accessor_user.can_release
       puts 'Releasing will!'
       @will.released = true
@@ -93,6 +95,13 @@ class WillsController < ApplicationController
   end
 
   private
+
+    def link_users
+      params[:will][:accessors_attributes].each do |k, v|
+        user = User.find_by(email: v[:email]) || User.invite!(email: v[:email]) 
+        v[:user_id] = user.id
+      end
+    end
   
     # Use callbacks to share common setup or constraints between actions.
     def set_will
@@ -113,7 +122,7 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :prepaid, :death_certificate,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id ]
+      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id, :user_id]
       )
     end
 
