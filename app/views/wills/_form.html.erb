@@ -28,7 +28,9 @@
       <%= subform.label :email, style: "display: block" %>
       <%= subform.text_field :email %>
     </div>
-    <br/>
+    <div>
+      <%= subform.label :can_release, style: "display: block" %>
+      <%= subform.check_box :can_release %>
   <% end %>
 
   <h3>Assets</h3>

@@ -6,8 +6,11 @@
     <h2>Testator:</h2>
     <p><%= @will.testator %></p>
     <h3>This will has not been released yet.</h3>
-    <%= if @accessor_user.can_release == true %>
-      <h3> do </h3>
+    <% if @accessor_user.can_release == true %>
+      <h3> Release will: </h3>
+      <%= button_to 'Release will', release_user_will_path(current_user.id, @will.id), { method: :put, data: { confirm: "Are you sure?"}} %>
+      
+
     <% end %>
   <% end %>
 

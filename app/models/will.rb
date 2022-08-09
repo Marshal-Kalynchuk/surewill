@@ -14,6 +14,12 @@ class Will < ApplicationRecord
   # Validates
   validates :accessors, :assets, presence: true
 
+  before_save :set_released
+
+  def set_released
+    self.released = false
+  end
+
   def released?
     self.released
   end

@@ -1,6 +1,6 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, :authenticate_user_accessor, only: %i[ show update destroy ]
+  before_action :set_will, :authenticate_user_accessor, only: %i[ show update destroy release ]
 
   # GET /wills or /wills.json
   def index
@@ -75,6 +75,23 @@ class WillsController < ApplicationController
     end
   end
 
+  def release
+    puts params
+    if @accessor_user.can_release
+      puts 'Releasing will!'
+      @will.released = true
+      if @will.save
+        redirect_to user_will_path(will_params)
+      else
+        flash[:alert] = "An error occurred"
+        redirect_to :root
+      end
+    else
+      flase[:alert] = "You are not permitted to release this will!"
+      redirect_to :root
+    end
+  end
+
   private
   
     # Use callbacks to share common setup or constraints between actions.
@@ -99,4 +116,5 @@ class WillsController < ApplicationController
       accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id ]
       )
     end
+
 end

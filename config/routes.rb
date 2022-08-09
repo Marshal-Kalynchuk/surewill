@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :wills
   end
+  put 'users/:user_id/wills/:id/release', to: 'wills#release', as: 'release_user_will'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
