@@ -1,27 +1,23 @@
 <div>
-  <div>
-    <h1>Will Creator:</h1>
-    <%= @will.testator %>
-  </div>
+
   <% if @will.released? || @will.user == current_user %>
-    <div>
-      <h2>Assets:</h2>
-      <% @assets.each do |asset| %>
-        <h3><%= asset.title%></h3>
-        <p><%= asset.description%></p>
-      <% end %>
-    </div>
+    <%= render @will %>
   <% else %>
-    <h2>This will has not been released yet.</h2>
-
-
-
+    <h2>Testator:</h2>
+    <p><%= @will.testator %></p>
+    <h3>This will has not been released yet.</h3>
+    <%= if @accessor_user.can_release == true %>
+      <h3> do </h3>
+    <% end %>
   <% end %>
+
 </div>
+
+
 <div>
   <% if @will == current_user.will %>
     <%= link_to "Edit this will", edit_user_will_path(current_user, @will) %>
     <br/>
   <% end %>
-
 </div>
+

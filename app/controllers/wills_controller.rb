@@ -1,6 +1,6 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, only: %i[ show update destroy ]
+  before_action :set_will, :authenticate_user_accessor, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
@@ -26,10 +26,13 @@ class WillsController < ApplicationController
 
   # GET /wills/1/edit
   def edit
-    redirect_to new_will_path unless current_user.will
-    @will = current_user.will
-    @will.assets.build unless @will.assets
-    @will.accessors.build unless @will.accessors
+    if current_user.will
+      @will = current_user.will
+      @will.assets.build unless @will.assets
+      @will.accessors.build unless @will.accessors
+    else
+      redirect_to new_user_will_path(current_user)
+    end
   end
 
   # POST /wills or /wills.json
@@ -48,7 +51,6 @@ class WillsController < ApplicationController
         end
       end
     end
-    
   end
 
   # PATCH/PUT /wills/1 or /wills/1.json
@@ -80,6 +82,13 @@ class WillsController < ApplicationController
       @will = Will.find(params[:id])
       @assets = @will.assets 
       @accessors = @will.accessors
+    end
+
+    def authenticate_user_accessor
+      @accessor_user = Accessor.find_by(will_id: @will.id, user_id: current_user.id)
+      unless @accessor_user || current_user.will == @will
+        redirect_to user_wills_url(current_user)
+      end
     end
 
     # Only allow a list of trusted parameters through.

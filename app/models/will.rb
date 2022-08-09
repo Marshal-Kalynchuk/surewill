@@ -9,7 +9,7 @@ class Will < ApplicationRecord
   has_many :accessors, dependent: :destroy
   accepts_nested_attributes_for :accessors
 
-  has_many :accessor_users, class_name: 'User', through: :accessors
+  has_many :accessor_users, through: :accessors, source: :user
 
   # Validates
   validates :accessors, :assets, presence: true

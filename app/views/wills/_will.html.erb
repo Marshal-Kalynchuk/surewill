@@ -1,1 +1,26 @@
-
+<section class='testator'>
+  <h3>Testator</h3>
+  <p><%= @will.testator %></p>
+</section>
+<section class='benficiaries'>
+  <h2>Beneficiaries</h2>
+  <ul>
+    <% @accessors.each do |accessor| %>
+      <li>
+        <h3><%= accessor.name %></h3>
+        <p><%= accessor.accessor_type %></p>
+      </li>
+    <% end %>
+  </ul>
+</section>
+<section class='assets'>
+  <h2>Assets:</h2>
+  <ul>
+    <% @assets.each do |asset| %>
+      <li>
+        <h3><%= asset.title%></h3>
+        <p><%= asset.description%></p>
+      </li>
+    <% end %>
+  </ul>
+</section>
