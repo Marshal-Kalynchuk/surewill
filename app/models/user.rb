@@ -11,5 +11,6 @@ class User < ApplicationRecord
   has_one :will, dependent: :destroy
 
   has_many :acccessors, dependent: :destroy
+  has_many :accessor_wills, class_name: 'Will', through: :accessors
   
 end

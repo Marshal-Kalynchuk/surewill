@@ -1,17 +1,20 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Wills</h1>
-
-<div id="wills">
-  <% @wills.each do |will| %>
-    <h3><%= will.testator %>'s will<h3>
-    <% unless will.released? %>
-      <p>Status: Not released</p>
-    <% else %>
-      <p>Status: Released</p>
+<% unless @wills.empty? %>
+  <div id="wills">
+    <% @wills.each do |will| %>
+      <h3><%= will.testator %>'s will<h3>
+      <% unless will.released? %>
+        <p>Status: Not released</p>
+      <% else %>
+        <p>Status: Released</p>
+      <% end %>
+      <p>
+        <%= link_to "Access this will", user_will_path(will.user, will) %>
+      </p>
     <% end %>
-    <p>
-      <%= link_to "Access this will", will%>
-    </p>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <h3>Wills that people have given you access to will show up here.</h3>
+<% end %>

@@ -1,10 +1,13 @@
 class WillsController < ApplicationController
-  before_action :authenticate_user!#, except: %i[ new ]
+  before_action :authenticate_user!
   before_action :set_will, only: %i[ show update destroy ]
 
   # GET /wills or /wills.json
   def index
-    @wills = Will.all
+    accessors = Accessor.where(user: current_user)
+    if accessors
+      @wills = accessors.collect{ |accessor| accessor.will }
+    end
   end
 
   # GET /wills/1 or /wills/1.json
@@ -14,7 +17,7 @@ class WillsController < ApplicationController
   # GET /wills/new
   def new
     if user_signed_in? && current_user.will
-      redirect_to edit_will_path(current_user)
+      redirect_to edit_user_will_path(current_user, current_user.will)
     end
     @will = Will.new
     @will.assets.build
@@ -32,7 +35,7 @@ class WillsController < ApplicationController
   # POST /wills or /wills.json
   def create
     if user_signed_in? && current_user.will
-      redirect_to edit_will_path(current_user.will)
+      redirect_to edit_user_will_path(current_user.will)
     else
       @will = current_user.build_will(will_params)
       respond_to do |format|
@@ -84,7 +87,7 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :prepaid, :death_certificate,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :accessor_type, :id ]
+      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id ]
       )
     end
 end

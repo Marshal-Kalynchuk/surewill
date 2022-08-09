@@ -9,7 +9,7 @@ class Will < ApplicationRecord
   has_many :accessors, dependent: :destroy
   accepts_nested_attributes_for :accessors
 
-  has_one_attached :death_certificate
+  has_many :accessor_users, class_name: 'User', through: :accessors
 
   # Validates
   validates :accessors, :assets, presence: true
@@ -17,6 +17,7 @@ class Will < ApplicationRecord
   def released?
     self.released
   end
+  
   def public?
     self.public
   end

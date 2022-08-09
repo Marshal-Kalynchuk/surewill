@@ -8,7 +8,7 @@
       <% if user_signed_in? %>
 
         <li>
-          <%= link_to "Access wills" %>
+          <%= link_to "Access wills", user_wills_path(current_user) %>
         </li>
 
         <li> 
