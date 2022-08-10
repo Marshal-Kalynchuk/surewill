@@ -80,8 +80,8 @@ class WillsController < ApplicationController
   def release
     if @accessor_user.can_release
       @will.released = true
-      if @will.valid?
-        send_release_email
+      @will.releaser = @accessor_user
+      if @will.save
         redirect_to user_will_path(will_params)
       else
         flash[:alert] = "An error occurred"
@@ -122,15 +122,8 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :prepaid, :death_certificate,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id, :user_id, :raw_invitation_token]
+      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id, :user_id]
       )
-    end
-
-    def send_release_email
-      @accessors.each do |accessor|
-        WillMailer.will_accessor_released_email(@will, accessor, @accessor_user).deliver_now
-      end
-      WillMailer.will_testator_released_email(@will, @accessor_user).deliver_now
     end
 
 end
