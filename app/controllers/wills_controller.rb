@@ -1,6 +1,10 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, :authenticate_current_accessor, only: %i[ show update destroy release ]
+
+  before_action :set_will, except: [ :index, :new, :create ]
+
+  before_action :authenticate_testator, only: [ :edit, :update ]
+  before_action :authenticate_current_accessor, only: [ :release ]
 
   # GET /wills or /wills.json
   def index
@@ -12,6 +16,21 @@ class WillsController < ApplicationController
 
   # GET /wills/1 or /wills/1.json
   def show
+    if @current_accessor
+      if @will.released?
+        if current_user.subscriptions.where(will: @will) || @will.prepaid
+          render :show
+        else
+          redirect_to user_will_subscription_url(@will.user_id, @will.id)
+        end
+      else
+        render :not_released
+      end
+    elsif @will == current_user.will
+      render :show
+    else
+      render :not_found
+    end
   end
 
   # GET /wills/new
@@ -38,23 +57,25 @@ class WillsController < ApplicationController
 
   # POST /wills or /wills.json
   def create
-    redirect_to edit_user_will_path(current_user.will) if current_user.will
-    @will = current_user.build_will(will_params)
-    respond_to do |format|
-      if @will.save
-        format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully created." }
-        format.json { render :show, status: :created, location: @will }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @will.errors, status: :unprocessable_entity }
+    unless current_user.will
+      @will = current_user.build_will(will_params)
+      respond_to do |format|
+        if @will.save
+          format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully created." }
+          format.json { render :show, status: :created, location: @will }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @will.errors, status: :unprocessable_entity }
+        end
       end
+    else 
+      redirect_to edit_user_will_path(current_user.will) 
     end
   end
 
   # PATCH/PUT /wills/1 or /wills/1.json
   def update
     respond_to do |format|
-
       if @will.update(will_params)
         format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
@@ -96,11 +117,15 @@ class WillsController < ApplicationController
       @will = Will.find(params[:id])
       @assets = @will.assets 
       @accessors = @will.accessors
+      @current_accessor = @will.accessors.find_by(email: current_user.email)
+    end
+
+    def authenticate_testator
+      current_user.will == @will
     end
 
     def authenticate_current_accessor
-      @current_accessor = @will.accessors.find_by(email: current_user.email)
-      redirect_to user_wills_url(current_user) unless @current_accessor || @will == current_user.will
+      @current_accessor
     end
 
     # Only allow a list of trusted parameters through.

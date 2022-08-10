@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   # get '/wills/new', to: 'wills#new'
   resources :users do
-    resources :wills
+    resources :wills do 
+      resources :subscriptions
+    end
   end
   put 'users/:user_id/wills/:id/release', to: 'wills#release', as: 'release_user_will'
 
