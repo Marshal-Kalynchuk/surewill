@@ -16,18 +16,24 @@ class WillsController < ApplicationController
 
   # GET /wills/new
   def new
-    redirect_to edit_user_will_path(current_user, current_user.will) if current_user.will
-    @will = Will.new
-    @will.assets.build
-    @will.accessors.build
+    unless current_user.will
+      @will = Will.new
+      @will.assets.build
+      @will.accessors.build
+    else 
+      redirect_to edit_user_will_path(current_user, current_user.will) 
+    end
   end
 
   # GET /wills/1/edit
   def edit
-    redirect_to new_user_will_path(current_user) unless current_user.will
-    @will = current_user.will
-    @will.assets.build unless @will.assets
-    @will.accessors.build unless @will.accessors
+    if current_user.will
+      @will = current_user.will
+      @will.assets.build unless @will.assets
+      @will.accessors.build unless @will.accessors
+    else
+      redirect_to new_user_will_path(current_user) 
+    end
   end
 
   # POST /wills or /wills.json
