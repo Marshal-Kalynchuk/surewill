@@ -102,7 +102,7 @@ class WillsController < ApplicationController
 
     def authenticate_current_accessor
       @current_accessor = @will.accessors.find_by(email: current_user.email)
-      redirect_to user_wills_url(current_user) unless @current_accessor
+      redirect_to user_wills_url(current_user) unless @current_accessor || @will == current_user.will
     end
 
     # Only allow a list of trusted parameters through.
