@@ -61,7 +61,12 @@
     <%= form.label :prepaid, style: "display: block" %>
     <%= form.check_box :prepaid %>
   </div>
-
+  <% if will.released %>
+    <div>
+      <%= form.label :released, style: "display: block" %>
+      <%= form.check_box :released %>
+    </div>
+  <% end %>
 
   <div>
     <%= form.submit %>

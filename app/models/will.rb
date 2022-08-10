@@ -10,7 +10,7 @@ class Will < ApplicationRecord
 
   validates :accessors, :assets, :user, presence: true
 
-  before_create :set_released
+
   after_save :send_release_email
 
   def release_user_will(current_accessor)
@@ -18,10 +18,6 @@ class Will < ApplicationRecord
     self.releaser = current_accessor
   end
 
-  def released?
-    self.released
-  end
-  
   def public?
     self.public
   end
