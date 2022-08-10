@@ -88,7 +88,7 @@ class WillsController < ApplicationController
         redirect_to :root
       end
     else
-      flase[:alert] = "You are not permitted to release this will!"
+      flash[:alert] = "You are not permitted to release this will!"
       redirect_to :root
     end
   end
