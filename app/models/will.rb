@@ -1,16 +1,24 @@
 class Will < ApplicationRecord
   belongs_to :user
-  has_many :assets, dependent: :destroy
-  accepts_nested_attributes_for :assets
-  has_many :accessors, dependent: :destroy
-  accepts_nested_attributes_for :accessors
-  has_many :accessor_users, through: :accessors, source: :user
   attr_accessor :releaser
 
-  validates :accessors, :assets, presence: true
+  has_many :assets, dependent: :destroy
+  accepts_nested_attributes_for :assets
+
+  has_many :accessors, dependent: :destroy
+  accepts_nested_attributes_for :accessors
+
+  attr_accessor :releaser
+
+  validates :accessors, :assets, :user, presence: true
 
   before_create :set_released
   after_save :send_release_email
+
+  def release_user_will(current_accessor)
+    self.released = true
+    self.releaser = current_accessor
+  end
 
   def released?
     self.released

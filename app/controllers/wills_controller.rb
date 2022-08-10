@@ -1,10 +1,10 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, :authenticate_user_accessor, only: %i[ show update destroy release ]
+  before_action :set_will, :authenticate_current_accessor, only: %i[ show update destroy release ]
 
   # GET /wills or /wills.json
   def index
-    accessors = Accessor.where(user: current_user)
+    accessors = Accessor.where(email: current_user.email)
     if accessors
       @wills = accessors.collect{ |accessor| accessor.will }
     end
@@ -16,9 +16,7 @@ class WillsController < ApplicationController
 
   # GET /wills/new
   def new
-    if user_signed_in? && current_user.will
-      redirect_to edit_user_will_path(current_user, current_user.will)
-    end
+    redirect_to edit_user_will_path(current_user, current_user.will) if current_user.will
     @will = Will.new
     @will.assets.build
     @will.accessors.build
@@ -26,30 +24,23 @@ class WillsController < ApplicationController
 
   # GET /wills/1/edit
   def edit
-    if current_user.will
-      @will = current_user.will
-      @will.assets.build unless @will.assets
-      @will.accessors.build unless @will.accessors
-    else
-      redirect_to new_user_will_path(current_user)
-    end
+    redirect_to new_user_will_path(current_user) unless current_user.will
+    @will = current_user.will
+    @will.assets.build unless @will.assets
+    @will.accessors.build unless @will.accessors
   end
 
   # POST /wills or /wills.json
   def create
-    if user_signed_in? && current_user.will
-      redirect_to edit_user_will_path(current_user.will)
-    else
-      link_users
-      @will = current_user.build_will(will_params)
-      respond_to do |format|
-        if @will.save
-          format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully created." }
-          format.json { render :show, status: :created, location: @will }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @will.errors, status: :unprocessable_entity }
-        end
+    redirect_to edit_user_will_path(current_user.will) if current_user.will
+    @will = current_user.build_will(will_params)
+    respond_to do |format|
+      if @will.save
+        format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully created." }
+        format.json { render :show, status: :created, location: @will }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @will.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,7 +48,7 @@ class WillsController < ApplicationController
   # PATCH/PUT /wills/1 or /wills/1.json
   def update
     respond_to do |format|
-      link_users
+
       if @will.update(will_params)
         format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
@@ -78,9 +69,8 @@ class WillsController < ApplicationController
   end
 
   def release
-    if @accessor_user.can_release
-      @will.released = true
-      @will.releaser = @accessor_user
+    if @current_accessor.can_release
+      @will.release_user_will(@current_accessor)
       if @will.save
         redirect_to user_will_path(will_params)
       else
@@ -95,13 +85,13 @@ class WillsController < ApplicationController
 
   private
 
-    def link_users
-      params[:will][:accessors_attributes].each do |k, v|
-        # hold invites
-        user = User.find_by(email: v[:email]) || User.invite!(email: v[:email]) 
-        v[:user_id] = user.id
-      end
-    end
+    # def link_users
+    #   params[:will][:accessors_attributes].each do |k, v|
+    #     # hold invites
+    #     user = User.find_by(email: v[:email]) || User.invite!(email: v[:email]) 
+    #     v[:user_id] = user.id
+    #   end
+    # end
   
     # Use callbacks to share common setup or constraints between actions.
     def set_will
@@ -110,11 +100,9 @@ class WillsController < ApplicationController
       @accessors = @will.accessors
     end
 
-    def authenticate_user_accessor
-      @accessor_user = Accessor.find_by(will_id: @will.id, user_id: current_user.id)
-      unless @accessor_user || current_user.will == @will
-        redirect_to user_wills_url(current_user)
-      end
+    def authenticate_current_accessor
+      @current_accessor = @will.accessors.find_by(email: current_user.email)
+      redirect_to user_wills_url(current_user) unless @current_accessor
     end
 
     # Only allow a list of trusted parameters through.

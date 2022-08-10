@@ -1,6 +1,6 @@
 class WillMailer < ApplicationMailer
 
-  def will_accessor_released_email(will, accessor)
+  def will_released_email(will, accessor)
     @will = will
     @url = user_will_url(@will.user, @will)
     @accessor = accessor
