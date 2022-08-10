@@ -12,23 +12,21 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
   create_table "accessors", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.integer "will_id", null: false
-    t.string "accessor_type", null: false
-    t.boolean "payed", default: false, null: false
+    t.string "email", null: false
+    t.string "role", null: false
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_release", default: false, null: false
-    t.index ["user_id"], name: "index_accessors_on_user_id"
     t.index ["will_id"], name: "index_accessors_on_will_id"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -47,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -111,11 +109,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
     t.boolean "public", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "testator", null: false
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
-  add_foreign_key "accessors", "users"
   add_foreign_key "accessors", "wills"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
