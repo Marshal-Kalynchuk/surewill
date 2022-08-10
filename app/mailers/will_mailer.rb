@@ -16,6 +16,13 @@ class WillMailer < ApplicationMailer
     @will = will
     @accessor = accessor
     @url = user_will_url(@will.user, @will)
+
+    unless User.find_by(email: accessor.email) 
+      user = User.invite!(email: accessor.email, skip_invitation: true) 
+      @raw_invitation_token = user.raw_invitation_token
+      user.invitation_sent_at = Time.current
+    end
+
     mail(to: email_address_with_name(accessor.email, accessor.name), subject: "Added to #{will.testator}'s will")
   end
 

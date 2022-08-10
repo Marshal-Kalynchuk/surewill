@@ -12,3 +12,8 @@ You can access and release <%= @will.testator %>'s will at <%= @url %>.
 You can access this will at <%= @url %>
 <% end %>
 
+<% if @raw_invitation_token %>
+We have already set up an account for you. All you have to do is set your password.
+Please access your account at <%= accept_user_invitation_url(invitation_token: @raw_invitation_token) %>
+<% end %>
+

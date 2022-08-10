@@ -84,14 +84,6 @@ class WillsController < ApplicationController
   end
 
   private
-
-    # def link_users
-    #   params[:will][:accessors_attributes].each do |k, v|
-    #     # hold invites
-    #     user = User.find_by(email: v[:email]) || User.invite!(email: v[:email]) 
-    #     v[:user_id] = user.id
-    #   end
-    # end
   
     # Use callbacks to share common setup or constraints between actions.
     def set_will
