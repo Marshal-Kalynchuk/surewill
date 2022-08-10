@@ -3,7 +3,7 @@ class Accessor < ApplicationRecord
 
   after_save :send_status_change_email
   
-  ACCESSOR_TYPES = ['Testator','Executor', 'Beneficiary', 'Notificiary']
+  ACCESSOR_TYPES = ['Executor', 'Beneficiary', 'Notificiary']
   validates :name, :email, :role, :will, presence: true
   validates :role, inclusion: { in: ACCESSOR_TYPES }
 

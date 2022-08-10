@@ -104,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
 
   create_table "wills", force: :cascade do |t|
     t.integer "user_id", null: false
+    t.string "testator", null: false
     t.boolean "released", default: false, null: false
     t.boolean "prepaid", default: false, null: false
     t.boolean "public", default: false, null: false
