@@ -8,8 +8,6 @@ class Will < ApplicationRecord
   has_many :accessors, dependent: :destroy
   accepts_nested_attributes_for :accessors
 
-  attr_accessor :releaser
-
   validates :accessors, :assets, :user, presence: true
 
   before_create :set_released
