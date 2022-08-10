@@ -1,6 +1,7 @@
 class Accessor < ApplicationRecord
   belongs_to :will
 
+  before_save :downcase_fields
   after_save :send_status_change_email
   
   ACCESSOR_TYPES = ['Executor', 'Beneficiary', 'Notificiary']
@@ -13,6 +14,11 @@ class Accessor < ApplicationRecord
     elsif saved_change_to_can_release? && self.can_release == true
       WillMailer.releaser_status_email(self.will, self).deliver_now
     end
+  end
+
+  private
+  def downcase_fields
+    self.email.downcase!
   end
 
 end

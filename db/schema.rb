@@ -13,12 +13,12 @@
 ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
   create_table "accessors", force: :cascade do |t|
     t.integer "will_id", null: false
+    t.boolean "can_release", default: false, null: false
     t.string "email", null: false
     t.string "role", null: false
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "can_release", default: false, null: false
     t.index ["will_id"], name: "index_accessors_on_will_id"
   end
 
