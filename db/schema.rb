@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_08_223113) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_10_164740) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -59,6 +59,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_223113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_assets_on_will_id"
+  end
+
+  create_table "subcriptions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "will_id", null: false
+    t.boolean "payed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_subcriptions_on_user_id"
+    t.index ["will_id"], name: "index_subcriptions_on_will_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -110,5 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_223113) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
+  add_foreign_key "subcriptions", "users"
+  add_foreign_key "subcriptions", "wills"
   add_foreign_key "wills", "users"
 end
