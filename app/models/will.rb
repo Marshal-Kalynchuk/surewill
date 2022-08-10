@@ -28,4 +28,5 @@ class Will < ApplicationRecord
     self.public
   end
 
+
 end

@@ -58,7 +58,6 @@ class WillsController < ApplicationController
   def update
     respond_to do |format|
       link_users
-      puts will_params
       if @will.update(will_params)
         format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
@@ -80,9 +79,9 @@ class WillsController < ApplicationController
 
   def release
     if @accessor_user.can_release
-      puts 'Releasing will!'
       @will.released = true
-      if @will.save
+      if @will.valid?
+        send_release_email
         redirect_to user_will_path(will_params)
       else
         flash[:alert] = "An error occurred"
@@ -98,6 +97,7 @@ class WillsController < ApplicationController
 
     def link_users
       params[:will][:accessors_attributes].each do |k, v|
+        # hold invites
         user = User.find_by(email: v[:email]) || User.invite!(email: v[:email]) 
         v[:user_id] = user.id
       end
@@ -122,8 +122,15 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :prepaid, :death_certificate,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id, :user_id]
+      accessors_attributes: [ :name, :email, :accessor_type, :can_release, :id, :user_id, :raw_invitation_token]
       )
+    end
+
+    def send_release_email
+      @accessors.each do |accessor|
+        WillMailer.will_accessor_released_email(@will, accessor, @accessor_user).deliver_now
+      end
+      WillMailer.will_testator_released_email(@will, @accessor_user).deliver_now
     end
 
 end

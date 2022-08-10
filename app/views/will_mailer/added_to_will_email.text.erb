@@ -1,0 +1,14 @@
+Hello, <%= @accessor.name %>
+===============================================
+
+You have been added to <%= @will.testator %>'s will.
+
+<% if @accessor.can_release %>
+<%= @will.testator %> has selected you to gouvern the release of their will. 
+They have entrusted you to release their will after their passing. 
+
+You can access and release <%= @will.testator %>'s will at <%= @url %>.
+<% else %>
+You can access this will at <%= @url %>
+<% end %>
+

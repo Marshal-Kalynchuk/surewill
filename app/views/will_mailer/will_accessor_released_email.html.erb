@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @accessor.name %></h1>
+    <p>
+      We are notifying you that <%= @will.testator %>'s will has been released.
+    </p>
+    <p>
+      You can access this will from here: <%= @url %>
+    </p>
+    <p>
+      We are terribly sorry for you're loss.
+    </p>
+    <small>This will was released by <%= @releaser.name %>.</small>
+  </body>
+</html>
