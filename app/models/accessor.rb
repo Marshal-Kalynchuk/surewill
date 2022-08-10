@@ -2,7 +2,7 @@ class Accessor < ApplicationRecord
   belongs_to :user
   belongs_to :will
   attr_accessor :email
-  
+
   after_initialize :set_email, unless: :new_record?
   after_save :send_status_change_email
   
@@ -13,7 +13,7 @@ class Accessor < ApplicationRecord
   def send_status_change_email
     if saved_change_to_user_id? 
       WillMailer.added_to_will_email(self.will, self).deliver_now 
-    elsif saved_change_to_can_release? && can_release == true
+    elsif saved_change_to_can_release? && self.can_release == true
       WillMailer.releaser_status_email(self.will, self).deliver_now
     end
   end
