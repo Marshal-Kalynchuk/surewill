@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  root to: 'home#index'
+  root to: 'pages#home'
+  get 'about', to: 'pages#about', as: 'about'
 
   get 'checkout', to: 'checkout#show'
   get 'checkout/success', to: 'checkout#success'
