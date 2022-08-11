@@ -6,7 +6,7 @@
   <p>You have been given special permisson by the testator to governe the release of this will. Releasing the will makes it avaliable to all other beneficiaries. It will also notify them and the testator of its release. The testator has entrusted you to only access this will after their passing. Please do not access this will early. </p>
   <strong>Releasing this will is permanent.</strong>
 
-  <%= button_to 'Release will', release_user_will_path(current_user.id, @will.id), method: :put, 
+  <%= button_to 'Release will', release_user_will_path(@will.user), method: :put, 
   form: { data: { turbo_confirm: "Are you sure you want to release this will?\n\nDoing so will permanantly release the will to all named beneficiaries. It will also notify the testator and the other beneficiaries of its release via email. Accessing this will early is strongly discouraged and may go againts the testators wishes." }} %>
   
 <% end %>

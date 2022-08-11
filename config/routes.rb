@@ -1,28 +1,38 @@
 Rails.application.routes.draw do
-  devise_for :users
-  resources :users, :only => [:show]
 
   root to: 'pages#home'
-  get 'home', to: 'pages#home', as: 'home'
-  get 'about', to: 'pages#about', as: 'about'
+
+  devise_for :users
 
   get 'billing', to: 'billing#show'
-  get 'prepay', to: 'prepay#show'
-  get 'prepay/success', to: 'prepay#success'
-
+  
   # get '/wills/new', to: 'wills#new'
-  resources :users do
-    resources :wills do 
+  resources :users, only: :show do
+
+    resource :will do 
+
+      put 'release', to: 'wills#release'
 
       get 'access', to: 'accessor#show'
       get 'access/success', to: 'accessor#success'
+
+      get 'prepay', to: 'prepay#show'
+      get 'prepay/success', to: 'prepay#success'
       
     end
   end
-  put 'users/:user_id/wills/:id/release', to: 'wills#release', as: 'release_user_will'
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :wills, only: :index
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  
+  get 'profile/edit', to: 'users#edit_profile', as: :edit_profile
+  patch 'profile/update', to: 'users#update_profile', as: :update_profile
+
+  get 'home', to: 'pages#home'
+  get 'about', to: 'pages#about'
+
+  get '/404', to: 'errors#not_found'
+  get '/500', to: 'errors#internal_server'
+  get '/422', to: 'errors#unprocessable'
+
 end

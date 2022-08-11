@@ -11,7 +11,7 @@ class PrepayController < ApplicationController
       .checkout(
         mode: 'payment',
         line_items: 'price_1LVN8nA4TChht1jz8YnUS17Y',
-        success_url: prepay_success_url
+        success_url: prepay_success_user_will_url
       )
 
   end

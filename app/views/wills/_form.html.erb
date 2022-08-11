@@ -1,4 +1,4 @@
-<%= form_with model: [:user, @will] do |form| %>
+<%= form_with model: @will, url: user_will_path(current_user) do |form| %>
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>

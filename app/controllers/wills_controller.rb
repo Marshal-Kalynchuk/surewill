@@ -21,7 +21,7 @@ class WillsController < ApplicationController
         if current_user.accessors.find_by(will: @will)
           render :show
         else
-          redirect_to user_will_access_url(@will.user_id, @will.id)
+          redirect_to access_user_will_url(@will.user_id, @will.id)
         end
       else
         render :not_released
@@ -61,7 +61,7 @@ class WillsController < ApplicationController
       @will = current_user.build_will(will_params)
       respond_to do |format|
         if @will.save
-          format.html { redirect_to prepay_url, notice: "Will was successfully created." }
+          format.html { redirect_to prepay_user_will_url(current_user), notice: "Will was successfully created." }
           format.json { render :show, status: :created, location: @will }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -114,7 +114,7 @@ class WillsController < ApplicationController
   
     # Use callbacks to share common setup or constraints between actions.
     def set_will
-      @will = Will.find(params[:id])
+      @will = User.find(params[:user_id]).will
       @assets = @will.assets 
       @beneficiaries = @will.beneficiaries
       @current_beneficiary = @will.beneficiaries.find_by(email: current_user.email)

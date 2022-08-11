@@ -8,8 +8,9 @@ class Will < ApplicationRecord
   has_many :beneficiaries, dependent: :destroy
   accepts_nested_attributes_for :beneficiaries
 
-  validates :beneficiaries, :assets, :user, presence: true
+  has_many :accessors, dependent: :destroy
 
+  validates :beneficiaries, :assets, :user, presence: true
 
   after_save :send_release_email
 

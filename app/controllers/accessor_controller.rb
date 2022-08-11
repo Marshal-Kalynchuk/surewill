@@ -13,7 +13,7 @@ class AccessorController < ApplicationController
       .checkout(
         mode: 'payment',
         line_items: 'price_1LVSSAA4TChht1jzch70YIrn',
-        success_url: user_will_access_success_url(@will.user, @will)
+        success_url: access_success_user_will_url(@will.user)
       )
 
   end
@@ -41,7 +41,7 @@ class AccessorController < ApplicationController
   end
 
   def set_will
-    @will = Will.find(params[:will_id])
+    @will = User.find(params[:user_id]).will
     render "wills/not_found" unless @will
     @current_beneficiary = @will.beneficiaries.find_by(email: current_user.email)
   end
