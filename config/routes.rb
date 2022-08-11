@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   get 'billing', to: 'billing#show'
-  
+
   # get '/wills/new', to: 'wills#new'
   resources :users, only: :show do
 
@@ -13,20 +13,22 @@ Rails.application.routes.draw do
 
       put 'release', to: 'wills#release'
 
-      get 'access', to: 'accessor#show'
-      get 'access/success', to: 'accessor#success'
+      get 'access', to: 'access_payment#show'
+      get 'access/success', to: 'access_payment#success'
 
-      get 'prepay', to: 'prepay#show'
-      get 'prepay/success', to: 'prepay#success'
-      
+      get 'prepay', to: 'prepay_payment#show'
+      get 'prepay/success', to: 'prepay_payment#success'
+
+      resource :biometric, only: :show do
+
+        get 'payment', to: 'biometric_payment#show'
+        get 'payment/success', to: 'biometric_payment#success'
+
+      end
     end
   end
 
   resources :wills, only: :index
-
-  
-  get 'profile/edit', to: 'users#edit_profile', as: :edit_profile
-  patch 'profile/update', to: 'users#update_profile', as: :update_profile
 
   get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'

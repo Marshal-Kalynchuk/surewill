@@ -1,4 +1,4 @@
-class AccessorController < ApplicationController
+class AccessPaymentController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will, :check_released, :authenticate_current_beneficiary
   before_action :check_user_accessor, :apply_prepay

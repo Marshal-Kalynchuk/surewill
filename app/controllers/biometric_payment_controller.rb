@@ -1,0 +1,2 @@
+class BiometricPaymentController < ApplicationController
+end

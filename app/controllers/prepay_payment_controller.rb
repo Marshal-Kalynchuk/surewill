@@ -1,4 +1,4 @@
-class PrepayController < ApplicationController
+class PrepayPaymentController < ApplicationController
   before_action :authenticate_user!
   before_action :validate_will
 
@@ -13,7 +13,6 @@ class PrepayController < ApplicationController
         line_items: 'price_1LVN8nA4TChht1jz8YnUS17Y',
         success_url: prepay_success_user_will_url
       )
-
   end
 
   def success

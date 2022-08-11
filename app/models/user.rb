@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :trackable
+         :trackable, :lockable, :timeoutable, :confirmable
+         
   
   # Pay / strip payment
   pay_customer stripe_attributes: :stripe_attributes
