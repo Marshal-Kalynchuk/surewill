@@ -29,7 +29,7 @@ class WillsController < ApplicationController
     elsif @will == current_user.will
       render :show
     else
-      render :not_found
+      redirect_to not_found_path
     end
   end
 

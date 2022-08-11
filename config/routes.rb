@@ -31,8 +31,8 @@ Rails.application.routes.draw do
   get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'
 
-  get '/404', to: 'errors#not_found'
-  get '/500', to: 'errors#internal_server'
-  get '/422', to: 'errors#unprocessable'
+  get '/404', to: 'errors#not_found', as: 'not_found'
+  get '/500', to: 'errors#internal_server', as: 'internal_server'
+  get '/422', to: 'errors#unprocessable', as: 'unprocessable'
 
 end
