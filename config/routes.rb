@@ -5,14 +5,16 @@ Rails.application.routes.draw do
   get 'home', to: 'pages#home', as: 'home'
   get 'about', to: 'pages#about', as: 'about'
 
-  get 'checkout', to: 'checkout#show'
-  get 'checkout/success', to: 'checkout#success'
   get 'billing', to: 'billing#show'
+  get 'prepay', to: 'prepay#show'
+  get 'prepay/success', to: 'prepay#success'
 
   # get '/wills/new', to: 'wills#new'
   resources :users do
     resources :wills do 
+
       resources :subscriptions
+
     end
   end
   put 'users/:user_id/wills/:id/release', to: 'wills#release', as: 'release_user_will'

@@ -5,6 +5,10 @@
   <% if @will == current_user.will %>
     <%= link_to "Edit this will", edit_user_will_path(current_user, @will) %>
     <br/>
-    <%= link_to "Prepay for this Will", checkout_path %>
+    <% unless @will.prepaid %>
+      <%= link_to "Prepay for this Will", prepay_path %>
+    <% else %>
+      <h2>This will has been payed for</h2>
+    <% end %>
   <% end %>
 </div>

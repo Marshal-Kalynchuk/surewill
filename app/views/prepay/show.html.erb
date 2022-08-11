@@ -1,0 +1,10 @@
+<h1>Would you like to prepay for your will?</h1>
+<h2>Prepaying lets your beneficiaries access your will for free after it is released<h2>
+<p>It also helps Surewill pay to store your will and ensure it reaches your beneficiaries</p>
+
+<%= render partial: 'pay/stripe/checkout_button', locals: {
+  session: @checkout_session,
+  title: "Prepay for beneficiaries"
+} %>
+<br/>
+<%= link_to "No thanks", user_will_path(current_user, current_user.will) %>
