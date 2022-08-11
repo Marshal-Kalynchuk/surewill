@@ -1,0 +1,5 @@
+<h1>Success!</h1>
+<h2>Your total was: $<%= @session.amount.to_f / 100 %>
+<br/>
+<p>You can now access <%= @will.testator %>'s will</p>
+<%= link_to "Access will", user_will_path(@will.user, @will) %>

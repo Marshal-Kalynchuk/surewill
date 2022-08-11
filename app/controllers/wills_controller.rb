@@ -18,10 +18,10 @@ class WillsController < ApplicationController
   def show
     if @current_accessor
       if @will.released?
-        if current_user.subscriptions.where(will: @will) || @will.prepaid
+        if current_user.accesses.find_by(will: @will)
           render :show
         else
-          redirect_to user_will_subscription_url(@will.user_id, @will.id)
+          redirect_to user_will_access_url(@will.user_id, @will.id)
         end
       else
         render :not_released
@@ -99,7 +99,7 @@ class WillsController < ApplicationController
     if @current_accessor.can_release
       @will.release_user_will(@current_accessor)
       if @will.save
-        redirect_to user_will_path(will_params)
+        redirect_to user_will_path(@will.user, @will)
       else
         flash[:alert] = "An error occurred"
         redirect_to :root

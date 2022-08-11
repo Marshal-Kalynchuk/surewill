@@ -1,8 +1,5 @@
-<div>
-  <%= render @will %>
-</div>
-<div>
-  <% if @will == current_user.will %>
+<% if @will == current_user.will %>
+  <div>
     <%= link_to "Edit this will", edit_user_will_path(current_user, @will) %>
     <br/>
     <% unless @will.prepaid %>
@@ -10,5 +7,8 @@
     <% else %>
       <h2>This will has been payed for</h2>
     <% end %>
-  <% end %>
+  </div>
+<% end %>
+<div>
+  <%= render @will %>
 </div>

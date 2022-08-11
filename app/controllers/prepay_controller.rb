@@ -20,10 +20,9 @@ class PrepayController < ApplicationController
     current_user.will.prepaid = true 
     current_user.will.save
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    @line_items = Stripe::Checkout::Session.list_line_items([params[:session_id]])
   end
 
-  def failular
+  def failure
 
   end
 

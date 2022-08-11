@@ -13,8 +13,9 @@ Rails.application.routes.draw do
   resources :users do
     resources :wills do 
 
-      resources :subscriptions
-
+      get 'access', to: 'access#show'
+      get 'access/success', to: 'access#success'
+      
     end
   end
   put 'users/:user_id/wills/:id/release', to: 'wills#release', as: 'release_user_will'

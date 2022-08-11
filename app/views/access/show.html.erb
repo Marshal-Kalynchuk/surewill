@@ -1,0 +1,7 @@
+<h1>You must pay to access this will.</h1>
+
+<%= render partial: 'pay/stripe/checkout_button', locals: {
+  session: @checkout_session,
+  title: "Access will"
+} %>
+<br/>
