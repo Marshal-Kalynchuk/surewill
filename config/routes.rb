@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   resources :users do
     resources :wills do 
 
-      get 'access', to: 'access#show'
-      get 'access/success', to: 'access#success'
+      get 'access', to: 'accessor#show'
+      get 'access/success', to: 'accessor#success'
       
     end
   end

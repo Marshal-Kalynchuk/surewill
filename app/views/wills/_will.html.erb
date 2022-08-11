@@ -5,10 +5,10 @@
 <section class='benficiaries'>
   <h2>Beneficiaries</h2>
   <ul>
-    <% @accessors.each do |accessor| %>
+    <% @beneficiaries.each do |beneficiary| %>
       <li>
-        <h3><%= accessor.name %></h3>
-        <p><%= accessor.role %></p>
+        <h3><%= beneficiary.name %></h3>
+        <p><%= beneficiary.role %></p>
       </li>
     <% end %>
   </ul>

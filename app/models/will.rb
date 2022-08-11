@@ -5,17 +5,17 @@ class Will < ApplicationRecord
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets
 
-  has_many :accessors, dependent: :destroy
-  accepts_nested_attributes_for :accessors
+  has_many :beneficiaries, dependent: :destroy
+  accepts_nested_attributes_for :beneficiaries
 
-  validates :accessors, :assets, :user, presence: true
+  validates :beneficiaries, :assets, :user, presence: true
 
 
   after_save :send_release_email
 
-  def release_user_will(current_accessor)
+  def release_user_will(current_beneficiary)
     self.released = true
-    self.releaser = current_accessor
+    self.releaser = current_beneficiary
   end
 
   def public?
@@ -25,8 +25,8 @@ class Will < ApplicationRecord
   private
     def send_release_email
       if saved_change_to_released? && self.released?
-        self.accessors.each do |accessor|
-          WillMailer.will_accessor_released_email(self, accessor).deliver_now
+        self.beneficiaries.each do |beneficiary|
+          WillMailer.will_beneficiary_released_email(self, beneficiary).deliver_now
         end
         WillMailer.will_testator_released_email(self).deliver_now
       end

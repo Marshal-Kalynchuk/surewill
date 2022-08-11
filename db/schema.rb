@@ -11,24 +11,13 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_08_10_233603) do
-  create_table "accesses", force: :cascade do |t|
+  create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
     t.boolean "payed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_accesses_on_user_id"
-    t.index ["will_id"], name: "index_accesses_on_will_id"
-  end
-
-  create_table "accessors", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.boolean "can_release", default: false, null: false
-    t.string "email", null: false
-    t.string "role", null: false
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_accessors_on_user_id"
     t.index ["will_id"], name: "index_accessors_on_will_id"
   end
 
@@ -67,6 +56,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_233603) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_assets_on_will_id"
+  end
+
+  create_table "beneficiaries", force: :cascade do |t|
+    t.integer "will_id", null: false
+    t.boolean "can_release", default: false, null: false
+    t.string "email", null: false
+    t.string "role", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["will_id"], name: "index_beneficiaries_on_will_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -195,12 +195,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_233603) do
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
-  add_foreign_key "accesses", "users"
-  add_foreign_key "accesses", "wills"
+  add_foreign_key "accessors", "users"
   add_foreign_key "accessors", "wills"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
+  add_foreign_key "beneficiaries", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

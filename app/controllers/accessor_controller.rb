@@ -1,7 +1,7 @@
-class AccessController < ApplicationController
+class AccessorController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, :check_released, :authenticate_current_accessor
-  before_action :check_user_access, :apply_prepay
+  before_action :set_will, :check_released, :authenticate_current_beneficiary
+  before_action :check_user_accessor, :apply_prepay
   
 
   def show
@@ -19,7 +19,7 @@ class AccessController < ApplicationController
   end
 
   def success
-    current_user.accesses.create(will: @will)
+    current_user.accessors.create(will: @will)
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
   end
 
@@ -35,7 +35,7 @@ class AccessController < ApplicationController
 
   def apply_prepay
     if @will.prepaid
-      current_user.accesses.create(will: @will)
+      current_user.accessors.create(will: @will)
       redirect_to user_will_path(@will.user, @will)
     end
   end
@@ -43,15 +43,15 @@ class AccessController < ApplicationController
   def set_will
     @will = Will.find(params[:will_id])
     render "wills/not_found" unless @will
-    @current_accessor = @will.accessors.find_by(email: current_user.email)
+    @current_beneficiary = @will.beneficiaries.find_by(email: current_user.email)
   end
 
-  def authenticate_current_accessor
-    @current_accessor
+  def authenticate_current_beneficiary
+    @current_beneficiary
   end
 
-  def check_user_access
-    redirect_to user_will_path(@will.user, @will) if current_user.accesses.find_by(will: @will)
+  def check_user_accessor
+    redirect_to user_will_path(@will.user, @will) if current_user.accessors.find_by(will: @will)
   end
   
 end

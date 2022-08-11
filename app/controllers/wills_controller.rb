@@ -4,21 +4,21 @@ class WillsController < ApplicationController
   before_action :set_will, except: [ :index, :new, :create ]
 
   before_action :authenticate_testator, only: [ :edit, :update ]
-  before_action :authenticate_current_accessor, only: [ :release ]
+  before_action :authenticate_current_beneficiary, only: [ :release ]
 
   # GET /wills or /wills.json
   def index
-    accessors = Accessor.where(email: current_user.email)
-    if accessors
-      @wills = accessors.collect{ |accessor| accessor.will }
+    beneficiaries = Beneficiary.where(email: current_user.email)
+    if beneficiaries
+      @wills = beneficiaries.collect{ |beneficiary| beneficiary.will }
     end
   end
 
   # GET /wills/1 or /wills/1.json
   def show
-    if @current_accessor
+    if @current_beneficiary
       if @will.released?
-        if current_user.accesses.find_by(will: @will)
+        if current_user.accessors.find_by(will: @will)
           render :show
         else
           redirect_to user_will_access_url(@will.user_id, @will.id)
@@ -38,7 +38,7 @@ class WillsController < ApplicationController
     unless current_user.will
       @will = Will.new
       @will.assets.build
-      @will.accessors.build
+      @will.beneficiaries.build
     else 
       redirect_to edit_user_will_path(current_user, current_user.will) 
     end
@@ -49,7 +49,7 @@ class WillsController < ApplicationController
     if current_user.will
       @will = current_user.will
       @will.assets.build unless @will.assets
-      @will.accessors.build unless @will.accessors
+      @will.beneficiaries.build unless @will.beneficiaries
     else
       redirect_to new_user_will_path(current_user) 
     end
@@ -96,8 +96,8 @@ class WillsController < ApplicationController
   end
 
   def release
-    if @current_accessor.can_release
-      @will.release_user_will(@current_accessor)
+    if @current_beneficiary.can_release
+      @will.release_user_will(@current_beneficiary)
       if @will.save
         redirect_to user_will_path(@will.user, @will)
       else
@@ -116,16 +116,16 @@ class WillsController < ApplicationController
     def set_will
       @will = Will.find(params[:id])
       @assets = @will.assets 
-      @accessors = @will.accessors
-      @current_accessor = @will.accessors.find_by(email: current_user.email)
+      @beneficiaries = @will.beneficiaries
+      @current_beneficiary = @will.beneficiaries.find_by(email: current_user.email)
     end
 
     def authenticate_testator
       current_user.will == @will
     end
 
-    def authenticate_current_accessor
-      @current_accessor
+    def authenticate_current_beneficiary
+      @current_beneficiary
     end
 
     # Only allow a list of trusted parameters through.
@@ -133,7 +133,7 @@ class WillsController < ApplicationController
       params.require(:will).permit(
         :testator, :user_id, :public, :released,
       assets_attributes: [ :title, :description, :image, :id ],
-      accessors_attributes: [ :name, :email, :role, :can_release, :id ]
+      beneficiaries_attributes: [ :name, :email, :role, :can_release, :id ]
       )
     end
 

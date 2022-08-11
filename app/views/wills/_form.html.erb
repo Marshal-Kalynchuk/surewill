@@ -15,7 +15,7 @@
   </div>
 
   <h3>Beneficiaries</h3>
-  <%= form.fields_for :accessors do |subform| %>
+  <%= form.fields_for :beneficiaries do |subform| %>
     <div>
       <%= subform.label :role, style: "display: block" %>
       <%= subform.select :role, ['Executor', 'Beneficiary', 'Notificiary']%>
