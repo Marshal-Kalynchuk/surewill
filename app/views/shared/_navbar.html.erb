@@ -2,13 +2,17 @@
   <div class="container">
     <ul>
       <li>
-        <%= link_to "Home", root_path%>
+        <%= link_to "Home", home_path%>
       </li>
       <li>
         <%= link_to "About", about_path%>
       </li>
       
       <% if user_signed_in? %>
+
+        <li>
+          <%= link_to "Change password", edit_user_password_path(current_user) %>
+        </li>
 
         <li>
           <%= link_to "Access wills", user_wills_path(current_user) %>
