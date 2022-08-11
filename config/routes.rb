@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
+  get 'checkout', to: 'checkout#show'
+  get 'checkout/success', to: 'checkout#success'
+  get 'billing', to: 'billing#show'
+
   # get '/wills/new', to: 'wills#new'
   resources :users do
     resources :wills do 

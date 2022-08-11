@@ -38,3 +38,4 @@
 
 # Ignore GCS key
 /secret
+/config/credentials/development.key

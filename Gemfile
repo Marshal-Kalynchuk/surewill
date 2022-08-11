@@ -12,6 +12,12 @@ gem 'devise_invitable'
 # Cloud storage 
 gem 'google-cloud-storage'
 
+# Pay gem
+gem 'pay'
+
+# Strip payment processing
+gem 'stripe'
+
 # Cloud storage requirments. Required install seperately like sqllite
 # Not currently installed
 # libcips for image analysis and transforamtions

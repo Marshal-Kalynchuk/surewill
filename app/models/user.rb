@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable
+  
+  # Pay / strip payment
+  pay_customer stripe_attributes: :stripe_attributes
 
   # Pass values though to invite
   attr_accessor :testator_name
@@ -12,5 +15,20 @@ class User < ApplicationRecord
 
   has_many :acccessors, dependent: :destroy
   has_many :accessor_wills, through: :accessors, source: :will
+
+  validates :first_name, :last_name, presence: true
+
+  def stripe_attributes(pay_customer)
+    {
+      address: {
+        city: pay_customer.owner.city,
+        country: pay_customer.owner.country
+      },
+      metadata: {
+        pay_customer_id: pay_customer.id,
+        user_id: id # or pay_customer.owner_id
+      }
+    }
+  end
   
 end
