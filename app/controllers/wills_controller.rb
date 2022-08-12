@@ -1,6 +1,5 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_will, except: [ :index, :new, :create ]
 
   before_action :authenticate_testator, only: [ :edit, :update ]
@@ -77,8 +76,12 @@ class WillsController < ApplicationController
   def update
     respond_to do |format|
       if @will.update(will_params)
-        format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
-        format.json { render :show, status: :ok, location: @will }
+        if @will.prepaid
+          format.html { redirect_to user_will_url(current_user, @will), notice: "Will was successfully updated." }
+          format.json { render :show, status: :ok, location: @will }
+        else
+          format.html { redirect_to prepay_user_will_url(current_user, @will), notice: "Will was successfully updated." }
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }

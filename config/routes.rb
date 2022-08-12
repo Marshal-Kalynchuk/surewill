@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   # get '/wills/new', to: 'wills#new'
   resources :users, only: :show do
 
+    resource :billing_account
+
     resource :will do 
 
       put 'release', to: 'wills#release'
@@ -19,12 +21,12 @@ Rails.application.routes.draw do
       get 'prepay', to: 'prepay_payment#show'
       get 'prepay/success', to: 'prepay_payment#success'
 
-      resource :biometric, only: :show do
+      # resource :biometric, only: :show do
+      # 
+      #   get 'payment', to: 'biometric_payment#show'
+      #   get 'payment/success', to: 'biometric_payment#success'
 
-        get 'payment', to: 'biometric_payment#show'
-        get 'payment/success', to: 'biometric_payment#success'
-
-      end
+      # end
     end
   end
 

@@ -21,7 +21,7 @@ class PrepayPaymentController < ApplicationController
     @session = Stripe::Checkout::Session.retrieve(params[:session_id])
   end
 
-  def failure
+  def cancel
 
   end
 

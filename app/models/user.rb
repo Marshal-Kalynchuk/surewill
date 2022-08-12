@@ -7,6 +7,7 @@ class User < ApplicationRecord
          
   
   # Pay / strip payment
+  pay_customer default_payment_processor: :stripe
   pay_customer stripe_attributes: :stripe_attributes
 
   # Pass values though to invite

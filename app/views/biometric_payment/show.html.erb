@@ -1,0 +1,9 @@
+<h1>Biometric payment</h1>
+<p>Unfourtunately, Biometric authentication isn't cheap. We fronted the cost when you first created your will. However, if you wish to update your will, then you will have to pay the biometic authentication fee. It is only 3$.</p>
+
+<%= render partial: 'pay/stripe/checkout_button', locals: {
+  session: @checkout_session,
+  title: "Pay biometric authentication fee"
+} %>
+<br/>
+<%= link_to "No thanks", user_will_path(current_user) %>
