@@ -18,8 +18,6 @@ class User < ApplicationRecord
   has_many :accessors, dependent: :destroy
   has_many :accessor_wills, through: :accessors, source: :will
 
-  validates :first_name, :last_name, presence: true
-
   def stripe_attributes(pay_customer)
     {
       address: {

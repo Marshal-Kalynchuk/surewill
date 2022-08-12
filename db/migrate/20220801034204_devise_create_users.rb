@@ -4,10 +4,10 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
       ## User information
-      t.string :first_name,         null: false, default: ""
-      t.string :last_name,          null: false, default: ""
-      t.string :city            
-      t.string :country          
+      t.string :first_name,         default: ""
+      t.string :last_name,          default: ""
+      t.string :city,               default: ""
+      t.string :country,            default: ""
     
       ## Database authenticatable
       t.string :email,              null: false, default: ""
