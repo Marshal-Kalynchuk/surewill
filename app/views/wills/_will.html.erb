@@ -1,14 +1,16 @@
+<h1>Will Preview</h1>
 <section class='testator'>
-  <h3>Testator</h3>
-  <p><%= @will.testator %></p>
+  <h2>Testator:</h2>
 </section>
 <section class='benficiaries'>
   <h2>Beneficiaries</h2>
   <ul>
     <% @beneficiaries.each do |beneficiary| %>
       <li>
-        <h3><%= beneficiary.name %></h3>
+        <h3><%= beneficiary.first_name %></h3>
+        <h3><%= beneficiary.last_name %></h3>
         <p><%= beneficiary.role %></p>
+        <p><%= beneficiary.note %></p>
       </li>
     <% end %>
   </ul>
@@ -18,8 +20,9 @@
   <ul>
     <% @assets.each do |asset| %>
       <li>
-        <h3><%= asset.title%></h3>
-        <p><%= asset.description%></p>
+        <h3><%= asset.asset_type %></h3>
+        <h3><%= asset.title %></h3>
+        <p><%= asset.description %></p>
       </li>
     <% end %>
   </ul>

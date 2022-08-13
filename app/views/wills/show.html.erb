@@ -1,14 +1,17 @@
-<% if @will == current_user.will %>
-  <div>
-    <%= link_to "Edit this will", edit_user_will_path(current_user) %>
-    <br/>
-    <% unless @will.prepaid %>
-      <%= link_to "Prepay for this Will", prepay_user_will_path %>
-    <% else %>
-      <h2>This will has been payed for</h2>
-    <% end %>
-  </div>
-<% end %>
 <div>
   <%= render @will %>
 </div>
+<div>
+  <%= link_to "Edit this will", edit_user_will_path(current_user) %>
+  <br/>
+
+  <% unless @will.prepaid %>
+    <%= link_to "Pay for this Will", prepay_user_will_path %>
+  <% else %>
+    <h2>This will has been payed for</h2>
+    <h2>Download here</h2>
+  <% end %>
+
+</div>
+
+

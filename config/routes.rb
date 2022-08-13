@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
     resource :billing_account
 
-    resource :will do 
+    resource :will, except: :index do 
 
       # put 'release', to: 'wills#release'
 
@@ -29,8 +29,6 @@ Rails.application.routes.draw do
       # end
     end
   end
-
-  resources :wills, only: :index
 
   get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'

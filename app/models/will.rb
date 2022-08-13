@@ -14,9 +14,9 @@ class Will < ApplicationRecord
 
   # attr_accessor :releaser
 
-  after_initialize :init, if :new_record?
+  after_initialize :init, if: :new_record?
 
-  validates :testator, :beneficiaries, :assets, :user, :released, :prepaid, presence: true
+  validates :testator, :beneficiaries, :assets, :user, presence: true
 
   # after_save :send_release_email
 

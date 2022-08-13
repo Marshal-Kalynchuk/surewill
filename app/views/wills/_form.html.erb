@@ -1,4 +1,5 @@
 <%= form_with model: @will, url: user_will_path(current_user) do |form| %>
+
   <% if will.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(will.errors.count, "error") %> prohibited this will from being saved:</h2>
@@ -9,58 +10,70 @@
       </ul>
     </div>
   <% end %>
-  <div>
-    <%= form.label :testator, value: 'Name', style: "display: block" %>
-    <%= form.text_field :testator %>
-  </div>
+
+  <h3>Testator:</h3>
+  <%= form.fields_for :testator do |subform| %>
+    <div>
+      <%= subform.label :first_name, style: "display: block" %>
+      <%= subform.text_field :first_name %>
+    </div>
+    <div>
+      <%= subform.label :middle_name, style: "display: block" %>
+      <%= subform.text_field :middle_name %>
+    </div>
+    <div>
+      <%= subform.label :last_name, style: "display: block" %>
+      <%= subform.text_field :last_name %>
+    </div>
+    <h4>Address:</h4>
+    <div>
+      <%= subform.label :line_1, style: "display: block" %>
+      <%= subform.text_field :line_1 %>
+    </div>
+    <div>
+      <%= subform.label :city, style: "display: block" %>
+      <%= subform.text_field :city %>
+    </div>
+    <div>
+      <%= subform.label :country, style: "display: block" %>
+      <%= subform.text_field :country %>
+    </div>
+  <% end %>
 
   <h3>Beneficiaries</h3>
   <%= form.fields_for :beneficiaries do |subform| %>
     <div>
       <%= subform.label :role, style: "display: block" %>
-      <%= subform.select :role, ['Executor', 'Beneficiary', 'Notificiary']%>
+      <%= subform.select :role, ['Executor', 'Beneficiary', 'Other']%>
     </div>
     <div>
-      <%= subform.label :name, style: "display: block" %>
-      <%= subform.text_field :name %>
+      <%= subform.label :first_name, style: "display: block" %>
+      <%= subform.text_field :first_name %>
     </div>
     <div>
-      <%= subform.label :email, style: "display: block" %>
-      <%= subform.text_field :email %>
+      <%= subform.label :last_name, style: "display: block" %>
+      <%= subform.text_field :last_name %>
     </div>
     <div>
-      <%= subform.label :can_release, style: "display: block" %>
-      <%= subform.check_box :can_release %>
+      <%= subform.label :note, style: "display: block" %>
+      <%= subform.text_area :note %>
+    </div>
   <% end %>
 
   <h3>Assets</h3>
   <p>This the where you put your house.</p>
   <%= form.fields_for :assets do |subform| %>
     <div>
+      <%= subform.label :asset_type, style: "display: block" %>
+      <%= subform.select :asset_type, ['Property', 'Monetary', 'Other']%>
+    </div>
+    <div>
       <%= subform.label :title, style: "display: block" %>
       <%= subform.text_field :title %>
     </div>
-
     <div>
       <%= subform.label :description, style: "display: block" %>
       <%= subform.text_area :description %>
-    </div>
-
-    <div>
-      <%= subform.label :image, style: "display: block" %>
-      <%= subform.file_field :image %>
-    </div>
-
-  <% end %>
-  <div>
-    <%= form.label :public, style: "display: block" %>
-    <%= form.check_box :public %>
-  </div>
-  
-  <% if will.released %>
-    <div>
-      <%= form.label :released, style: "display: block" %>
-      <%= form.check_box :released %>
     </div>
   <% end %>
 

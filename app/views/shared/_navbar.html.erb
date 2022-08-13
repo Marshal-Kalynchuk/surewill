@@ -8,9 +8,6 @@
         <%= link_to "About", about_path%>
       </li>
       <% if user_signed_in? %>
-        <li>
-          <%= link_to "Access wills", wills_path %>
-        </li>
         <li> 
           <% if current_user.will && current_user.will.persisted? %>
             <%= link_to "View will", user_will_path(current_user) %>
@@ -29,7 +26,6 @@
           <%= link_to "Sign Up", new_user_registration_path %>
         </li>
       <% end %>
-      
     </ul>
   </div>
 </nav>
