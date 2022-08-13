@@ -134,7 +134,8 @@ class WillsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :testator, :user_id, :public, :released,
+      :user_id,
+      testator_attributes: [ :first_name, :last_name ]
       assets_attributes: [ :title, :description, :image, :id ],
       beneficiaries_attributes: [ :name, :email, :role, :can_release, :id ]
       )

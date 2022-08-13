@@ -1,8 +1,9 @@
 class Asset < ApplicationRecord
   belongs_to :will
-  has_one_attached :image
 
-  validates :title, :description, presence: true
+  ASSET_TYPES = []
+  validates :asset_type, :title, :description, presence: true
+  validates :asset_type, inclusion: { in: ASSET_TYPES }
   validates :title, length: { in: 3..20 }
 
   # has_many_attached :images

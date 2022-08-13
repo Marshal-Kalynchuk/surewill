@@ -11,7 +11,7 @@ class User < ApplicationRecord
   pay_customer stripe_attributes: :stripe_attributes
 
   # Pass values though to invite
-  attr_accessor :testator_name
+  # attr_accessor :testator_name
 
   has_one :will, dependent: :destroy
 

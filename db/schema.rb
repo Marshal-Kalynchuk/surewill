@@ -14,6 +14,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_222346) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
+    t.boolean "can_release", default: false, null: false
     t.boolean "payed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -51,8 +52,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_222346) do
 
   create_table "assets", force: :cascade do |t|
     t.integer "will_id", null: false
+    t.string "asset_type", null: false
     t.string "title", null: false
-    t.text "description"
+    t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_assets_on_will_id"
@@ -60,10 +62,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_222346) do
 
   create_table "beneficiaries", force: :cascade do |t|
     t.integer "will_id", null: false
-    t.boolean "can_release", default: false, null: false
-    t.string "email", null: false
     t.string "role", null: false
-    t.string "name", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_beneficiaries_on_will_id"
@@ -190,12 +192,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_222346) do
 
   create_table "wills", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "testator", null: false
+    t.integer "testator_id", null: false
     t.boolean "released", default: false, null: false
     t.boolean "prepaid", default: false, null: false
-    t.boolean "public", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["testator_id"], name: "index_wills_on_testator_id"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
@@ -209,5 +211,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_222346) do
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "wills", "testators"
   add_foreign_key "wills", "users"
 end

@@ -13,10 +13,10 @@ Rails.application.routes.draw do
 
     resource :will do 
 
-      put 'release', to: 'wills#release'
+      # put 'release', to: 'wills#release'
 
-      get 'access', to: 'access_payment#show'
-      get 'access/success', to: 'access_payment#success'
+      # get 'access', to: 'access_payment#show'
+      # get 'access/success', to: 'access_payment#success'
 
       get 'prepay', to: 'prepay_payment#show'
       get 'prepay/success', to: 'prepay_payment#success'
