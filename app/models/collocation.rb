@@ -1,0 +1,2 @@
+class Collocation < ApplicationRecord
+end

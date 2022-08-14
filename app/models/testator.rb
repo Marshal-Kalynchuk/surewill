@@ -1,4 +1,5 @@
 class Testator < ApplicationRecord
+  include Collocable
   belongs_to :will
-  validates :first_name, :middle_name, :last_name, :line_1, :city, :country, presence: true
+  validates :first_name, :last_name, presence: true
 end

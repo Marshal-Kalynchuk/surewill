@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_14_220841) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -50,6 +50,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "line_1", null: false
+    t.string "line_2"
+    t.string "zone_code"
+    t.string "postal_code"
+    t.string "city", null: false
+    t.string "country_code"
+    t.string "country", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "assets", force: :cascade do |t|
     t.integer "will_id", null: false
     t.string "asset_type", null: false
@@ -62,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
 
   create_table "beneficiaries", force: :cascade do |t|
     t.integer "will_id", null: false
-    t.string "role", null: false
+    t.string "relation", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.text "note"
@@ -72,14 +84,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
   end
 
   create_table "bequests", force: :cascade do |t|
-    t.float "percentage", null: false
+    t.integer "percentage", null: false
     t.integer "asset_id", null: false
-    t.string "benefactor_type", null: false
-    t.integer "benefactor_id", null: false
+    t.string "receiver_type", null: false
+    t.integer "receiver_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["asset_id"], name: "index_bequests_on_asset_id"
-    t.index ["benefactor_type", "benefactor_id"], name: "index_bequests_on_benefactor"
+    t.index ["receiver_type", "receiver_id"], name: "index_bequests_on_receiver"
+  end
+
+  create_table "collocations", force: :cascade do |t|
+    t.integer "address_id", null: false
+    t.string "collocable_type", null: false
+    t.integer "collocable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_collocations_on_address_id"
+    t.index ["collocable_type", "collocable_id"], name: "index_collocations_on_collocable"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -165,12 +187,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
     t.string "first_name", null: false
     t.string "middle_name", default: ""
     t.string "last_name", null: false
-    t.string "line_1", null: false
-    t.string "line_2"
-    t.string "zone_code"
-    t.string "postal_code"
-    t.string "city", null: false
-    t.string "country", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_testators_on_will_id"
