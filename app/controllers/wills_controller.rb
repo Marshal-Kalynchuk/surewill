@@ -140,8 +140,12 @@ class WillsController < ApplicationController
         :user_id,
       testator_attributes: [ :first_name, :middle_name, :last_name, 
         :line_1, :line_2, :zone_code, :postal_code, :city, :country, :id ],
+
+      primary_executor_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
+      alternate_executors_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
+      beneficiaries_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
+
       assets_attributes: [ :asset_type, :title, :description, :id ],
-      beneficiaries_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ]
       )
     end
 

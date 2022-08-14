@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_13_195701) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_14_042651) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -69,6 +69,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_13_195701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_beneficiaries_on_will_id"
+  end
+
+  create_table "bequests", force: :cascade do |t|
+    t.float "percentage", null: false
+    t.integer "asset_id", null: false
+    t.string "benefactor_type", null: false
+    t.integer "benefactor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["asset_id"], name: "index_bequests_on_asset_id"
+    t.index ["benefactor_type", "benefactor_id"], name: "index_bequests_on_benefactor"
   end
 
   create_table "pay_charges", force: :cascade do |t|

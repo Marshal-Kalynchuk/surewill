@@ -4,8 +4,6 @@ class Will < ApplicationRecord
   has_one :testator, dependent: :destroy
   accepts_nested_attributes_for :testator
 
-
-
   has_many :beneficiaries, dependent: :destroy
   accepts_nested_attributes_for :beneficiaries
 
@@ -13,10 +11,10 @@ class Will < ApplicationRecord
   # Personal Reperesentatives
 
   has_one :primary_executor, class_name: 'Beneficiary', dependent: :destroy
-  accepts_nested_attributes_for :executor
+  accepts_nested_attributes_for :primary_executor
 
-  hes_one :alternate_executor, class_name: 'Beneficiary', dependent: :destroy
-  accepts_nested_attributes_for :alternative_executor
+  has_many :alternate_executors, class_name: 'Beneficiary', dependent: :destroy
+  accepts_nested_attributes_for :alternate_executors
 
   # Bequests
 
@@ -26,6 +24,8 @@ class Will < ApplicationRecord
   # Bequest
 
   has_many :bequests, through: :assets, dependent: :destroy
+  accepts_nested_attributes_for :bequests
+
   has_many :accessors, dependent: :destroy
 
   # attr_accessor :releaser
