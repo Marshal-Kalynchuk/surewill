@@ -25,27 +25,10 @@
       <%= subform.label :last_name, style: "display: block" %>
       <%= subform.text_field :last_name %>
     </div>
-    <h4>Address:</h4>
-    <div>
-      <%= subform.label :line_1, style: "display: block" %>
-      <%= subform.text_field :line_1 %>
-    </div>
-    <div>
-      <%= subform.label :city, style: "display: block" %>
-      <%= subform.text_field :city %>
-    </div>
-    <div>
-      <%= subform.label :country, style: "display: block" %>
-      <%= subform.text_field :country %>
-    </div>
   <% end %>
 
   <h3>Beneficiaries</h3>
   <%= form.fields_for :beneficiaries do |subform| %>
-    <div>
-      <%= subform.label :role, style: "display: block" %>
-      <%= subform.select :role, ['Executor', 'Beneficiary', 'Other']%>
-    </div>
     <div>
       <%= subform.label :first_name, style: "display: block" %>
       <%= subform.text_field :first_name %>
@@ -55,11 +38,18 @@
       <%= subform.text_field :last_name %>
     </div>
     <div>
+      <%= subform.label :relation, style: "display: block" %>
+      <%= subform.select :relation, ['Decendent', 'Friend', 'Other'] %>
+    </div>
+    <div>
       <%= subform.label :note, style: "display: block" %>
       <%= subform.text_area :note %>
     </div>
   <% end %>
 
+  <% will.beneficiaries.each do |ben| %>
+    <%= ben.first_name %>
+  <% end %>
   <h3>Assets</h3>
   <p>This the where you put your house.</p>
   <%= form.fields_for :assets do |subform| %>
@@ -75,6 +65,10 @@
       <%= subform.label :description, style: "display: block" %>
       <%= subform.text_area :description %>
     </div>
+    <%= subform.fields_for :bequest do |b| %>
+      <%= b.label :beneficiariable, value: 'Beneficiary', style: "display: block" %>
+      <%= b.select :beneficiariable, ['one', 'two', 'three']%>
+    <% end %>
   <% end %>
 
   <div>

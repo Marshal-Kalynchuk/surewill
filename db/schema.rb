@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_14_220841) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -86,12 +86,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_220841) do
   create_table "bequests", force: :cascade do |t|
     t.integer "percentage", null: false
     t.integer "asset_id", null: false
-    t.string "receiver_type", null: false
-    t.integer "receiver_id", null: false
+    t.string "beneficiariable_type", null: false
+    t.integer "beneficiariable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["asset_id"], name: "index_bequests_on_asset_id"
-    t.index ["receiver_type", "receiver_id"], name: "index_bequests_on_receiver"
+    t.index ["beneficiariable_type", "beneficiariable_id"], name: "index_bequests_on_beneficiariable"
   end
 
   create_table "collocations", force: :cascade do |t|
@@ -102,6 +102,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_220841) do
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_collocations_on_address_id"
     t.index ["collocable_type", "collocable_id"], name: "index_collocations_on_collocable"
+  end
+
+  create_table "executors", force: :cascade do |t|
+    t.integer "beneficiary_id", null: false
+    t.integer "will_id", null: false
+    t.integer "rank", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["beneficiary_id"], name: "index_executors_on_beneficiary_id"
+    t.index ["will_id"], name: "index_executors_on_will_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -248,6 +258,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_220841) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
   add_foreign_key "beneficiaries", "wills"
+  add_foreign_key "executors", "beneficiaries"
+  add_foreign_key "executors", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

@@ -1,10 +1,11 @@
 class Beneficiary < ApplicationRecord
   belongs_to :will
 
-  has_many :bequests, as: :benefactor, dependent: :destroy
+  has_many :bequests, as: :beneficiariable, dependent: :destroy
   accepts_nested_attributes_for :bequests
-
   has_many :assets, through: :bequests
+
+  has_one :executor, dependent: :destroy
 
   ACCESSOR_TYPES = ['Executor', 'Beneficiary', 'Other']
   validates :first_name, :last_name, :role, :will, presence: true

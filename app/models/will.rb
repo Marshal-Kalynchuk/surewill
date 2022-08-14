@@ -8,13 +8,9 @@ class Will < ApplicationRecord
   accepts_nested_attributes_for :beneficiaries
 
 
-  # Personal Reperesentatives
-
-  has_one :primary_executor, class_name: 'Beneficiary', dependent: :destroy
-  accepts_nested_attributes_for :primary_executor
-
-  has_many :alternate_executors, class_name: 'Beneficiary', dependent: :destroy
-  accepts_nested_attributes_for :alternate_executors
+  # Executors
+  has_many :executors, dependent: :destroy
+  accepts_nested_attributes_for :executors
 
   # Bequests
 
@@ -32,7 +28,7 @@ class Will < ApplicationRecord
 
   after_initialize :init, if: :new_record?
 
-  validates :testator, :beneficiaries, :assets, :user, presence: true
+  validates :testator, :user, presence: true
 
   # after_save :send_release_email
 
