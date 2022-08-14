@@ -17,6 +17,10 @@ class WillsController < ApplicationController
   def show
   end
 
+  def pdf
+    @pdf = WillDocument.new(@will, @testator, @beneficiaries, @assets)
+  end
+
     # if @current_beneficiary
     #   if @will.released?
     #     if current_user.accessors.find_by(will: @will)

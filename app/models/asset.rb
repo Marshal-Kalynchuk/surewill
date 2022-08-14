@@ -1,5 +1,8 @@
 class Asset < ApplicationRecord
   belongs_to :will
+  
+  has_many :bequests, dependent: :destroy
+  accepts_nested_attributes_for :bequests
 
   ASSET_TYPES = [ 'Property', 'Monetary', 'Other' ]
   validates :asset_type, :title, :description, presence: true

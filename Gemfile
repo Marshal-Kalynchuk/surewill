@@ -9,14 +9,17 @@ gem 'devise'
 # Devise invitation and temp account creation
 gem 'devise_invitable'
 
-# Cloud storage 
-gem 'google-cloud-storage'
-
 # Pay gem
 gem 'pay'
 
 # Strip payment processing
 gem 'stripe'
+
+# For pdf generation
+gem 'prawn'
+
+# Cloud storage 
+gem 'google-cloud-storage'
 
 # Cloud storage requirments. Required install seperately like sqllite
 # Not currently installed
