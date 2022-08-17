@@ -7,10 +7,10 @@
   <ul>
     <% @beneficiaries.each do |beneficiary| %>
       <li>
-        <h3><%= beneficiary.first_name %></h3>
-        <h3><%= beneficiary.last_name %></h3>
-        <p><%= beneficiary.role %></p>
-        <p><%= beneficiary.note %></p>
+        <h3><%= beneficiary.delegate.first_name %></h3>
+        <h3><%= beneficiary.delegate.last_name %></h3>
+        <p><%= beneficiary.delegate.relation %></p>
+        <p><%= beneficiary.delegate.note %></p>
       </li>
     <% end %>
   </ul>

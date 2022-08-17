@@ -1,0 +1,19 @@
+<%= form_for @will, url: wizard_path(@user), method: :put do |form| %>
+<%= render "errors", will: @will %>
+<h3>Executors</h3>
+
+  <%= form.fields_for :executors do |s| %>
+    <div>
+      <%= s.label :delegate_id, style: "display: block" %>
+      <%= s.select :delegate_id, @delegates.collect{ |delegate| [ delegate.full_name, delegate.id ] } %>
+    </div>
+    <div>
+      <%= s.label :rank, style: "display: block" %>
+      <%= s.select :rank, [1, 2, 3] %>
+    </div>
+  <% end %>
+  <br/>
+   <div>
+    <%= form.submit value: "Next" %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<%= form_for @will, url: wizard_path(@user), method: :put do |form| %>
+<%= render "errors", will: @will %>
+<h3>Beneficiaries</h3>
+  <%= form.fields_for :beneficiaries do |subform| %>
+     <div>
+      <%= subform.label :delegate_id, style: "display: block" %>
+      <%= subform.select :delegate_id, @delegates.collect{ |delegate| [ delegate.full_name, delegate.id ] } %>
+    </div>
+  <% end %> 
+  <br/>
+   <div>
+    <%= form.submit value: "Next" %>
+  </div>
+<% end %>

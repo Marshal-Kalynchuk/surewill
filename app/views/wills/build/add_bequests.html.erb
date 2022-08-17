@@ -1,0 +1,28 @@
+<%= form_for @will, url: wizard_path(@user), method: :put do |form| %>
+<%= render "errors", will: @will %>
+
+  <% @assets.each do |asset| %>
+    <%= asset.title %>
+    <%= form.fields_for asset do |f| %>
+      <%= f.fields_for :bequest do |s| %>
+
+          <div>
+            <%= s.label :beneficiary, style: "display: block" %>
+            <%= s.select :beneficiary, @beneficiaries.collect{ |beneficiary| [beneficiary.delegate.full_name, beneficiary.id] } %>
+          </div>
+
+          <div>
+            <%= s.label :percentage, style: "display: block" %>
+            <%= s.text_field :percentage %>
+          </div>
+
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <br/>
+   <div>
+    <%= form.submit value: "Next" %>
+  </div>
+
+<% end %>

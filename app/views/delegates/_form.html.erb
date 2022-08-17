@@ -1,0 +1,33 @@
+<%= form_with model: [:user, :will, @delegate], html: { class: "delegate form" } do |f| %>
+
+  <% if @delegate.errors.any? %>
+    <div class="error-message">
+      <%= @delegate.errors.full_messages.to_sentence.capitalize %>
+    </div>
+  <% end %>
+
+    <div>
+      <%= f.label :first_name, style: "display: block", input_html: { autofocus: true } %>
+      <%= f.text_field :first_name %>
+    </div>
+    <div>
+      <%= f.label :middle_name, style: "display: block" %>
+      <%= f.text_field :middle_name %>
+    </div>
+    <div>
+      <%= f.label :last_name, style: "display: block" %>
+      <%= f.text_field :last_name %>
+    </div>
+    <div>
+      <%= f.label :relation, style: "display: block" %>
+      <%= f.select :relation, ['Decendent', 'Friend', 'Other'] %>
+    </div>
+    <div>
+      <%= f.label :note, style: "display: block" %>
+      <%= f.text_area :note %>
+    </div>
+
+    <%= link_to "Cancel", user_will_delegates_path(current_user), class: "btn btn--light" %>
+    <%= f.submit class: "btn btn--secondary" %>
+
+<% end %>

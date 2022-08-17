@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -74,12 +74,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
 
   create_table "beneficiaries", force: :cascade do |t|
     t.integer "will_id", null: false
-    t.string "relation", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.text "note"
+    t.integer "delegate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["delegate_id"], name: "index_beneficiaries_on_delegate_id"
     t.index ["will_id"], name: "index_beneficiaries_on_will_id"
   end
 
@@ -104,13 +102,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
     t.index ["collocable_type", "collocable_id"], name: "index_collocations_on_collocable"
   end
 
+  create_table "delegates", force: :cascade do |t|
+    t.integer "will_id", null: false
+    t.string "first_name", null: false
+    t.string "middle_name"
+    t.string "last_name", null: false
+    t.string "relation", null: false
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["will_id"], name: "index_delegates_on_will_id"
+  end
+
   create_table "executors", force: :cascade do |t|
-    t.integer "beneficiary_id", null: false
+    t.integer "delegate_id", null: false
     t.integer "will_id", null: false
     t.integer "rank", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["beneficiary_id"], name: "index_executors_on_beneficiary_id"
+    t.index ["delegate_id"], name: "index_executors_on_delegate_id"
     t.index ["will_id"], name: "index_executors_on_will_id"
   end
 
@@ -195,7 +205,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
   create_table "testators", force: :cascade do |t|
     t.integer "will_id", null: false
     t.string "first_name", null: false
-    t.string "middle_name", default: ""
+    t.string "middle_name"
     t.string "last_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -247,6 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
     t.integer "user_id", null: false
     t.boolean "released", default: false, null: false
     t.boolean "prepaid", default: false, null: false
+    t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_wills_on_user_id"
@@ -257,8 +268,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_14_221544) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
+  add_foreign_key "beneficiaries", "delegates"
   add_foreign_key "beneficiaries", "wills"
-  add_foreign_key "executors", "beneficiaries"
+  add_foreign_key "delegates", "wills"
+  add_foreign_key "executors", "delegates"
   add_foreign_key "executors", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"

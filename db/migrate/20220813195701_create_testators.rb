@@ -3,7 +3,7 @@ class CreateTestators < ActiveRecord::Migration[7.0]
     create_table :testators do |t|
       t.references :will, null: false, foreign_key: true
       t.string :first_name, null: false
-      t.string :middle_name, default: ""
+      t.string :middle_name
       t.string :last_name, null: false
 
       t.timestamps

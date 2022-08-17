@@ -1,0 +1,11 @@
+<main class="container">
+  <%= link_to sanitize("&larr; Back to delegate"), user_will_delegate_path(current_user, @delegate) %>
+
+  <div class="header">
+    <h1>Edit delegate</h1>
+  </div>
+
+  <%= turbo_frame_tag @delegate do %>
+    <%= render "form", delegate: @delegate %>
+  <% end %>
+</main>

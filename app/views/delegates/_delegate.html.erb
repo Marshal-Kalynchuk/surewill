@@ -1,0 +1,18 @@
+<%# app/views/delegates/_delegate.html.erb %>
+
+<%= turbo_frame_tag delegate do %>
+  <div class="delegate">
+    <%= link_to delegate.full_name,
+                user_will_delegate_path(current_user, delegate),
+                data: { turbo_frame: "_top" } %>
+    <div class="delegate__actions">
+      <%= button_to "Delete",
+                    user_will_delegate_path(current_user, delegate),
+                    method: :delete,
+                    class: "btn btn--light" %>
+      <%= link_to "Edit",
+                  edit_user_will_delegate_path(current_user, delegate),
+                  class: "btn btn--light" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,4 @@
+<%# app/views/quotes/create.turbo_stream.erb %>
+
+<%= turbo_stream.prepend "delegates", @delegate %>
+<%= turbo_stream.update Delegate.new, "" %>

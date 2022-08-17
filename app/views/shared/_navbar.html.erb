@@ -12,7 +12,7 @@
           <% if current_user.will && current_user.will.persisted? %>
             <%= link_to "View will", user_will_path(current_user) %>
           <% else %>
-            <%= link_to "Create will", new_user_will_path(current_user) %>
+            <%= button_to "Create will", user_will_build_index_path(current_user) %>
           <% end %>
         </li>
         <li>

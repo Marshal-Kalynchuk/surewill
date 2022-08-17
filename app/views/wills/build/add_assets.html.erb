@@ -1,0 +1,43 @@
+<%= form_for @will, url: wizard_path(@user), method: :put do |form| %>
+<%= render "errors", will: @will %>
+<h3>Assets</h3>
+  <%= form.fields_for :assets do |subform| %>
+
+    <div>
+      <%= subform.label :asset_type, style: "display: block" %>
+      <%= subform.select :asset_type, ["Property", "Eggs", "Money"] %>
+    </div>
+
+    <div>
+      <%= subform.label :title, style: "display: block" %>
+      <%= subform.text_field :title %>
+    </div>
+
+    <div>
+      <%= subform.label :description, style: "display: block" %>
+      <%= subform.text_field :description %>
+    </div>
+
+    <%= subform.fields_for :bequests do |s| %>
+
+          <div>
+            <%= s.label :beneficiariable_id, value: "Beneficiary", style: "display: block" %>
+            <%= s.select :beneficiariable_id, @beneficiaries.collect{ |beneficiary| [beneficiary.delegate.full_name, beneficiary.id] } %>
+          </div>
+
+          <div>
+            <%= s.hidden_field :beneficiariable_type, value: "Beneficiary" %>
+          </div>
+
+          <div>
+            <%= s.label :percentage, style: "display: block" %>
+            <%= s.text_field :percentage %>
+          </div>
+
+      <% end %>
+  <% end %>
+  <br/>
+   <div>
+    <%= form.submit value: "Next" %>
+  </div>
+<% end %>

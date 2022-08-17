@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
     resource :will, except: :index do 
 
+      resources :build, controller: 'wills/build'
+      resources :delegates
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'

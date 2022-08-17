@@ -18,6 +18,9 @@ gem 'stripe'
 # For pdf generation
 gem 'prawn'
 
+# For multistep form
+gem 'wicked'
+
 # Cloud storage 
 gem 'google-cloud-storage'
 

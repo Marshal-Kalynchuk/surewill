@@ -1,0 +1,13 @@
+<%# app/views/delegates/new.html.erb %>
+
+<main class="container">
+  <%= link_to sanitize("&larr; Back to delegates"), user_will_delegates_path %>
+
+  <div class="header">
+    <h1>New delegate</h1>
+  </div>
+
+  <%= turbo_frame_tag @delegate do %>
+    <%= render "form", delegate: @delegate, will: @will %>
+  <% end %>
+</main>

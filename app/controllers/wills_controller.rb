@@ -39,38 +39,26 @@ class WillsController < ApplicationController
 
   # GET /wills/new
   def new
-    unless current_user.will
-      @will = Will.new
-      @will.build_testator
-      @will.beneficiaries.build
-      @will.assets.build
-    else 
-      redirect_to edit_user_will_path(current_user, current_user.will) 
-    end
+    @will = current_user.build_will
+    @testator = @will.build_testator
   end
 
   # GET /wills/1/edit
   def edit
-    unless current_user.will
-      redirect_to new_user_will_path(current_user) 
-    end
+    redirect_to user_will_build_index_path(current_user)
   end
 
   # POST /wills or /wills.json
   def create
-    unless current_user.will
-      @will = current_user.build_will(will_params)
-      respond_to do |format|
-        if @will.save
-          format.html { redirect_to prepay_user_will_url(current_user), notice: "Will was successfully created." }
-          format.json { render :show, status: :created, location: @will }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @will.errors, status: :unprocessable_entity }
-        end
+    @will = current_user.build_will(will_params)
+    respond_to do |format|
+      if @will.save
+        format.html { redirect_to user_will_build_index_path(current_user), notice: "Will was successfully created." }
+        format.json { render :show, status: :created, location: @will }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @will.errors, status: :unprocessable_entity }
       end
-    else 
-      redirect_to edit_user_will_path(current_user.will) 
     end
   end
 
@@ -137,16 +125,7 @@ class WillsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def will_params
       params.require(:will).permit(
-        :user_id,
-      testator_attributes: [ :first_name, :middle_name, :last_name, 
-        :line_1, :line_2, :zone_code, :postal_code, :city, :country, :id ],
-
-      primary_executor_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
-      alternate_executors_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
-      beneficiaries_attributes: [ :first_name, :last_name, :role, :relation, :note, :id ],
-
-      assets_attributes: [ :asset_type, :title, :description, :id ],
-      )
+      :user_id, testator_attributes: [ :first_name, :middle_name, :last_name ])
     end
 
 end

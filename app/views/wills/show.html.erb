@@ -2,7 +2,7 @@
   <%= render @will %>
 </div>
 <div>
-  <%= link_to "Edit this will", edit_user_will_path(current_user) %>
+  <%= link_to "Edit this will", user_will_build_path(current_user, 'add_testator') %>
   <br/>
 
   <% unless @will.prepaid %>
