@@ -1,2 +1,10 @@
-<h1>Delegate#show</h1>
-<p>Find me in app/views/delegate/show.html.erb</p>
+<p style="color: green"><%= notice %></p>
+
+<%= render @delegate %>
+
+<div>
+  <%= link_to "Edit this delegate", edit_delegate_path(@delegate) %> |
+  <%= link_to "Back to delegates", delegates_path %>
+
+  <%= button_to "Destroy this delegate", @delegate, method: :delete %>
+</div>

@@ -1,17 +1,45 @@
-<%= form_with(model: asset) do |form| %>
-  <% if asset.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(asset.errors.count, "error") %> prohibited this asset from being saved:</h2>
+<%= form_with model: [:user, :will, @asset], html: { class: "asset form" } do |f| %>
 
-      <ul>
-        <% asset.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+  <% if @asset.errors.any? %>
+    <div class="error-message">
+      <%= @asset.errors.full_messages.to_sentence.capitalize %>
     </div>
   <% end %>
 
   <div>
-    <%= form.submit %>
+    <%= f.label :asset_type, style: "display: block" %>
+    <%= f.select :asset_type, ["Property", "Eggs", "Money"] %>
   </div>
+
+  <div>
+    <%= f.label :title, style: "display: block" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description, style: "display: block" %>
+    <%= f.text_field :description %>
+  </div>
+
+  <%= f.fields_for :bequests, Bequest.new do |ff| %>
+
+      <div>
+        <%= ff.label :beneficiariable_id, value: "Beneficiary", style: "display: block" %>
+        <%#= ff.select :beneficiariable_id, @beneficiaries.collect{ |beneficiary| [beneficiary.delegate.full_name, beneficiary.id] } %>
+      </div>
+
+      <div>
+        <%= ff.hidden_field :beneficiariable_type, value: "Beneficiary" %>
+      </div>
+
+      <div>
+        <%= ff.label :percentage, style: "display: block" %>
+        <%= ff.text_field :percentage %>
+      </div>
+
+  <% end %>
+
+  <%= link_to "Cancel", user_will_assets_path(current_user), class: "btn btn--light" %>
+  <%= f.submit class: "btn btn--secondary" %>
+
 <% end %>

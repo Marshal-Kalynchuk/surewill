@@ -1,10 +1,11 @@
-<h1>Editing asset</h1>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to asset"), user_will_asset_path(current_user, @asset) %>
 
-<%= render "form", asset: @asset %>
+  <div class="header">
+    <h1>Edit asset</h1>
+  </div>
 
-<br>
-
-<div>
-  <%= link_to "Show this asset", @asset %> |
-  <%= link_to "Back to assets", assets_path %>
-</div>
+  <%= turbo_frame_tag @asset do %>
+    <%= render "form", asset: @asset %>
+  <% end %>
+</main>

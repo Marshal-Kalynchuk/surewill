@@ -1,14 +1,15 @@
-<p style="color: green"><%= notice %></p>
+<div class="container">
+  <div class="header">
+    <h1>Assets</h1>
+    <%= link_to "New asset",
+                new_user_will_asset_path,
+                class: "btn btn--primary",
+                data: { turbo_frame: dom_id(Asset.new) } %>
+  </div>
 
-<h1>Assets</h1>
+  <%= turbo_frame_tag Asset.new %>
 
-<div id="assets">
-  <% @assets.each do |asset| %>
-    <%= render asset %>
-    <p>
-      <%= link_to "Show this asset", asset %>
-    </p>
+  <%= turbo_frame_tag "assets" do %>
+    <%= render @assets %>
   <% end %>
 </div>
-
-<%= link_to "New asset", new_asset_path %>

@@ -1,2 +1,18 @@
 <div id="<%= dom_id asset %>">
 </div>
+<%= turbo_frame_tag asset do %>
+  <div class="asset">
+    <%= link_to asset.full_name,
+                user_will_asset_path(current_user, asset),
+                data: { turbo_frame: "_top" } %>
+    <div class="asset__actions">
+      <%= button_to "Delete",
+                    user_will_asset_path(current_user, asset),
+                    method: :delete,
+                    class: "btn btn--light" %>
+      <%= link_to "Edit",
+                  edit_user_will_asset_path(current_user, asset),
+                  class: "btn btn--light" %>
+    </div>
+  </div>
+<% end %>

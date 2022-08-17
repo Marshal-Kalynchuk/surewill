@@ -38,6 +38,19 @@
   color: #fff;
  }
 
+ .asset {
+  background-color: #444;
+  border-radius: 5px;
+  padding: 20px 20px;
+  margin: 10px 10px;
+  color: #fff;
+ }
+
+ .asset a {
+  padding: 5px;
+  color: #fff;
+ }
+
  body {
   font-family: 'Times New Roman', Times, serif;
   text-decoration: none;

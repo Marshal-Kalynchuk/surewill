@@ -1,9 +1,7 @@
-<%# app/views/delegates/index.html.erb %>
-
 <div class="container">
   <div class="header">
     <h1>Delegates</h1>
-    <%= link_to "New quote",
+    <%= link_to "New delegate",
                 new_user_will_delegate_path,
                 class: "btn btn--primary",
                 data: { turbo_frame: dom_id(Delegate.new) } %>
