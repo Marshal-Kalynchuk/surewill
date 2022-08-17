@@ -22,6 +22,16 @@
   color: #fff;
  }
 
+ .btn {
+  font-size: 0.8em;
+  border-radius: 5px;
+  padding: 2px 3px;
+  margin: 3px;
+ }
+
+ .btn a {
+  color: #f4f4f4;
+ }
 
  .delegate a {
   padding: 5px;
@@ -37,6 +47,7 @@
   font-size: 16px;
   margin: 0;
 }
+
 a {
   text-decoration: none;
 }

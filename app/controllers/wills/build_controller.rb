@@ -4,7 +4,7 @@ class Wills::BuildController < ApplicationController
   before_action :set_will, except: :create
   #before_action :set_progress, only: :show
 
-  steps :add_testator, :add_delegates, :add_executors, :add_beneficiaries, :add_assets
+  steps :add_testator, :add_delegates, :add_assets
 
   def show
     case step
@@ -13,14 +13,6 @@ class Wills::BuildController < ApplicationController
     when :add_delegates
       if @will.delegates.empty?
         @delegate = @will.delegates.build 
-        #@delegate.build_executor
-        #@delegate.build_beneficiary
-      #else
-        #@delegates = @will.delegates 
-        #@delegates.each do |delegate| 
-        #  delegate.build_executor unless delegate.executor
-        #  delegate.build_beneficiary unless delegate.beneficiary
-        #end
       end
       @delegates = @will.delegates
 
