@@ -263,6 +263,8 @@ GEM
       railties (>= 6.0.0)
     stripe (7.0.0)
     strscan (3.0.4)
+    tailwindcss-rails (2.0.12-x86_64-linux)
+      railties (>= 6.0.0)
     thor (1.2.1)
     timeout (0.3.0)
     trailblazer-option (0.1.2)
@@ -317,6 +319,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   stimulus-rails
   stripe
+  tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
   web-console

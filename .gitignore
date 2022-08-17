@@ -39,3 +39,6 @@
 # Ignore GCS key
 /secret
 /config/credentials/development.key
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
