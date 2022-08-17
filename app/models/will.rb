@@ -25,10 +25,7 @@ class Will < ApplicationRecord
 
   validates :testator,              presence: true, if: :active_or_testator?
   validates :delegates,             presence: true, if: :active_or_delegates?
-  validates :executors,             presence: true, if: :active_or_executors?
-  validates :beneficiaries,         presence: true, if: :active_or_beneficiaries?
   validates :assets,                presence: true, if: :active_or_assets?
-  #validates :bequests,              presence: true, if: :active_or_bequests?
 
   # after_save :send_release_email
   # def release_user_will(current_beneficiary)

@@ -11,24 +11,9 @@ class Wills::BuildController < ApplicationController
     when :add_testator
       @will.build_testator unless @will.testator
     when :add_delegates
-      if @will.delegates.empty?
-        @delegate = @will.delegates.build 
-      end
       @delegates = @will.delegates
-
-    when :add_executors
-      @delegates = @will.delegates
-      @will.executors.build if @will.executors.empty?
-    when :add_beneficiaries
-      @delegates = @will.delegates
-      @will.beneficiaries.build if @will.beneficiaries.empty?
     when :add_assets
-      @beneficiaries = @will.beneficiaries
-      @will.assets.build.bequests.build if @will.assets.empty?
-    when :add_bequests
-      @beneficiaries = @will.beneficiaries
       @assets = @will.assets
-      @will.bequests.build if @will.bequests.empty?
     end
     render_wizard
   end

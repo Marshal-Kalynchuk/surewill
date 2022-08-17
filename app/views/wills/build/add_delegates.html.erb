@@ -1,13 +1,10 @@
 <h3>Delegates</h3>
-<%#= render "errors" %>
-<%# app/views/delegates/index.html.erb %>
+<%= render "errors" %>
 
 <div class="container">
   <div class="header">
     <h1>Delegates</h1>
   </div>
-
-  
 
   <%= turbo_frame_tag "delegates" do %>
     <%= render partial: "delegates/delegate", collection: @delegates %>
@@ -18,5 +15,6 @@
                 class: "btn btn--primary",
                 data: { turbo_frame: dom_id(Delegate.new) } %>
 </div>
-<%= button_to "Back", previous_wizard_path %>
-<%= button_to "Next", next_wizard_path %>
+
+<%= button_to "Next", wizard_path, method: :put, params: {will: {status: @will.status}} %>
+<%= button_to "Back", previous_wizard_path, method: :get %>

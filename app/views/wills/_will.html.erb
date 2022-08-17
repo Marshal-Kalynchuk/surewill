@@ -2,21 +2,37 @@
 <section class='testator'>
   <h2>Testator:</h2>
 </section>
+
 <section class='benficiaries'>
-  <h2>Delegates</h2>
-  <ul>
-    <%= render partial: "delegates/delegate", collection: @delegates %>
-  </ul>
-</section>
-<section class='assets'>
-  <h2>Assets:</h2>
-  <ul>
-    <% @assets.each do |asset| %>
-      <li>
-        <h3><%= asset.asset_type %></h3>
-        <h3><%= asset.title %></h3>
-        <p><%= asset.description %></p>
-      </li>
+  <div class="container">
+    <div class="header">
+      <h1>Delegates</h1>
+    </div>
+
+    <%= turbo_frame_tag "delegates" do %>
+      <%= render partial: "delegates/delegate", collection: @delegates %>
     <% end %>
-  </ul>
+    <%= turbo_frame_tag Delegate.new %>
+    <%= link_to "New delegate",
+                  new_user_will_delegate_path,
+                  class: "btn btn--primary",
+                  data: { turbo_frame: dom_id(Delegate.new) } %>
+  </div>
+</section>
+
+<section class='assets'>
+  <div class="container">
+    <div class="header">
+      <h1>assets</h1>
+    </div>
+
+    <%= turbo_frame_tag "assets" do %>
+      <%= render partial: "assets/asset", collection: @assets %>
+    <% end %>
+    <%= turbo_frame_tag Asset.new %>
+    <%= link_to "New asset",
+                  new_user_will_asset_path,
+                  class: "btn btn--primary",
+                  data: { turbo_frame: dom_id(Asset.new) } %>
+  </div>
 </section>
