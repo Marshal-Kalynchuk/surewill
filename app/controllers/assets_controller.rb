@@ -73,6 +73,9 @@ class AssetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def asset_params
-      params.fetch(:asset, {})
+      params.require(:asset).permit(
+        :id, :asset_type, :title, :description, 
+        bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id ]
+      )
     end
 end

@@ -50,22 +50,21 @@ class Wills::BuildController < ApplicationController
 
   private
 
-  def set_will
-    @will = current_user.will
-  end
+    def set_will
+      @will = current_user.will
+    end
 
-  # def set_progress
-  #   if wizard_steps.any? && wizard_steps.index(step).present?
-  #     @progress = ((wizard_steps.index(step) + 1).to_d / wizard_steps.count.to_d) * 100
-  #   else
-  #     @progress = 0
-  #   end
-  # end
+    # def set_progress
+    #   if wizard_steps.any? && wizard_steps.index(step).present?
+    #     @progress = ((wizard_steps.index(step) + 1).to_d / wizard_steps.count.to_d) * 100
+    #   else
+    #     @progress = 0
+    #   end
+    # end
 
-  def will_params
-    params.require(:will).permit(:user_id, :status,
-    testator_attributes: [ :first_name, :middle_name, :last_name, :id ],
-    assets_attributes: [ :asset_type, :title, :description, :id, 
-      { bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id ] }])
-  end
+    def will_params
+      params.require(:will).permit(
+        :user_id, :status, testator_attributes: [ :first_name, :middle_name, :last_name, :id ],
+      )
+    end
 end
