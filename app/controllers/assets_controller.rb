@@ -1,9 +1,11 @@
 class AssetsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_will
   before_action :set_asset, only: %i[ show edit update destroy ]
 
   # GET /assets or /assets.json
   def index
-    @assets = Asset.all
+    @assets = @will.assets
   end
 
   # GET /assets/1 or /assets/1.json
@@ -12,7 +14,7 @@ class AssetsController < ApplicationController
 
   # GET /assets/new
   def new
-    @asset = Asset.new
+    @asset = @will.assets.build
   end
 
   # GET /assets/1/edit
@@ -21,12 +23,13 @@ class AssetsController < ApplicationController
 
   # POST /assets or /assets.json
   def create
-    @asset = Asset.new(asset_params)
+    @asset = @will.assets.build(asset_params)
 
     respond_to do |format|
       if @asset.save
-        format.html { redirect_to asset_url(@asset), notice: "Asset was successfully created." }
+        format.html { redirect_to user_will_asset_url(current_user, @asset), notice: "Asset was successfully created." }
         format.json { render :show, status: :created, location: @asset }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
@@ -38,7 +41,7 @@ class AssetsController < ApplicationController
   def update
     respond_to do |format|
       if @asset.update(asset_params)
-        format.html { redirect_to asset_url(@asset), notice: "Asset was successfully updated." }
+        format.html { redirect_to user_will_asset_url(current_user, @asset), notice: "Asset was successfully updated." }
         format.json { render :show, status: :ok, location: @asset }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,10 +57,15 @@ class AssetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to assets_url, notice: "Asset was successfully destroyed." }
       format.json { head :no_content }
+      format.turbo_stream
     end
   end
 
   private
+    def set_will
+      @will = current_user.will
+      @will ? true : false
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_asset
       @asset = Asset.find(params[:id])
