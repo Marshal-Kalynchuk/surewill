@@ -3,16 +3,9 @@
   <h2>Testator:</h2>
 </section>
 <section class='benficiaries'>
-  <h2>Beneficiaries</h2>
+  <h2>Delegates</h2>
   <ul>
-    <% @beneficiaries.each do |beneficiary| %>
-      <li>
-        <h3><%= beneficiary.delegate.first_name %></h3>
-        <h3><%= beneficiary.delegate.last_name %></h3>
-        <p><%= beneficiary.delegate.relation %></p>
-        <p><%= beneficiary.delegate.note %></p>
-      </li>
-    <% end %>
+    <%= render partial: "delegates/delegate", collection: @delegates %>
   </ul>
 </section>
 <section class='assets'>

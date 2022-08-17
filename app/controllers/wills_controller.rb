@@ -111,6 +111,7 @@ class WillsController < ApplicationController
       @testator = @will.testator
       @assets = @will.assets 
       @beneficiaries = @will.beneficiaries
+      @delegates = @will.delegates
       @accessors = @will.accessors
     end
 
