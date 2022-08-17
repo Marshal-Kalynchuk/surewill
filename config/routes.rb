@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
       resources :build, controller: 'wills/build'
       resources :delegates
+      resources :assets
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'
