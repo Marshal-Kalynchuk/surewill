@@ -1,38 +1,82 @@
-<h1>Will Preview</h1>
-<section class='testator'>
-  <h2>Testator:</h2>
-</section>
+<main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
 
-<section class='benficiaries'>
-  <div class="container">
-    <div class="header">
-      <h1>Delegates</h1>
-    </div>
-
-    <%= turbo_frame_tag "delegates" do %>
-      <%= render partial: "delegates/delegate", collection: @delegates %>
+  <div class="text-center">
+    <h2 class="text-lg font-semibold text-indigo-600"></h2>
+    <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Last Will And Testement.</p>
+    <% unless @will.status == 'active' %>
+      <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Finish setting up your will.</p>
     <% end %>
-    <%= turbo_frame_tag Delegate.new %>
-    <%= link_to "New delegate",
-                  new_user_will_delegate_path,
-                  class: "btn btn--primary",
-                  data: { turbo_frame: dom_id(Delegate.new) } %>
   </div>
-</section>
 
-<section class='assets'>
-  <div class="container">
-    <div class="header">
-      <h1>assets</h1>
+  <div class="px-4 sm:px-6 lg:px-8">
+    <h1 class="mt-header"></h1>
+  </div>
+
+  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-xl font-semibold text-gray-900">Delegates</h1>
+        <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <%= link_to "Edit Delegates", user_will_delegates_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+      </div>
     </div>
-
-    <%= turbo_frame_tag "assets" do %>
-      <%= render partial: "assets/asset", collection: @assets %>
-    <% end %>
-    <%= turbo_frame_tag Asset.new %>
-    <%= link_to "New asset",
-                  new_user_will_asset_path,
-                  class: "btn btn--primary",
-                  data: { turbo_frame: dom_id(Asset.new) } %>
+    <div class="mt-8 flex flex-col">
+      <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Location</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Relation</th>
+                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <%= render partial: "wills/delegate", collection: @delegates %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
+
+  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
+  <% if @assets.empty? %>
+  <div class="bg-gray-100 rounded-3xl">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-indigo-600">Assets</h2>
+        <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Finish setting up your will by adding your assets.</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500"></p>
+      </div>
+      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+          <%= link_to "Add Assets", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% else %>
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-xl font-semibold text-gray-900">Assets</h1>
+        <p class="mt-2 text-sm text-gray-700">A list of all your assets and who will recieve them.</p>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <%= link_to "Edit Assets", user_will_assets_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+      </div>
+    </div>
+    <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <%= render partial: "wills/asset", collection: @assets %>
+    </ul>
+  <% end %>
+  <div>
+</main>

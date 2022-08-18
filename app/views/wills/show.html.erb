@@ -1,12 +1,10 @@
 <div>
   <%= render @will %>
 </div>
-<div>
-  <%= link_to "Edit this will", user_will_build_path(current_user, 'add_testator') %>
-  <br/>
 
+<div>
   <% unless @will.prepaid %>
-    <%= link_to "Pay for this Will", prepay_user_will_path %>
+    <%#= link_to "Pay for this Will", prepay_user_will_path %>
   <% else %>
     <h2>This will has been payed for</h2>
     <h2>Download here</h2>
