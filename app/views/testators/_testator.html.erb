@@ -1,0 +1,10 @@
+<%= turbo_frame_tag @testator do %>
+
+  <%= @testator.first_name %>
+  <%= @testator.middle_name %>
+  <%= @testator.last_name %>
+
+  <%= link_to 'Edit testator', edit_user_will_testator_path(current_user), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+  <hr class="mt-6">
+  
+<% end %>

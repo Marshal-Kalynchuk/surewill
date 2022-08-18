@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :assets
+  
 
   root to: 'pages#home'
 
@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :build, controller: 'wills/build'
       resources :delegates
       resources :assets
+      resource :testator
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'

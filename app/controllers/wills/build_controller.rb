@@ -9,7 +9,7 @@ class Wills::BuildController < ApplicationController
   def show
     case step
     when :add_testator
-      @will.build_testator unless @will.testator
+      @testator = @will.testator ? @will.testator : @will.build_testator 
     when :add_delegates
       @delegates = @will.delegates
     when :add_assets
