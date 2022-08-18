@@ -1,11 +1,1 @@
-<main class="container">
-  <%= link_to sanitize("&larr; Back to assets"), user_will_assets_path %>
-
-  <div class="header">
-    <h1>New asset</h1>
-  </div>
-
-  <%= turbo_frame_tag @asset do %>
-    <%= render "form", asset: @asset, will: @will %>
-  <% end %>
-</main>
+<%= render "form", asset: @asset, will: @will %>

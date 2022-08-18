@@ -1,45 +1,85 @@
-<%= form_with model: [:user, :will, @asset], html: { class: "asset form" } do |f| %>
-
-  <% if @asset.errors.any? %>
-    <div class="error-message">
-      <%= @asset.errors.full_messages.to_sentence.capitalize %>
+<%= form_with model: [:user, :will, @asset], class: "mt-5 sm:flex sm:items-center", html: { class: "asset form" } do |f| %>
+<div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+  <%= render "shared/error_messages", resource: @asset %>
+  <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+    <div>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Enter your full legal name and address.</p>
     </div>
-  <% end %>
+    <div class="space-y-6 sm:space-y-5">
 
-  <div>
-    <%= f.label :asset_type, style: "display: block" %>
-    <%= f.select :asset_type, ["Property", "Eggs", "Money"] %>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <%= f.label :asset_type, value: "Type", class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"  %>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <%= f.select :asset_type, ['Property', 'Savings', 'Currency', 'Credit', 'Motor-vehicle'], {}, class:"max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <%= f.label :title, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <%= f.text_field :title, class: "max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <%= f.label :description, class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <%= f.text_area :description, rows: 4, class: "max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" %>
+        </div>
+      </div>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+      </div>
+    </div>
+
+    <div>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Location</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Enter the location of the asset.</p>
+    </div>
+    <div class="space-y-6 sm:space-y-5">
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label for="country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Country </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <select id="country" name="country" autocomplete="country-name"
+            class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+            <option>United States</option>
+            <option>Canada</option>
+            <option>Mexico</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label for="city" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> City </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <input type="text" name="city" id="city" autocomplete="address-level2"
+            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+        </div>
+      </div>
+
+    </div>
+    <div class="flex justify-end">
+      <%= link_to "Cancel", user_will_assets_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+      <%= f.submit value: "Save", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+    </div>
   </div>
+<% end %>
 
-  <div>
-    <%= f.label :title, style: "display: block" %>
-    <%= f.text_field :title %>
-  </div>
-
-  <div>
-    <%= f.label :description, style: "display: block" %>
-    <%= f.text_field :description %>
-  </div>
-
-  <%= f.fields_for :bequests, Bequest.new do |ff| %>
-
+<!--
+  <%#= f.fields_for :bequests, Bequest.new do |ff| %>
       <div>
-        <%= ff.label :beneficiariable_id, value: "Beneficiary", style: "display: block" %>
+        <%#= ff.label :beneficiariable_id, value: "Beneficiary", style: "display: block" %>
         <%#= ff.select :beneficiariable_id, @beneficiaries.collect{ |beneficiary| [beneficiary.delegate.full_name, beneficiary.id] } %>
       </div>
 
       <div>
-        <%= ff.hidden_field :beneficiariable_type, value: "Beneficiary" %>
+        <%#= ff.hidden_field :beneficiariable_type, value: "Beneficiary" %>
       </div>
 
       <div>
-        <%= ff.label :percentage, style: "display: block" %>
-        <%= ff.text_field :percentage %>
+        <%#= ff.label :percentage, style: "display: block" %>
+        <%#= ff.text_field :percentage %>
       </div>
-
-  <% end %>
-
-  <%= link_to "Cancel", user_will_assets_path(current_user), class: "btn btn--light" %>
-  <%= f.submit class: "btn btn--secondary" %>
-
-<% end %>
+  <#% end %>
+-->

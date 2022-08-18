@@ -1,15 +1,32 @@
-<div class="container">
-  <div class="header">
-    <h1>Assets</h1>
-    <%= link_to "New asset",
-                new_user_will_asset_path,
-                class: "btn btn--primary",
-                data: { turbo_frame: dom_id(Asset.new) } %>
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div  class="">
+  <% if @assets.empty? %>
+  <div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-indigo-600">Assets</h2>
+        <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Take control of your future.</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Start adding your assets below. You can decide who your assets go to and or how they are split up.</p>
+      </div>
+      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+          <%= link_to "Add Asset", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <%= turbo_frame_tag Asset.new %>
-
-  <%= turbo_frame_tag "assets" do %>
-    <%= render @assets %>
+  <% else %>
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-xl font-semibold text-gray-900">Assets</h1>
+      <p class="mt-2 text-sm text-gray-700">A list of all your assets and who will recieve them.</p>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+      <%= link_to "Add Delegate", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+    </div>
+  </div>
+  <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <%= render @assets%>
+  </ul>
   <% end %>
 </div>

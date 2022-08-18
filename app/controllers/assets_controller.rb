@@ -29,7 +29,6 @@ class AssetsController < ApplicationController
       if @asset.save
         format.html { redirect_to user_will_asset_url(current_user, @asset), notice: "Asset was successfully created." }
         format.json { render :show, status: :created, location: @asset }
-        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
@@ -57,7 +56,6 @@ class AssetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to assets_url, notice: "Asset was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream
     end
   end
 
