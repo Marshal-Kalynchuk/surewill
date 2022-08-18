@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
   get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'
+  get 'security', to: 'pages#security'
+  get 'help', to: 'pages#help'
 
   get '/404', to: 'errors#not_found', as: 'not_found'
   get '/500', to: 'errors#internal_server', as: 'internal_server'
