@@ -21,9 +21,8 @@ class DelegatesController < ApplicationController
     @delegate = @will.delegates.build(delegate_params)
     respond_to do |format|
       if @delegate.save
-        format.html { redirect_to user_will_delegate_path(current_user, @delegate), notice: "Will was successfully created." }
+        format.html { redirect_to user_will_delegates_path(current_user), notice: "Will was successfully created." }
         format.json { render :show, status: :created, location: @will }
-        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
@@ -34,7 +33,7 @@ class DelegatesController < ApplicationController
   def update
     respond_to do |format|
       if @delegate.update(delegate_params)
-        format.html { redirect_to user_will_delegate_path(current_user, @delegate), notice: "Will was successfully updated." }
+        format.html { redirect_to user_will_delegates_path(current_user), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @will }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,7 +46,6 @@ class DelegatesController < ApplicationController
     @delegate.destroy
     respond_to do |format|
       format.html { redirect_to user_will_delegate_path, notice: "Delegate was successfully destroyed." }
-      format.turbo_stream
     end
   end
   
