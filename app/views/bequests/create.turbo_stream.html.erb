@@ -1,0 +1,5 @@
+<%= turbo_stream.append "bequests", @bequest %>
+
+<%= turbo_stream.replace "new_bequest" do %>
+  <%= render partial: "new_bequest", locals: { } %>
+<% end %>

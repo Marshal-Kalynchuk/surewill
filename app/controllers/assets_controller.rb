@@ -1,7 +1,7 @@
 class AssetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will
-  before_action :set_asset, only: %i[ show edit update destroy ]
+  before_action :set_asset, only: %i[ show edit update destroy add_bequest ]
 
   # GET /assets or /assets.json
   def index
@@ -57,6 +57,10 @@ class AssetsController < ApplicationController
       format.html { redirect_to assets_url, notice: "Asset was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def add_bequest
+    
   end
 
   private

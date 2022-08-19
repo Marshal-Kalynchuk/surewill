@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  
 
   root to: 'pages#home'
 
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
     resource :billing_account
 
     resource :will, except: :index do 
-
+      resources :bequests
       resources :build, controller: 'wills/build'
       resources :delegates
       resources :assets
