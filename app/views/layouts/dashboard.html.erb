@@ -14,7 +14,11 @@
 
 <body class="bg-gray-100 h-full">
   <div class="min-h-full">
-    <nav class="bg-white shadow-sm">
+    <nav class="bg-white shadow-sm" data-controller="dropdown" data-dropdown-open-value="false"
+      data-dropdown-active-target='#mobile-menu' data-dropdown-invisible-class="opacity-0 scale-95"
+      data-dropdown-visible-class="opacity-100 scale-100" data-dropdown-entering-class="ease-out duration-200"
+      data-dropdown-enter-timeout="300" data-dropdown-leaving-class="ease-in duration-150"
+      data-dropdown-leave-timeout="300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex">
@@ -29,7 +33,7 @@
               <%= link_to "My Will", user_will_path(current_user), class: "border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium", aria: { current: "page"}%>
 
               <%= link_to "Testator", user_will_testator_path(current_user), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"%>
-              
+
               <%= link_to "Delegates", user_will_delegates_path(current_user), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"%>
 
               <%= link_to "Assets", user_will_assets_path(current_user), class: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"%>
@@ -38,10 +42,11 @@
           <div class="hidden sm:ml-6 sm:flex sm:items-center">
             <%= link_to "Account", edit_user_registration_path, class: "bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
           </div>
-          <div class="-mr-2 flex items-center sm:hidden">
+          <div class="-mr-2 -my-2 flex items-center sm:hidden">
             <!-- Mobile menu button -->
             <button type="button"
-              class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              data-action="click->dropdown#toggle click@window->dropdown#hide"
+              class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none "
               aria-controls="mobile-menu" aria-expanded="false">
               <span class="sr-only">Open main menu</span>
               <!--
@@ -68,35 +73,61 @@
       </div>
 
       <!-- Mobile menu, show/hide based on menu state. -->
-      <div class="sm:hidden" id="mobile-menu">
-        <div class="pt-2 pb-3 space-y-1">
-          <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" -->
-          <%= link_to "My Will", user_will_path(current_user), class: "bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium" %>
+      <div id='mobile-menu' data-dropdown-target="menu"
+        class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden hidden z-10">
+        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+          <div class="pt-5 pb-6 px-5">
+            <div class="flex items-center justify-between">
+              <div>
+                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                  alt="Workflow">
+              </div>
+              <div class="-mr-2">
+                <button type="button" data-action="click->dropdown#toggle click@window->dropdown#hide"
+                  data-dropdown-target="button"
+                  class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <span class="sr-only">Close menu</span>
+                  <!-- Heroicon name: outline/x -->
+                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
 
-          <%= link_to "Testator", user_will_testator_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
+          <div class="pt-2 pb-3 space-y-1">
+            <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" -->
+            <%= link_to "My Will", user_will_path(current_user), class: "bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium" %>
 
-          <%= link_to "Delegates", user_will_delegates_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
+            <%= link_to "Testator", user_will_testator_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
 
-          <%= link_to "Assets", user_will_assets_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
+            <%= link_to "Delegates", user_will_delegates_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
+
+            <%= link_to "Assets", user_will_assets_path(current_user), class: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"%>
           
-        </div>
-        <div class="pt-4 pb-3 border-t border-gray-200">
-          <div class="mt-3 space-y-1">
-             <%= link_to "Account", edit_user_registration_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"%>
+          </div>
+          <div class="pt-4 pb-3 border-t border-gray-200">
+            <div class="mt-3 space-y-1">
+              <%= link_to "Account", edit_user_registration_path, class: "block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"%>
+            </div>
           </div>
         </div>
       </div>
     </nav>
 
     <div class="py-10">
-      <main>
+      <main class="mt-30">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <% if notice.present? %>
-          <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-        <% end %>
-        <% if alert.present? %>
-          <p class="py-2 px-3 bg-yellow-50 mb-5 text-yellow-700 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-        <% end %>
+          <% if notice.present? %>
+          <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice">
+            <%= notice %></p>
+          <% end %>
+          <% if alert.present? %>
+          <p class="py-2 px-3 bg-yellow-50 mb-5 text-yellow-700 font-medium rounded-lg inline-block" id="alert">
+            <%= alert %></p>
+          <% end %>
           <% if current_user.will %>
           <%= yield %>
           <% else %>
@@ -110,4 +141,5 @@
   </div>
   <%= render "shared/footer" %>
 </body>
+
 </html>
