@@ -1,15 +1,45 @@
 <main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
 
   <div class="text-center">
-    <h2 class="text-lg font-semibold text-indigo-600"></h2>
-    <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Last Will And Testement.</p>
+    <% if @will.testator %>
+      <h2 class="text-lg font-semibold text-indigo-600"></h2>
+      <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Welcome <%= @testator.first_name %></p>
+    <% else %>
+      <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Last Will And Testement.</p>
+    <% end %> 
     <% unless @will.status == 'active' %>
-      <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Finish setting up your will.</p>
+      <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Finish setting up your will below.</p>
     <% end %>
   </div>
 
-  <div class="px-4 sm:px-6 lg:px-8">
-    <h1 class="mt-header"></h1>
+  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
+    <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Testator Information</h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details.</p>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="sm:divide-y sm:divide-gray-200">
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Full name</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @testator.full_name %></dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Application for</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Backend Developer</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Email address</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">margotfoster@example.com</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Salary expectation</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">$120,000</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
   </div>
 
   <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
@@ -33,9 +63,6 @@
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Location</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                   <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Relation</th>
-                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                    <span class="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
@@ -49,34 +76,46 @@
   </div>
 
   <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
-  <% if @assets.empty? %>
-  <div class="bg-gray-100 rounded-3xl">
-    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h2 class="text-lg font-semibold text-indigo-600">Assets</h2>
-        <p class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">Finish setting up your will by adding your assets.</p>
-        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500"></p>
-      </div>
-      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-          <%= link_to "Add Assets", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+    <% if @assets.empty? %>
+
+    <div class="bg-white rounded-3xl">
+      <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+        <div class="text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No assets</h3>
+          <p class="mt-1 text-sm text-gray-500">Continue by adding your assets.</p>
+          <div class="mt-6">
+            <%= link_to(user_will_assets_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500") do %>
+              <!-- Heroicon name: solid/plus -->
+              <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+              </svg>
+              New Asset
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <% else %>
-    <div class="sm:flex sm:items-center">
-      <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Assets</h1>
-        <p class="mt-2 text-sm text-gray-700">A list of all your assets and who will recieve them.</p>
+
+    
+    <% else %>
+      <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+          <h1 class="text-xl font-semibold text-gray-900">Assets</h1>
+          <p class="mt-2 text-sm text-gray-700">A list of all your assets and who will recieve them.</p>
+        </div>
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          <%= link_to "Edit Assets", user_will_assets_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+        </div>
       </div>
-      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-        <%= link_to "Edit Assets", user_will_assets_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
-      </div>
-    </div>
-    <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <%= render partial: "wills/asset", collection: @assets %>
-    </ul>
-  <% end %>
+      <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <%= render partial: "wills/asset", collection: @assets %>
+      </ul>
+    <% end %>
   <div>
+  <div class="relative mt-20">
+  </div>
 </main>
