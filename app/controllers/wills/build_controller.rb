@@ -3,6 +3,7 @@ class Wills::BuildController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will, except: :create
   #before_action :set_progress, only: :show
+  layout "dashboard"
 
   steps :add_testator, :add_delegates, :add_assets
 

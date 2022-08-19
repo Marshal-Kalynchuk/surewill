@@ -2,6 +2,7 @@ class DelegatesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will
   before_action :set_delegate, except: [ :index, :new, :create ]
+  layout "dashboard"
 
   def index
     @delegates = @will.delegates.ordered

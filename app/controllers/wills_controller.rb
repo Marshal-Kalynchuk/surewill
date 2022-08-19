@@ -1,6 +1,7 @@
 class WillsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will, except: [ :new, :create ]
+  layout "dashboard"
 
   # before_action :authenticate_testator, only: [ :edit, :update ]
   # before_action :authenticate_current_beneficiary, only: [ :release ]

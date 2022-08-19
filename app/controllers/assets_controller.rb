@@ -2,6 +2,7 @@ class AssetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will
   before_action :set_asset, only: %i[ show edit update destroy add_bequest ]
+  layout "dashboard"
 
   # GET /assets or /assets.json
   def index

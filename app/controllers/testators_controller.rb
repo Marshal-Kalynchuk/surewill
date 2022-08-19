@@ -2,6 +2,7 @@ class TestatorsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will
   before_action :set_testator, only: %i[ show edit update destroy ]
+  layout "dashboard"
 
   # GET /testators/1 or /testators/1.json
   def show
