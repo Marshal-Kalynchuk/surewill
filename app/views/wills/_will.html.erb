@@ -1,5 +1,5 @@
-<main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
 
+  <div class="relative mt-20">
   <div class="text-center">
     <% if @will.testator %>
       <h2 class="text-lg font-semibold text-indigo-600"></h2>
@@ -11,38 +11,11 @@
       <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Finish setting up your will below.</p>
     <% end %>
   </div>
-
-  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="px-4 py-5 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Testator Information</h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details.</p>
-      </div>
-      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-        <dl class="sm:divide-y sm:divide-gray-200">
-          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Full name</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"><%= @testator.full_name %></dd>
-          </div>
-          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Application for</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Backend Developer</dd>
-          </div>
-          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Email address</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">margotfoster@example.com</dd>
-          </div>
-          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Salary expectation</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">$120,000</dd>
-          </div>
-        </dl>
-      </div>
-    </div>
   </div>
-
-  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
+  <div class="relative mt-20">
+    <%= render "testators/testator" %>
+  </div>
+  <div class="relative mt-20">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">Delegates</h1>
@@ -75,10 +48,9 @@
     </div>
   </div>
 
-  <div class="relative mt-20 px-4 sm:px-6 lg:px-8">
+  <div class="relative mt-20">
     <% if @assets.empty? %>
-
-    <div class="bg-white rounded-3xl">
+    <div class="bg-white rounded-2xl mx-4 sm:mx-0">
       <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <!-- This example requires Tailwind CSS v2.0+ -->
         <div class="text-center">
@@ -118,4 +90,3 @@
   <div>
   <div class="relative mt-20">
   </div>
-</main>
