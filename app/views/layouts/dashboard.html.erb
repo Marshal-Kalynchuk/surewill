@@ -91,6 +91,12 @@
     <div class="py-10">
       <main>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <% if notice.present? %>
+          <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="py-2 px-3 bg-yellow-50 mb-5 text-yellow-700 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
+        <% end %>
           <% if current_user.will %>
           <%= yield %>
           <% else %>
@@ -103,7 +109,5 @@
     </div>
   </div>
   <%= render "shared/footer" %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
 </body>
 </html>
