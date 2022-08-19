@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
   get 'home', to: 'pages#home'
   get 'about', to: 'pages#about'
+  get 'contact', to: 'pages#contact'
   get 'security', to: 'pages#security'
   get 'help', to: 'pages#help'
 
