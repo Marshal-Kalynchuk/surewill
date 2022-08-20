@@ -91,8 +91,14 @@
 
                     <%= link_to security_path, class: "-m-3 p-3 block rounded-md hover:bg-gray-50" do %>
                     <p class="text-base font-medium text-gray-900">Security</p>
+                    <p class="mt-1 text-sm text-gray-500">Realise how your data is kept secure.</p>
+                    <% end %>
+
+                    <%= link_to privacy_path, class: "-m-3 p-3 block rounded-md hover:bg-gray-50" do %>
+                    <p class="text-base font-medium text-gray-900">Privacy</p>
                     <p class="mt-1 text-sm text-gray-500">Understand how we take your privacy seriously.</p>
                     <% end %>
+
                   </div>
                 </div>
               </div>
@@ -150,7 +156,39 @@
             </div>
             <div class="mt-6">
               <nav class="grid gap-6">
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+
+                <% if user_signed_in? %>
+                <% if current_user.will && current_user.will.persisted? %>
+                  <%= link_to user_will_path(current_user), class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
+                    <div
+                      class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
+                      <!-- Heroicon name: outline/document-report -->
+                      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div class="ml-4 text-base font-medium text-gray-900">My Will</div>
+                  <% end %>
+                  <% else %>
+                    <%= link_to new_user_will_path(current_user), class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
+                      <div
+                        class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
+                        <!-- Heroicon name: outline/document-report -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                          stroke-width="2" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <div class="ml-4 text-base font-medium text-gray-900">Create Will</div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+
+            
+                <%= link_to about_path, class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
                   <div
                     class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: outline/chart-bar -->
@@ -160,10 +198,10 @@
                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Analytics</div>
-                </a>
+                  <div class="ml-4 text-base font-medium text-gray-900">About</div>
+                <% end %>
 
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                <%= link_to privacy_path, class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
                   <div
                     class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: outline/cursor-click -->
@@ -173,10 +211,10 @@
                         d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                     </svg>
                   </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Engagement</div>
-                </a>
+                  <div class="ml-4 text-base font-medium text-gray-900">Privacy</div>
+                <% end %>
 
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                <%= link_to security_path, class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
                   <div
                     class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: outline/shield-check -->
@@ -187,9 +225,9 @@
                     </svg>
                   </div>
                   <div class="ml-4 text-base font-medium text-gray-900">Security</div>
-                </a>
+                <% end %>
 
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                <%= link_to help_path, class: "-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50" do %>
                   <div
                     class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
                     <!-- Heroicon name: outline/view-grid -->
@@ -199,52 +237,21 @@
                         d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
                   </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Integrations</div>
-                </a>
+                  <div class="ml-4 text-base font-medium text-gray-900">Help Center</div>
+                <% end %>
 
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div
-                    class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
-                    <!-- Heroicon name: outline/refresh -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                      stroke-width="2" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Automations</div>
-                </a>
-
-                <a href="#" class="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                  <div
-                    class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white">
-                    <!-- Heroicon name: outline/document-report -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                      stroke-width="2" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                  </div>
-                  <div class="ml-4 text-base font-medium text-gray-900">Reports</div>
-                </a>
-              </nav>
             </div>
           </div>
           <div class="py-6 px-5">
             <div class="grid grid-cols-2 gap-4">
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Pricing </a>
+              <%= link_to "Pricing", pricing_path, class: "text-base font-medium text-gray-900 hover:text-gray-700"%>
 
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Docs </a>
+              <%= link_to "Help Center", help_path, class: "text-base font-medium text-gray-900 hover:text-gray-700"%>
 
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Enterprise </a>
+              <%= link_to "Security", security_path, class: "text-base font-medium text-gray-900 hover:text-gray-700"%>
 
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Help Center </a>
+              <%= link_to "Privacy Policy", privacy_policy_path, class: "text-base font-medium text-gray-900 hover:text-gray-700"%>
 
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Guides </a>
-
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Events </a>
-
-              <a href="#" class="text-base font-medium text-gray-900 hover:text-gray-700"> Security </a>
             </div>
             <div class="mt-6">
               <a href="#"

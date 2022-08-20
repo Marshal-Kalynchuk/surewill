@@ -11,4 +11,10 @@ class PagesController < ApplicationController
   def help
   end
 
+  def privacy
+  end
+
+  def pricing
+  end
+
 end

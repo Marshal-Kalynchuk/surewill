@@ -40,6 +40,9 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'contact', to: 'pages#contact'
   get 'security', to: 'pages#security'
+  get 'privacy', to: 'pages#privacy'
+  get 'privacy_policy', to: 'pages#privacy_policy'
+  get 'pricing', to: 'pages#pricing'
   get 'help', to: 'pages#help'
 
   get '/404', to: 'errors#not_found', as: 'not_found'
