@@ -64,9 +64,8 @@ class DelegatesController < ApplicationController
   def delegate_params
     params.require(:delegate).permit(
       :first_name, :middle_name, :last_name, 
-      :relation, :note, :id, :_destroy,
-      executor_attributes: [ :will_id, :id, :rank, :_destroy ],
-      beneficiary_attributes: [ :will_id, :id, :_destroy ])
+      :executor, :executor_rank,
+      :relation, :note, :id, :_destroy)
   end
 
 end

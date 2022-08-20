@@ -72,15 +72,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
     t.index ["will_id"], name: "index_assets_on_will_id"
   end
 
-  create_table "beneficiaries", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.integer "delegate_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["delegate_id"], name: "index_beneficiaries_on_delegate_id"
-    t.index ["will_id"], name: "index_beneficiaries_on_will_id"
-  end
-
   create_table "bequests", force: :cascade do |t|
     t.integer "percentage", null: false
     t.integer "asset_id", null: false
@@ -107,21 +98,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name", null: false
+    t.boolean "executor", default: false
+    t.integer "executor_rank", default: 0, null: false
     t.string "relation", null: false
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_delegates_on_will_id"
-  end
-
-  create_table "executors", force: :cascade do |t|
-    t.integer "delegate_id", null: false
-    t.integer "will_id", null: false
-    t.integer "rank", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["delegate_id"], name: "index_executors_on_delegate_id"
-    t.index ["will_id"], name: "index_executors_on_will_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -268,11 +251,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
-  add_foreign_key "beneficiaries", "delegates"
-  add_foreign_key "beneficiaries", "wills"
   add_foreign_key "delegates", "wills"
-  add_foreign_key "executors", "delegates"
-  add_foreign_key "executors", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

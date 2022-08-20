@@ -3,12 +3,6 @@ class Will < ApplicationRecord
   # Testator
   has_one :testator, dependent: :destroy
   accepts_nested_attributes_for :testator
-  # Executors
-  has_many :executors, dependent: :destroy
-  accepts_nested_attributes_for :executors
-  # Beneficiaries
-  has_many :beneficiaries, dependent: :destroy
-  accepts_nested_attributes_for :beneficiaries
   # Delegates
   has_many :delegates, dependent: :destroy
   accepts_nested_attributes_for :delegates, reject_if: :all_blank, allow_destroy: true

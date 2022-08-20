@@ -60,14 +60,11 @@ class AssetsController < ApplicationController
     end
   end
 
-  def add_bequest
-    
-  end
-
   private
     def set_will
       @will = current_user.will
-      @will ? true : false
+      redirect_to :root if @will.nil?
+      @delegates = @will.delegates
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_asset

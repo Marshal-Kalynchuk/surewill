@@ -112,7 +112,6 @@ class WillsController < ApplicationController
       redirect_to :root if @will.blank?
       @testator = @will.testator
       @assets = @will.assets 
-      @beneficiaries = @will.beneficiaries
       @delegates = @will.delegates
       @accessors = @will.accessors
     end
