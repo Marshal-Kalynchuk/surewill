@@ -2,8 +2,7 @@ class Delegate < ApplicationRecord
   include Collocable
   belongs_to :will
 
-  validates :first_name, :last_name, :relation, :executor, :executor_rank, presence: true
-  validates :executor_rank, presence: true, if: :executor
+  validates :first_name, :last_name, :relation, presence: true
 
   scope :ordered, -> { order(id: :desc) }
 

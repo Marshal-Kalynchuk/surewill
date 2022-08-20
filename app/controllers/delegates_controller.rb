@@ -27,6 +27,7 @@ class DelegatesController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("delegate_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
       end
     end
   end
@@ -39,6 +40,7 @@ class DelegatesController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("delegate_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
       end
     end
   end
@@ -47,6 +49,7 @@ class DelegatesController < ApplicationController
     @delegate.destroy
     respond_to do |format|
       format.html { redirect_to user_will_delegate_path, notice: "Delegate was successfully destroyed." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@delegate), notice: "Delegate was successfully destroyed." }
     end
   end
   

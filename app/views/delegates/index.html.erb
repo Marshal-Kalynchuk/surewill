@@ -1,28 +1,36 @@
-
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <% if @delegates.empty? %>
+  <div class="bg-white">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-indigo-600">Delegates</h2>
+        <p
+          class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">
+          Take control of your future.</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Start adding your delegates below. You can decide who
+          is an executor to your estate. Everybody that you put here will be eligible to receive the assets you choose.
+        </p>
+      </div>
+      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+          <%= link_to "Add Asset", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% else %>
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
       <h1 class="text-xl font-semibold text-gray-900">Delegates</h1>
-      <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
+      <p class="mt-2 text-sm text-gray-700">A list of all your delegates.</p>
     </div>
     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <%= link_to "Add Delegate", new_user_will_delegate_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+      <%= link_to "Add Delegate", new_user_will_delegate_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
     </div>
   </div>
-  <div class="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-          <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Title</th>
-          <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Email</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-          <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-            <span class="sr-only">Edit</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-        <%= render @delegates %>
-      </tbody>
-    </table>
-  </div>
+  <ul role="list" class="relative mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <%= render @delegates %>
+  </ul>
+  <% end %>
+</div>
