@@ -1,1 +1,3 @@
-<%= render "form", asset: @asset, will: @will %>
+<%= turbo_frame_tag "model" do %>
+  <%= render "form", asset: @asset, will: @will %>
+<% end %>

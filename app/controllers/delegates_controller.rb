@@ -47,8 +47,10 @@ class DelegatesController < ApplicationController
 
   def destroy
     @delegate.destroy
+    
     respond_to do |format|
       format.html { redirect_to user_will_delegate_path, notice: "Delegate was successfully destroyed." }
+      format.json { head :no_content }
       format.turbo_stream { render turbo_stream: turbo_stream.remove(@delegate), notice: "Delegate was successfully destroyed." }
     end
   end

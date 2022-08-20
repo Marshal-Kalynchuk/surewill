@@ -16,6 +16,7 @@ class AssetsController < ApplicationController
   # GET /assets/new
   def new
     @asset = @will.assets.build
+    @delegate = @asset.bequests.build
   end
 
   # GET /assets/1/edit
@@ -33,6 +34,7 @@ class AssetsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("asset_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
       end
     end
   end
@@ -46,6 +48,7 @@ class AssetsController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("asset_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
       end
     end
   end
@@ -57,6 +60,7 @@ class AssetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to assets_url, notice: "Asset was successfully destroyed." }
       format.json { head :no_content }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@asset), notice: "Asset was successfully destroyed." }
     end
   end
 

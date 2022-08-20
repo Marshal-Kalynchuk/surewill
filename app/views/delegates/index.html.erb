@@ -14,18 +14,18 @@
       </div>
       <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
         <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-          <%= link_to "Add Asset", new_user_will_asset_path, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+          <%= link_to "Add Asset", new_user_will_asset_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
         </div>
       </div>
     </div>
   </div>
   <% else %>
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
+  <div class="flex items-center">
+    <div class="flex-auto">
       <h1 class="text-xl font-semibold text-gray-900">Delegates</h1>
       <p class="mt-2 text-sm text-gray-700">A list of all your delegates.</p>
     </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+    <div class="mt-4 sm:mt-0 sm:ml-16 flex-none">
       <%= link_to "Add Delegate", new_user_will_delegate_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
     </div>
   </div>
