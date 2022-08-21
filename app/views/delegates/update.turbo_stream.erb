@@ -1,0 +1,4 @@
+<%= turbo_stream.update "#{dom_id(@delegate)}_item" do %>
+  <%= render "delegate", delegate: @delegate %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(@delegate)}_form" %>

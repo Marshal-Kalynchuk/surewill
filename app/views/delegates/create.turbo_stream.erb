@@ -1,0 +1,4 @@
+<%= turbo_stream.append "delegates" do %>
+  <%= render "delegate", delegate: @delegate %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(Delegate.new)}_form" %>

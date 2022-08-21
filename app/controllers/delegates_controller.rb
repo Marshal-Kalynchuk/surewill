@@ -22,12 +22,13 @@ class DelegatesController < ApplicationController
     @delegate = @will.delegates.build(delegate_params)
     respond_to do |format|
       if @delegate.save
+        format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Will was successfully created." }
         format.json { render :show, status: :created, location: @will }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_delegate_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("delegate_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
       end
     end
   end
@@ -35,12 +36,13 @@ class DelegatesController < ApplicationController
   def update
     respond_to do |format|
       if @delegate.update(delegate_params)
+        format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Will was successfully updated." }
         format.json { render :show, status: :ok, location: @delegate }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("delegate_#{@delegate.id}_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("delegate_form", partial: "form", locals: { delegate: @delegate }), status: :unprocessable_entity }
       end
     end
   end
@@ -49,9 +51,9 @@ class DelegatesController < ApplicationController
     @delegate.destroy
     
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to user_will_delegate_path, notice: "Delegate was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@delegate), notice: "Delegate was successfully destroyed." }
     end
   end
   

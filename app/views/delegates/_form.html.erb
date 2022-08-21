@@ -1,5 +1,5 @@
 
-<%= form_with model: [:user, :will, @delegate], id: "delegate_form", data: { turbo_frame: "_top"}, class: "mt-5 sm:flex sm:items-center" do |f| %>
+<%= form_with model: [:user, :will, delegate], id: "#{dom_id(delegate)}_form", data: { turbo_frame: "_top"}, class: "mt-5 sm:flex sm:items-center" do |f| %>
 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
   <div class="fixed z-10 inset-0 overflow-y-auto">
@@ -11,7 +11,7 @@
           <div class="grid grid-cols-6 gap-6">
 
           <div class="col-span-6">
-            <%= render "shared/error_messages", resource: @delegate %>
+            <%= render "shared/error_messages", resource: delegate %>
           </div>
             <div class="col-span-6">
               <div class="px-0 sm:px-0">

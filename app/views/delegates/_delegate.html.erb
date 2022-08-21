@@ -1,5 +1,6 @@
-<%= turbo_frame_tag delegate do %>
+<%= turbo_frame_tag "#{dom_id(delegate)}_item" do %>
 <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+  
   <div class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:w-full sm:p-6">
     <div>
       <div class="w-full flex items-center justify-between space-x-6">
@@ -20,5 +21,5 @@
       <%= button_to "Delete", user_will_delegate_path(current_user, delegate), form: { data: { turbo_confirm: "Are you sure?", turbo_frame: "_top" }}, method: :delete, class: "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" %>
     </div>
   </div>
-</li>
+  </li>
 <% end %>
