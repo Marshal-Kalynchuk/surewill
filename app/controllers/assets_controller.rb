@@ -1,12 +1,11 @@
 class AssetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_will
-  before_action :set_asset, only: %i[ show edit update destroy add_bequest ]
+  before_action :set_asset, only: %i[ show edit update destroy ]
   layout "dashboard"
 
   # GET /assets or /assets.json
   def index
-    @assets = @will.assets
   end
 
   # GET /assets/1 or /assets/1.json
@@ -15,7 +14,7 @@ class AssetsController < ApplicationController
 
   # GET /assets/new
   def new
-    @asset = @will.assets.build
+    @asset = @assets.build
     @delegate = @asset.bequests.build
   end
 
@@ -25,16 +24,17 @@ class AssetsController < ApplicationController
 
   # POST /assets or /assets.json
   def create
-    @asset = @will.assets.build(asset_params)
+    @asset = @assets.build(asset_params)
 
     respond_to do |format|
       if @asset.save
-        format.html { redirect_to user_will_assets_path(current_user, @asset), notice: "Asset was successfully created." }
+        format.turbo_stream
+        format.html { redirect_to user_will_assets_path(current_user), notice: "Asset was successfully created." }
         format.json { render :show, status: :created, location: @asset }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_asset_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("asset_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
       end
     end
   end
@@ -43,12 +43,13 @@ class AssetsController < ApplicationController
   def update
     respond_to do |format|
       if @asset.update(asset_params)
+        format.turbo_stream
         format.html { redirect_to user_will_assets_path(current_user), notice: "Asset was successfully updated." }
         format.json { render :show, status: :ok, location: @asset }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("asset_#{@asset.id}_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @asset.errors, status: :unprocessable_entity }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("asset_form", partial: "form", locals: { asset: @asset }), status: :unprocessable_entity }
       end
     end
   end
@@ -58,9 +59,9 @@ class AssetsController < ApplicationController
     @asset.destroy
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to assets_url, notice: "Asset was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@asset), notice: "Asset was successfully destroyed." }
     end
   end
 
@@ -69,10 +70,11 @@ class AssetsController < ApplicationController
       @will = current_user.will
       redirect_to :root if @will.nil?
       @delegates = @will.delegates
+      @assets = @will.assets
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_asset
-      @asset = Asset.find(params[:id])
+      @asset = @assets.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

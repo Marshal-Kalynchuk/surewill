@@ -1,0 +1,6 @@
+<%= turbo_stream.remove "#{dom_id(@asset)}_item" %>
+<% if @assets.empty? %>
+  <%= turbo_stream.replace "asset_section" do %>
+    <%= render "no_assets" %>
+  <% end %>
+<% end %>
