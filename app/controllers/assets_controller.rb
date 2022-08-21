@@ -29,7 +29,7 @@ class AssetsController < ApplicationController
 
     respond_to do |format|
       if @asset.save
-        format.html { redirect_to user_will_asset_url(current_user, @asset), notice: "Asset was successfully created." }
+        format.html { redirect_to user_will_assets_path(current_user, @asset), notice: "Asset was successfully created." }
         format.json { render :show, status: :created, location: @asset }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -43,7 +43,7 @@ class AssetsController < ApplicationController
   def update
     respond_to do |format|
       if @asset.update(asset_params)
-        format.html { redirect_to user_will_asset_url(current_user, @asset), notice: "Asset was successfully updated." }
+        format.html { redirect_to user_will_assets_path(current_user), notice: "Asset was successfully updated." }
         format.json { render :show, status: :ok, location: @asset }
       else
         format.html { render :edit, status: :unprocessable_entity }

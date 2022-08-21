@@ -36,7 +36,7 @@ class DelegatesController < ApplicationController
     respond_to do |format|
       if @delegate.update(delegate_params)
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Will was successfully updated." }
-        format.json { render :show, status: :ok, location: @will }
+        format.json { render :show, status: :ok, location: @delegate }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @will.errors, status: :unprocessable_entity }
