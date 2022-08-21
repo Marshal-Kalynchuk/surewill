@@ -65,6 +65,22 @@
 <div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <% if @assets.empty? %>
+    <%= render "assets/no_assets" %>
+  <% else %>
+    <%= render "assets/list_assets" %>
+  <% end %>
+<div>
+
+<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <% if @assets.empty? %>
+    <%= render "assets/no_assets" %>
+  <% else %>
+    <%= render "assets/list_assets" %>
+  <% end %>
+<div>
+
+<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
 <div class="bg-white rounded-lg">
   <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
     <% if true || @will.status == 'active' %>
