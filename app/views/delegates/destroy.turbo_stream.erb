@@ -1,1 +1,6 @@
 <%= turbo_stream.remove "#{dom_id(@delegate)}_item" %>
+<% if @delegates.empty? %>
+  <%= turbo_stream.replace "delegate_section" do %>
+    <%= render "no_delegates" %>
+  <% end %>
+<% end %>

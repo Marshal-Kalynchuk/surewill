@@ -16,7 +16,7 @@ class WillsController < ApplicationController
 
   # GET /wills/1 or /wills/1.json
   def show
-    unless @will.prepaid
+    if @will.prepaid
       current_user.set_payment_processor :stripe
       current_user.payment_processor.customer 
 

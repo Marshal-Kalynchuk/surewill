@@ -62,6 +62,7 @@ class DelegatesController < ApplicationController
   def set_will
     @will = current_user.will
     @will ? true : false
+    @delegates = @will.delegates
   end
 
   def set_delegate

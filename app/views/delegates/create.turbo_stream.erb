@@ -1,4 +1,10 @@
-<%= turbo_stream.append "delegates" do %>
-  <%= render "delegate", delegate: @delegate %>
+<% if @delegates.length == 1 %>
+  <%= turbo_stream.replace "delegate_section" do %>
+    <%= render "list_delegates", delegates: @delegates %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append "delegates" do %>
+    <%= render "delegate", delegate: @delegate %>
+  <% end %>
 <% end %>
 <%= turbo_stream.remove "#{dom_id(Delegate.new)}_form" %>
