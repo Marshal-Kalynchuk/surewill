@@ -16,6 +16,18 @@ class WillsController < ApplicationController
 
   # GET /wills/1 or /wills/1.json
   def show
+    unless @will.prepaid
+      current_user.set_payment_processor :stripe
+      current_user.payment_processor.customer 
+
+      @checkout_session = current_user
+        .payment_processor
+        .checkout(
+          mode: 'payment',
+          line_items: 'price_1LVN8nA4TChht1jz8YnUS17Y',
+          success_url: prepay_success_user_will_url
+        )
+    end
     respond_to do |format|
       format.html { render :show }
       format.json { render :show }
@@ -29,26 +41,14 @@ class WillsController < ApplicationController
   def pdf
   end
 
-    # if @current_beneficiary
-    #   if @will.released?
-    #     if current_user.accessors.find_by(will: @will)
-    #       render :show
-    #     else
-    #       redirect_to access_user_will_url(@will.user_id, @will.id)
-    #     end
-    #   else
-    #     render :not_released
-    #   end
-    # elsif @will == current_user.will
-    #   render :show
-    # else
-    #   redirect_to not_found_path
-    # end
-
   # GET /wills/new
   def new
-    @will = current_user.build_will
-    @testator = @will.build_testator
+    unless current_user.will
+      @will = current_user.build_will
+      @testator = @will.build_testator
+    else
+      redirect_to user_will_build_index_path(current_user)
+    end
   end
 
   # GET /wills/1/edit

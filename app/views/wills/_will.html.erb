@@ -116,4 +116,57 @@
     <%= render @assets %>
   </ul>
   <% end %>
+
+<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+<div class="bg-white rounded-lg">
+  <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+    <% if true || @will.status == 'active' %>
+      <% if @will.prepaid %>
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-indigo-600">Download</h2>
+        <p
+          class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">
+          Take control of your future.</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Download your completed will below. It is recommended that you download and sign the will with two witnesses.
+        </p>
+      </div>
+      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+          <%= link_to "Download Will", new_user_will_asset_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+        </div>
+      </div>
+      <% else %>
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-indigo-600">Payment</h2>
+        <p
+          class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">
+          Take control of your future.</p>
+        <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Pay to download the PDF version of your will. Paying also gives you access to all future features of Surewill.</p>
+        </p>
+      </div>
+      <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+        <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+          <%= render partial: 'pay/stripe/checkout_button', locals: {
+            session: @checkout_session,
+            title: "Payment"
+          } %>
+        </div>
+      </div>
+      <% end %>
+    <% else %>
+    <div class="text-center">
+      <h2 class="text-lg font-semibold text-indigo-600">Download PDF</h2>
+      <p
+        class="mt-1 text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl lg:tracking-tight">
+        </p>
+      <p class="max-w-xl mt-5 mx-auto text-xl text-gray-500">Please complete your will before continuing.
+      </p>
+    </div>
+    <% end %>
+    </div>
+  </div>
 </div>
+  
+
+    
+      

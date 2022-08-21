@@ -29,7 +29,7 @@ class PrepayPaymentController < ApplicationController
   
   def validate_will
     unless current_user.will && !current_user.will.prepaid
-      redirect_to new_user_will_path(current_user)
+      redirect_to user_will_path(current_user)
     end
   end
 
