@@ -16,10 +16,17 @@ class WillsController < ApplicationController
 
   # GET /wills/1 or /wills/1.json
   def show
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render :show }
+      format.pdf do
+        pdf = WillDocument.new(@will, @testator, @delegates, @assets)
+        send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
   end
 
   def pdf
-    @pdf = WillDocument.new(@will, @testator, @beneficiaries, @assets)
   end
 
     # if @current_beneficiary

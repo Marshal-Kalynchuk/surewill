@@ -26,7 +26,9 @@ class Will < ApplicationRecord
   #   self.released = true
   #   self.releaser = current_beneficiary
   # end
-  
+  def full_name
+    "#{self.first_name} #{self.middle_name} #{self.last_name}"
+  end
   private
 
   def active?

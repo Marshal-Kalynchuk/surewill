@@ -1,6 +1,8 @@
 class Delegate < ApplicationRecord
   include Collocable
   belongs_to :will
+  has_many :bequests, as: :beneficiariable, dependent: :destroy
+  has_many :assets, through: :bequests
 
   validates :first_name, :last_name, :relation, presence: true
 

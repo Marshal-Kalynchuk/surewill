@@ -1,38 +1,69 @@
 class WillDocument < Prawn::Document
 
-  def initialize(will, testator, executors, beneficiaries, bequests)
+  def initialize(will, testator, delegates, bequests)
     super(top_margin: 50, font: 'Times-Roman')
 
     @will = will
     @testator = testator
-    @beneficiaries = beneficiaries
-    @testator[:name] = "#{@testator.first_name} #{@testator.middle_name} #{@testator.last_name}"
+    @delegates = delegates
     @bequests = bequests
+    @addr = "3927 Vincent Drive NW, Calgary, Alberta, Canada"
+    @executors = @delegates.select {|delegate| delegate.executor == true}
+
+    font 'Times-Roman'
+
+
 
     title
+
+    move_down 12
     opening
+
+    move_down 12
     expenses_and_taxes
+
+    move_down 12
     personal_representatives
+
+    move_down 12
     disposition_of_property
+
+    move_down 12
     omission
+
+    move_down 12
     bond
+
+    move_down 12
     powers_of_executor
+
+    move_down 12
     contesting_beneficiary
+
+    move_down 12
     guardian
+
+    move_down 12
     gender
+
+    move_down 12
     assignment
+
+    move_down 12
     governing_law
+
+    move_down 12
     binding_arrangment
     
   end
 
   def title
-    text "Last Will and Testanment"
-    text @testator_name
+    text "Last Will and Testament", align: :center, size: 18
+    text @testator.full_name, align: :center, size: 14
   end
 
   def opening
-    text "I, #{@testator.name}, resident in the City of #{testator.city}, Country of #{testator.country}, being of sound mind, not acting under duress or undue influence, and fully understanding the nature and extent of all my property and of this disposition thereof, do hereby make, publish, and declare this document to be my Last Will and Testament, and hereby revoke any and all other wills and codiclies heretofore made by me either jointy or severally."
+    text "I, #{@testator.full_name}, resident in the City of #{"@testator.city"}, Country of #{"@testator.country"}, being of sound mind, not acting under duress or undue influence, and fully understanding the nature and extent of all my property and of this disposition thereof, do hereby make, publish, and declare this document to be my Last Will and Testament, and hereby revoke any and all other wills and codiclies heretofore made by me either jointy or severally."
   end
   
   def expenses_and_taxes
@@ -54,11 +85,19 @@ class WillDocument < Prawn::Document
   def disposition_of_property
     text "III. DISPOSITION OF PROPERTY"
     text "I devise and bequeath my property, both real and personal and wherever situated, as follows:"
-    @beneficiaries.each_with_index do |beneficiary, i|
-      text "Beneficiary #{i}"
-      text "#{beneficiary.name}, currently of #{beneficiary.address}, as my #{beneficiary.relation}, with the following property"
-      beneficiary.bequeaths.each_with_index do |bequeath, j|
-        text "#{j}. #{bequeath.title}"
+    move_down 4
+    @delegates.each_with_index do |delegate, i|
+      unless delegate.bequests.empty?
+        text "Beneficiary #{i+1}:"
+        text "#{delegate.full_name}, currently of #{"Canada, Calgary"}, as my #{delegate.relation.downcase}, with the following property"
+        delegate.bequests.each_with_index do |bequest, j|
+          if bequest.percentage != 100
+            text "#{j+1}. #{bequest.percentage}% of the #{bequest.asset.title}, at the address #{@addr}.", indent_paragraphs: 30
+          else 
+            text "#{j+1}. #{bequest.asset.title}, at the address #{@addr}", indent_paragraphs: 30
+          end
+        end
+        move_down 12
       end
     end
     text "If any of my beneficiaries have pre-deceased me, then any property that they would have received if they had not pre-deceased me shall be distributed in equal shares to the remaining beneficiaries. If any of my property cannot be readily sold and distributed, then it may be donated to any charitable organization or organizations of my Personal Representative’s choice. If any property cannot be readily sold or donated, my Personal Representative may, without liability, dispose of such property as my Personal Representative may deem appropriate. I authorize my Personal Representative to pay as an administration expense of my estate the expense of selling, advertising for sale, packing, shipping, insuring and delivering such property."
