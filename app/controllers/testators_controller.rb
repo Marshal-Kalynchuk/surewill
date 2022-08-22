@@ -11,6 +11,7 @@ class TestatorsController < ApplicationController
   # GET /testators/new
   def new
     @testator = @will.build_testator
+    @testator.build_address
   end
 
   # GET /testators/1/edit
@@ -77,6 +78,7 @@ class TestatorsController < ApplicationController
       params.require(:testator).permit(
         :id, :_destroy,
         :first_name, :middle_name, :last_name, 
+        address_attributes: [:id, :line_1, :line_2, :city, :region, :postal_code, :country, :country_code ]
       )
     end
 end

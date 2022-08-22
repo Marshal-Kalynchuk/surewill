@@ -4,7 +4,8 @@ module Collocable
   included do
     has_one :collocation, as: :collocable, dependent: :destroy
     has_one :address, through: :collocation
+    accepts_nested_attributes_for :address
 
-    #delegate :full_addres, to: :postal_address, allow_nil: true
+    delegate :full_address, to: :address, allow_nil: true
   end
 end

@@ -104,7 +104,7 @@ class WillsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_will
       @will = current_user.will
-      redirect_to :root if @will.blank?
+      redirect_to :root if @will.nil?
       @testator = @will.testator
       @assets = @will.assets 
       @assets = @assets.each { |asset| puts asset.valid? }
