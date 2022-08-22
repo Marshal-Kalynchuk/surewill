@@ -30,4 +30,31 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      user:
+        email: "E-mail address"
+      address: 
+        city: "City"
+        country_code: "Country" 
+        zone: "State / Province"
+        line_1: "Street address"
+        postal_code: "ZIP / Postal code"
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "is required"
+        address:
+          attributes:
+            zone:
+              blank: "is required"
+            city: 
+              blank: "is required"
+            country_code:
+              blank: "is required"
+            postal_code:
+              blank: "is required"
+            line_1:
+              blank: "is required"

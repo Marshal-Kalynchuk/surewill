@@ -4,6 +4,7 @@ class Delegate < ApplicationRecord
   has_many :bequests, as: :beneficiariable, dependent: :destroy
   has_many :assets, through: :bequests
 
+  before_validation :exempt_address
   validates :first_name, :last_name, :relation, presence: true
 
   scope :ordered, -> { order(id: :desc) }

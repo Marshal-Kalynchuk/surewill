@@ -12,6 +12,7 @@ class DelegatesController < ApplicationController
 
   def new
     @delegate = @delegates.build
+    @delegate.build_address
   end
 
   def edit
@@ -74,7 +75,8 @@ class DelegatesController < ApplicationController
     params.require(:delegate).permit(
       :first_name, :middle_name, :last_name, 
       :executor, :executor_rank,
-      :relation, :note, :id, :_destroy)
+      :relation, :note, :id, :_destroy,
+      address_attributes: [:id, :line_1, :postal_code, :city, :zone, :country_code ])
   end
 
 end

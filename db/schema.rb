@@ -53,11 +53,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
   create_table "addresses", force: :cascade do |t|
     t.string "line_1"
     t.string "line_2"
-    t.string "region", null: false
+    t.string "zone", null: false
     t.string "postal_code"
     t.string "city", null: false
     t.string "country_code", null: false
-    t.string "country", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

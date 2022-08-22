@@ -78,7 +78,7 @@ class TestatorsController < ApplicationController
       params.require(:testator).permit(
         :id, :_destroy,
         :first_name, :middle_name, :last_name, 
-        address_attributes: [:id, :line_1, :line_2, :city, :region, :postal_code, :country, :country_code ]
+        address_attributes: [:id, :line_1, :line_2, :city, :zone, :postal_code, :country_code ]
       )
     end
 end

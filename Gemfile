@@ -27,6 +27,9 @@ gem 'google-cloud-storage'
 # Force timeout redirect
 gem 'auto-session-timeout'
 
+# Country selection
+gem 'country-select'
+
 # Cloud storage requirments. Required install seperately like sqllite
 # Not currently installed
 # libcips for image analysis and transforamtions
