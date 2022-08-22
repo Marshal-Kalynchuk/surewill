@@ -16,18 +16,6 @@ class WillsController < ApplicationController
 
   # GET /wills/1 or /wills/1.json
   def show
-    unless @will.prepaid
-      current_user.set_payment_processor :stripe
-      current_user.payment_processor.customer 
-
-      @checkout_session = current_user
-        .payment_processor
-        .checkout(
-          mode: 'payment',
-          line_items: 'price_1LVN8nA4TChht1jz8YnUS17Y',
-          success_url: prepay_success_user_will_url
-        )
-    end
     respond_to do |format|
       format.html { render :show }
       format.json { render :show }
@@ -119,6 +107,7 @@ class WillsController < ApplicationController
       redirect_to :root if @will.blank?
       @testator = @will.testator
       @assets = @will.assets 
+      @assets = @assets.each { |asset| puts asset.valid? }
       @delegates = @will.delegates
       @accessors = @will.accessors
     end

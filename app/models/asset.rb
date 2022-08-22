@@ -7,8 +7,10 @@ class Asset < ApplicationRecord
   has_many :beneficiaries, through: :bequests, source: :beneficiariable, source_type: "delegate"
 
   ASSET_TYPES = [ 'Property', 'Monetary', 'Other' ]
-  validates :will, :asset_type, :title, :description, :bequests, presence: true
+  validates :will, :asset_type, :title, :description, presence: true
   validates :asset_type, inclusion: { in: ASSET_TYPES }
   validates :title, length: { in: 3..20 }
+
+  validates :bequests, presence: { message: "Beneficiaries can't be blank." }
   
 end

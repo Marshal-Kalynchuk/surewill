@@ -49,7 +49,8 @@ class DelegatesController < ApplicationController
 
   def destroy
     @delegate.destroy
-    
+    @invalid_assets = @will.assets.select { |asset| asset.valid? == false }
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to user_will_delegate_path, notice: "Delegate was successfully destroyed." }

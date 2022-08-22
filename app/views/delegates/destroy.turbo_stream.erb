@@ -4,3 +4,8 @@
     <%= render "no_delegates" %>
   <% end %>
 <% end %>
+<% @invalid_assets.each do |asset| %>
+  <%= turbo_stream.update "#{dom_id(asset)}_item" do %>
+    <%= render "assets/asset", asset: asset %>
+  <% end %>
+<% end %>

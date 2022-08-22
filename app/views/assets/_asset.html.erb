@@ -1,9 +1,14 @@
-<%= turbo_frame_tag asset do %>
+<%= turbo_frame_tag "#{dom_id(asset)}_item" do %>
 <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
   <div class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:w-full sm:p-6">
     <div>
       <div class="w-full flex items-center justify-between space-x-6">
         <div class="flex-1 truncate">
+          <% if asset.errors.any? %>
+            <div class="mb-3">
+              <%= render "shared/error_messages", resource: asset %>
+            </div>  
+          <% end %>
           <div class="flex items-center space-x-3">
             <h3 class="text-lg leading-6 font-medium text-gray-900"><%= asset.title %></h3>
             <% if false %>
