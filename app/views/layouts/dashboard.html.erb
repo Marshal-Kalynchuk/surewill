@@ -13,6 +13,9 @@
 </head>
 
 <body class="bg-gray-100 h-full">
+  <% if user_signed_in? %>
+    <%= auto_session_timeout_js %>
+  <% end %>
   <div class="min-h-full">
     <nav class="bg-white shadow-sm" data-controller="dropdown" data-dropdown-open-value="false"
       data-dropdown-active-target='#mobile-menu' data-dropdown-invisible-class="opacity-0 scale-95"

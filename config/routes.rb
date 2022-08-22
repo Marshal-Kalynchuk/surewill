@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   
-  
-
   root to: 'pages#home'
 
-  devise_for :users
+  devise_for :users, controllers: { sessions: "users/sessions" }
+
+  devise_scope :user do
+    get "active", to: "users/sessions#active"
+    get "timeout", to: "users/sessions#timeout"
+  end
 
   get 'billing', to: 'billing#show'
 
