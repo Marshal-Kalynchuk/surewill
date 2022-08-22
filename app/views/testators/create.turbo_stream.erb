@@ -1,2 +1,4 @@
-<%= turbo_stream.prepend "testator", @testator %>
-<%= turbo_stream.update Testator.new, "" %>
+<%= turbo_stream.replace "testator_section" do %>
+  <%= render @testator %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(testator.new)}_form" %>

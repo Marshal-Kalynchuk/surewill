@@ -23,10 +23,11 @@ class TestatorsController < ApplicationController
 
     respond_to do |format|
       if @testator.save
+        format.turbo_stream
         format.html { redirect_to user_will_testator_url(current_user, @testator), notice: "Testator was successfully created." }
         format.json { render :show, status: :created, location: @testator }
-        format.turbo_stream
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_testator_form", partial: "form", locals: { testator: @testator }), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @testator.errors, status: :unprocessable_entity }
       end
@@ -37,9 +38,11 @@ class TestatorsController < ApplicationController
   def update
     respond_to do |format|
       if @testator.update(testator_params)
+        format.turbo_stream
         format.html { redirect_to user_will_testator_url(current_user, @testator), notice: "Testator was successfully updated." }
         format.json { render :show, status: :ok, location: @testator }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("testator_#{@testator.id}_form", partial: "form", locals: { testator: @testator }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @testator.errors, status: :unprocessable_entity }
       end
@@ -51,9 +54,9 @@ class TestatorsController < ApplicationController
     @testator.destroy
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to testators_url, notice: "Testator was successfully destroyed." }
       format.json { head :no_content }
-      format.turbo_stream
     end
   end
 
@@ -66,7 +69,7 @@ class TestatorsController < ApplicationController
 
     def set_will
       @will = current_user.will
-      @will ? true : false
+      redirect_to :root if @will.nil?
     end
 
     # Only allow a list of trusted parameters through.

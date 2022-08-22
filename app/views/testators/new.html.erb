@@ -1,4 +1,5 @@
-<%= render "form", testator: @testator, will: @will %>
-
+<%= turbo_frame_tag "model" do %>
+  <%= render "form", testator: @testator, will: @will %>
+<% end %>
 
 
