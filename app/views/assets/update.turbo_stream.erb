@@ -1,4 +1,0 @@
-<%= turbo_stream.update "#{dom_id(@asset)}_item" do %>
-  <%= render "asset", asset: @asset %>
-<% end %>
-<%= turbo_stream.remove "#{dom_id(@asset)}_form" %>

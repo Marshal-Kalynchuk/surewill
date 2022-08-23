@@ -33,10 +33,10 @@
 </div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <% if @assets.empty? %>
-    <%= render "assets/no_assets" %>
+  <% if @properties.empty? %>
+    <%= render "properties/no_properties" %>
   <% else %>
-    <%= render "assets/list_assets" %>
+    <%= render "properties/list_properties" %>
   <% end %>
 <div>
 
@@ -55,7 +55,7 @@
       </div>
       <div class="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
         <div class="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-          <%= link_to "Download Will", new_user_will_asset_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
+          <%= link_to "Download Will", new_user_will_property_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
         </div>
       </div>
       <% else %>

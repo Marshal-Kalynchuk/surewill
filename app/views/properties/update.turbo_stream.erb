@@ -1,0 +1,4 @@
+<%= turbo_stream.update "#{dom_id(@property)}_item" do %>
+  <%= render "property", property: @property %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(@property)}_form" %>

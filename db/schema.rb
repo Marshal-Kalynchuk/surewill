@@ -61,25 +61,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "assets", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.string "asset_type", null: false
-    t.string "title", null: false
-    t.text "description", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["will_id"], name: "index_assets_on_will_id"
-  end
-
   create_table "bequests", force: :cascade do |t|
     t.integer "percentage", default: 10000, null: false
-    t.string "assetable_type", null: false
-    t.integer "assetable_id", null: false
+    t.string "primary", default: "t", null: false
+    t.string "asset_type", null: false
+    t.integer "asset_id", null: false
     t.string "beneficiariable_type", null: false
     t.integer "beneficiariable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assetable_type", "assetable_id"], name: "index_bequests_on_assetable"
+    t.index ["asset_type", "asset_id"], name: "index_bequests_on_asset"
     t.index ["beneficiariable_type", "beneficiariable_id"], name: "index_bequests_on_beneficiariable"
   end
 
@@ -185,6 +176,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "properties", force: :cascade do |t|
+    t.integer "will_id", null: false
+    t.string "property_type", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["will_id"], name: "index_properties_on_will_id"
+  end
+
   create_table "testators", force: :cascade do |t|
     t.integer "will_id", null: false
     t.string "first_name", null: false
@@ -250,12 +250,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
   add_foreign_key "accessors", "wills"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "assets", "wills"
   add_foreign_key "delegates", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "properties", "wills"
   add_foreign_key "testators", "wills"
   add_foreign_key "wills", "users"
 end

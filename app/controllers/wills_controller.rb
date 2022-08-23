@@ -20,7 +20,7 @@ class WillsController < ApplicationController
       format.html { render :show }
       format.json { render :show }
       format.pdf do
-        pdf = WillDocument.new(@will, @testator, @delegates, @assets)
+        pdf = WillDocument.new(@will, @testator, @delegates, @properties)
         send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
       end
     end
@@ -106,8 +106,8 @@ class WillsController < ApplicationController
       @will = current_user.will
       redirect_to :root if @will.nil?
       @testator = @will.testator
-      @assets = @will.assets 
-      @assets = @assets.each { |asset| puts asset.valid? }
+      @properties = @will.properties 
+      @properties = @properties.each { |property| puts property.valid? }
       @delegates = @will.delegates
       @accessors = @will.accessors
     end

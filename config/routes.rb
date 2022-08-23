@@ -17,10 +17,17 @@ Rails.application.routes.draw do
     resource :billing_account
 
     resource :will, except: :index do 
-      resources :bequests
+
+      resources :bequests, only: [], param: :index do
+        member do
+          delete '(:id)', to: 'bequests#destroy', as: ""
+          post ':/' => "bequests#create"
+        end
+      end
+      
       resources :build, controller: 'wills/build'
       resources :delegates
-      resources :assets
+      resources :properties
       resource :testator
       # put 'release', to: 'wills#release'
 

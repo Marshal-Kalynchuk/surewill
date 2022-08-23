@@ -1,7 +1,7 @@
 <div class="min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <% if @assets.empty? %>
-    <%= render "no_assets" %>
+  <% if @properties.empty? %>
+    <%= render "no_properties" %>
   <% else %>
-    <%= render "list_assets" %>
+    <%= render "list_properties" %>
   <% end %>
 </div>

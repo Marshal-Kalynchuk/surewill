@@ -1,20 +1,12 @@
-<%= turbo_frame_tag "bequest" do %>
-  <%= form_with(model: [:user, :will, @bequest], class: "contents") do |form| %>
-    <% if bequest.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-        <h2><%= pluralize(bequest.errors.count, "error") %> prohibited this bequest from being saved:</h2>
-        <ul>
-          <% bequest.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%# Takes in f: form, primary: boolean, delegates: delegates %>
+<%= turbo_frame_tag "#{primary ? "primary" : "secondary"}_bequest_#{f.index}" do %>
 
-    <h1 class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">I Am Being Loaded Properly</h1>
+  <%= f.hidden_field :id %>
+  <%= f.hidden_field :primary, value: primary ? true : false %>
+  <%= f.hidden_field :beneficiariable_type, value: "Delegate" %>
+  <%= f.hidden_field :percentage, value: 100 %>
 
-    <div class="inline">
-      <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
+  <%= f.label :beneficiariable_id, value: "Beneficiary", class: "block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2" %>
+  <%= f.select :beneficiariable_id, delegates.collect{ |delegate| [ delegate.full_name, delegate.id ] }, {}, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" %>
+
 <% end %>
