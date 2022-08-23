@@ -72,13 +72,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
   end
 
   create_table "bequests", force: :cascade do |t|
-    t.integer "percentage", null: false
-    t.integer "asset_id", null: false
+    t.integer "percentage", default: 10000, null: false
+    t.string "assetable_type", null: false
+    t.integer "assetable_id", null: false
     t.string "beneficiariable_type", null: false
     t.integer "beneficiariable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["asset_id"], name: "index_bequests_on_asset_id"
+    t.index ["assetable_type", "assetable_id"], name: "index_bequests_on_assetable"
     t.index ["beneficiariable_type", "beneficiariable_id"], name: "index_bequests_on_beneficiariable"
   end
 

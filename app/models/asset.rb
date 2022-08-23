@@ -1,9 +1,8 @@
 class Asset < ApplicationRecord
   belongs_to :will
   
-  has_many :bequests, dependent: :destroy
+  has_many :bequests, as: :assetable, dependent: :destroy
   accepts_nested_attributes_for :bequests
-
   has_many :beneficiaries, through: :bequests, source: :beneficiariable, source_type: "delegate"
 
   ASSET_TYPES = [ 'Property', 'Monetary', 'Other' ]

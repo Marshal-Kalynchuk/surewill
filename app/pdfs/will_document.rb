@@ -8,11 +8,9 @@ class WillDocument < Prawn::Document
     @delegates = delegates
     @bequests = bequests
     @addr = "3927 Vincent Drive NW, Calgary, Alberta, Canada"
-    @executors = @delegates.select {|delegate| delegate.executor == true}
+    @executors = @delegates.select {|delegate| delegate.executor == 1}.sort{|a,b| a.executor_rank <=> b.executor_rank}
 
     font 'Times-Roman'
-
-
 
     title
 
@@ -72,29 +70,36 @@ class WillDocument < Prawn::Document
   end
 
   def personal_representatives
+
+    primary_executor = @executors.first
+
     text "II. PERSONAL REPRESENTATIVE"
-    text "I nominate and appoint ________________________, of
-    ___________________________, County of ________________________, State of
-    ______________________________ as Personal Representative of my estate and I
-    request that (he/she) be appointed temporary Personal Representative if (he/she)
-    applies. If my Personal Representative fails or ceases to so serve, then I nominate
-    _____________________________of __________________________, County of
-    ____________________________, State of ______________________ to serve. "
+    text "I nominate and appoint #{primary_executor.full_name}, of #{primary_executor.address.city}, County of #{primary_executor.address.country_code}, State of #{primary_executor.address.zone} as Personal Representative of my estate and I request that (he/she) be appointed temporary Personal Representative if (he/she) applies."
+
+    if @executors.length == 2
+      text "If my personal Representative fails or ceases to so serve then I nominate #{@executors[1].full_name}, of #{@executors[1].address.city}, County of #{@executors[1].address.country_code}, State of #{@executors[1].address.zone} to serve."
+    elsif @executors.length > 2
+      text "If my personal Representative fails or ceases to so serve then I nominate the following personal Representatives listed in order of precedence to serve:"
+      @executors.drop(1).each_with_index do |executor, i|
+        move_down 4
+        text "#{i+1}. #{executor.full_name}, of #{executor.address.city}, County of #{executor.address.country_code}, State of #{executor.address.zone}."
+      end
+    end
   end
 
   def disposition_of_property
     text "III. DISPOSITION OF PROPERTY"
     text "I devise and bequeath my property, both real and personal and wherever situated, as follows:"
-    move_down 4
     @delegates.each_with_index do |delegate, i|
       unless delegate.bequests.empty?
-        text "Beneficiary #{i+1}:"
-        text "#{delegate.full_name}, currently of #{"Canada, Calgary"}, as my #{delegate.relation.downcase}, with the following property"
+        move_down 4
+        text "Beneficiary #{i+1}: #{delegate.full_name}, currently of #{"Canada, Calgary"}, as my #{delegate.relation.downcase}, with the following property"
         delegate.bequests.each_with_index do |bequest, j|
+          move_down 4
           if bequest.percentage != 100
-            text "#{j+1}. #{bequest.percentage}% of the #{bequest.asset.title}, at the address #{@addr}.", indent_paragraphs: 30
+            #text "#{j+1}. #{bequest.percentage}% of the #{bequest.asset.title}, at the address #{@addr}.", indent_paragraphs: 30
           else 
-            text "#{j+1}. #{bequest.asset.title}, at the address #{@addr}", indent_paragraphs: 30
+            #text "#{j+1}. #{bequest.asset.title}, at the address #{@addr}", indent_paragraphs: 30
           end
         end
         move_down 12
