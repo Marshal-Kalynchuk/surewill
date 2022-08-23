@@ -66,15 +66,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-span-6 sm:col-span-3">
-              <%= f.label :executor_rank, class: "block text-sm font-medium text-gray-700" %>
-              <%= f.number_field :executor_rank, class: "max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md" %>
-            </div>
 
           </div>
           <div class="px-0 py-4 text-right justify-end">
             <%= link_to "Cancel", user_will_delegates_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
-            <%= f.submit value: "Save", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+            <%= f.submit value: "Save", min: 0, max: 2, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
           </div>
         </div>
       </div>

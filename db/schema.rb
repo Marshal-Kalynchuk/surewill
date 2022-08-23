@@ -97,7 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_15_185209) do
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name", null: false
-    t.boolean "executor", default: false
+    t.integer "executor", default: 0, null: false
     t.integer "executor_rank", default: 0, null: false
     t.string "relation", null: false
     t.text "note"

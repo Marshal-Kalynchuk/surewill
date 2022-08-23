@@ -6,5 +6,12 @@
   <%= turbo_stream.append "delegates" do %>
     <%= render "delegate", delegate: @delegate %>
   <% end %>
+  <% @delegates.each do |delegate| %>
+    <% if delegate.saved_changes %>
+      <%= turbo_stream.update "#{dom_id(delegate)}_item" do %>
+        <%= render "delegate", delegate: delegate %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
 <%= turbo_stream.remove "#{dom_id(Delegate.new)}_form" %>
