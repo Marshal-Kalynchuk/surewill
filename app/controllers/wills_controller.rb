@@ -107,7 +107,10 @@ class WillsController < ApplicationController
       redirect_to :root if @will.nil?
       @testator = @will.testator
       @properties = @will.properties 
-      @properties = @properties.each { |property| puts property.valid? }
+      @properties.each do |property| 
+        property.primary_valid?
+        property.secondary_valid?
+      end
       @delegates = @will.delegates
       @accessors = @will.accessors
     end

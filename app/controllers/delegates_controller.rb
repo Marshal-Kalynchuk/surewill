@@ -1,6 +1,6 @@
 class DelegatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will
+  before_action :set_will, execpt: %i[ destory ]
   before_action :set_delegate, only: %i[ show edit update destroy ]
   layout "dashboard"
 
@@ -49,8 +49,12 @@ class DelegatesController < ApplicationController
   end
 
   def destroy
+    @update_properties =  @delegate.properties.to_a
     @delegate.destroy
-    @invalid_assets = @will.assets.select { |asset| asset.valid? == false }
+    @update_properties.each do |property| 
+      property.primary_valid?
+      property.secondary_valid?
+    end
 
     respond_to do |format|
       format.turbo_stream

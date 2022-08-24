@@ -1,11 +1,13 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will
+  before_action :set_will, except: :index
   before_action :set_property, only: %i[ show edit update destroy ]
   layout "dashboard"
 
   # GET /properties or /properties.json
   def index
+    # Cheeky optimization for performance reasons
+    @properties = []
   end
 
   # GET /properties/1 or /properties/1.json

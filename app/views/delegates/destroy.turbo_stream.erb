@@ -5,9 +5,9 @@
   <% end %>
 <% end %>
 
-<% @invalid_assets.each do |asset| %>
-  <%= turbo_stream.update "#{dom_id(asset)}_item" do %>
-    <%= render "assets/asset", asset: asset %>
+<% @update_properties.each do |property| %>
+  <%= turbo_stream.update "#{dom_id(property)}_item" do %>
+    <%= render "properties/property", property: property %>
   <% end %>
 <% end %>
 
