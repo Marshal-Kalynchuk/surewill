@@ -1,37 +1,84 @@
-<%= form_with(model: finance, class: "contents") do |form| %>
-  <% if finance.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(finance.errors.count, "error") %> prohibited this finance from being saved:</h2>
+<%= form_with model: [:user, :will, finance], id: "#{dom_id(finance)}_form", data: { turbo_frame: "_top" }, class: "sm:flex mt-5 sm:items-center" do |f| %>
+<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="sm:flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+      <div
+        class="relative bg-white rounded-lg px-4 pt-3 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full sm:p-6">
+        <div class="px-4 py-3 bg-white sm:p-6">
 
-      <ul>
-        <% finance.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+          <div class="grid grid-cols-6 gap-6">
+
+            <div class="col-span-6">
+              <%= render "shared/error_messages", resource: finance %>
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Finance Information.</h3>
+                <p class="mt-1 text-sm text-gray-600"></p>
+              </div>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <%= f.label :finance_type, class: "block text-sm font-medium text-gray-700" %>
+              <%= f.select :finance_type, ['agfs', 'lgfs'], {}, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <%= f.label :bank_name, class: "block text-sm font-medium text-gray-700" %>
+              <%= f.text_field :bank_name, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <%= f.label :account_type, class: "block text-sm font-medium text-gray-700" %>
+              <%= f.select :account_type, ['Chequing', 'Savings', 'Registered Retirement Savings Plan', 'Tax-Free Savings', 'Registered Disability Savings Plan', 'Registered Education Savings Plan'], {}, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <%= f.label :bank_number, value: "Bank number (optional)", class: "block text-sm font-medium text-gray-700" %>
+              <p class="mt-1 text-sm font-light text-gray-600 md:truncate">The bank number helps identify the correct bank.</p>
+              <%= f.text_field :bank_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <%= f.label :account_number, value: "Account number (optional)", class: "block text-sm font-medium text-gray-700" %>
+              <p class="mt-1 text-sm font-light text-gray-600 md:truncate">The account number helps identify the correct account.</p>
+              <%= f.text_field :account_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Inheritance Information</h3>
+                <p class="mt-1 text-sm text-gray-600">Choose which beneficiaries will inherit this finance. This
+                  includes the land and building.</p>
+              </div>
+            </div>
+            <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
+
+              <template data-nested-form-target='template'>
+                <%= f.fields_for :bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                  <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
+                <% end %>
+              </template>
+
+              <%= f.fields_for :bequests do |ff| %>
+                <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
+              <% end %>
+
+              <div class="relative flex items-center" data-nested-form-target="add_item">
+                <%= link_to "Add Beneficiary", "#", data: { action: "nested-form#add_association" }, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="px-0 py-4 text-right justify-end">
+            <%= link_to "Cancel", user_will_properties_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+            <%= f.submit value: "Save", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :will_id %>
-    <%= form.text_field :will_id, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :finance_type %>
-    <%= form.text_field :finance_type, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :bank_name %>
-    <%= form.text_field :bank_name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :account_type %>
-    <%= form.text_field :account_type, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>

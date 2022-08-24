@@ -34,7 +34,7 @@
 </div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <%#= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user, will_id: @will.id), loading: "lazy" %>
+  <%= render template: "finances/index", finances: @finances %>
 </div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">

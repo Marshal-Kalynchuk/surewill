@@ -79,6 +79,9 @@ class FinancesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def finance_params
-      params.require(:finance).permit(:will_id, :finance_type, :bank_name, :account_type)
+      params.require(:finance).permit(
+        :finance_type, :bank_name, :bank_number, :account_type, :account_number,
+        bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ]
+      )
     end
 end

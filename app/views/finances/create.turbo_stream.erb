@@ -1,0 +1,10 @@
+<% if @size == 1 %>
+  <%= turbo_stream.replace "finances_section" do %>
+    <%= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append "finances" do %>
+    <%= render "finance", finance: @finance %>
+  <% end %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(Finance.new)}_form" %>

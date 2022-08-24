@@ -1,0 +1,6 @@
+<%= turbo_stream.remove "#{dom_id(@finance)}_item" %>
+<% if @size == 0 %>
+  <%= turbo_stream.replace "finances_section" do %>
+    <%= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user) %>
+  <% end %>
+<% end %>

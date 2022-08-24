@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "finances_section" do %>
-  <% if @finances.empty? %>
+  <% if @finances.size == 0 %>
     <div class="bg-white shadow overflow-hidden rounded-lg">
       <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <!-- This example requires Tailwind CSS v2.0+ -->

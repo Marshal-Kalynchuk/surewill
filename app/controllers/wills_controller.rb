@@ -113,6 +113,7 @@ class WillsController < ApplicationController
         property.primary_valid?
         property.secondary_valid?
       end
+      @finances = @will.finances
     end
 
     # Only allow a list of trusted parameters through.

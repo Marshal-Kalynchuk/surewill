@@ -1,0 +1,4 @@
+<%= turbo_stream.update "#{dom_id(@finance)}_item" do %>
+  <%= render "finance", finance: @finance %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(@finance)}_form" %>
