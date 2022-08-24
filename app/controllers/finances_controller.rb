@@ -1,4 +1,6 @@
 class FinancesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_will
   before_action :set_finance, only: %i[ show edit update destroy ]
 
   # GET /finances or /finances.json
@@ -12,7 +14,7 @@ class FinancesController < ApplicationController
 
   # GET /finances/new
   def new
-    @finance = Finance.new
+    @finance = Finance.new(will: @will)
   end
 
   # GET /finances/1/edit
@@ -58,6 +60,10 @@ class FinancesController < ApplicationController
   end
 
   private
+    def set_will
+      will = current_user.will
+      redirect_to :root if will.nil?
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_finance
       @finance = Finance.find(params[:id])

@@ -16,16 +16,19 @@ class PropertiesController < ApplicationController
 
   # GET /properties/new
   def new
-    @property = @properties.build
+    @property = Property.new(will: @will)
     @property.build_address
+    @delegates = @will.delegates
   end
 
   # GET /properties/1/edit
   def edit
+    @delegates = @will.delegates
   end
 
   # POST /properties or /properties.json
   def create
+    @properties = @will.properties
     @property = @properties.build(property_params)
 
     respond_to do |format|
@@ -58,6 +61,7 @@ class PropertiesController < ApplicationController
 
   # DELETE /properties/1 or /properties/1.json
   def destroy
+    @properties = @will.properties
     @property.destroy
 
     respond_to do |format|
@@ -71,12 +75,10 @@ class PropertiesController < ApplicationController
     def set_will
       @will = current_user.will
       redirect_to :root if @will.nil?
-      @delegates = @will.delegates
-      @properties = @will.properties
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_property
-      @property = @properties.find(params[:id])
+      @property = @will.properties.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
