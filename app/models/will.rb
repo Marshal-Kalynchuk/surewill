@@ -9,6 +9,9 @@ class Will < ApplicationRecord
   # Properties
   has_many :properties, dependent: :destroy
   accepts_nested_attributes_for :properties
+
+  has_many :finances, dependent: :destroy
+  accepts_nested_attributes_for :finances, reject_if: :all_blank, allow_destroy: true
   # Accessors
   has_many :accessors, dependent: :destroy
 

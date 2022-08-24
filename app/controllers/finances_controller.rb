@@ -5,7 +5,8 @@ class FinancesController < ApplicationController
 
   # GET /finances or /finances.json
   def index
-    @finances = Finance.all
+    @finances = @will.finances
+
   end
 
   # GET /finances/1 or /finances/1.json
@@ -14,22 +15,27 @@ class FinancesController < ApplicationController
 
   # GET /finances/new
   def new
-    @finance = Finance.new(will: @will)
+    @finance = @will.finances.build
+    @delegates = @will.delegates
   end
 
   # GET /finances/1/edit
   def edit
+    @delegates = @will.delegates
   end
 
   # POST /finances or /finances.json
   def create
-    @finance = Finance.new(finance_params)
+    @finances = @will.finances
+    @finance = @finances.build(finance_params)
 
     respond_to do |format|
       if @finance.save
-        format.html { redirect_to finance_url(@finance), notice: "Finance was successfully created." }
+        format.turbo_stream
+        format.html { redirect_to user_will_finance_url(current_user, @finance), notice: "Finance was successfully created." }
         format.json { render :show, status: :created, location: @finance }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_finance_form", partial: "form", locals: { finance: @finance }), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @finance.errors, status: :unprocessable_entity }
       end
@@ -40,9 +46,11 @@ class FinancesController < ApplicationController
   def update
     respond_to do |format|
       if @finance.update(finance_params)
-        format.html { redirect_to finance_url(@finance), notice: "Finance was successfully updated." }
+        format.turbo_stream
+        format.html { redirect_to user_will_finance_url(current_user, @finance), notice: "Finance was successfully updated." }
         format.json { render :show, status: :ok, location: @finance }
       else
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("finance_#{@finance.id}_form", partial: "form", locals: { finance: @finance }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @finance.errors, status: :unprocessable_entity }
       end
@@ -54,6 +62,7 @@ class FinancesController < ApplicationController
     @finance.destroy
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to finances_url, notice: "Finance was successfully destroyed." }
       format.json { head :no_content }
     end
@@ -61,12 +70,12 @@ class FinancesController < ApplicationController
 
   private
     def set_will
-      will = current_user.will
-      redirect_to :root if will.nil?
+      @will = current_user.will
+      redirect_to :root if @will.nil?
     end
     # Use callbacks to share common setup or constraints between actions.
     def set_finance
-      @finance = Finance.find(params[:id])
+      @finance = @will.finances.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

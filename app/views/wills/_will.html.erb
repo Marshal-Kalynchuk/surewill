@@ -38,7 +38,11 @@
   <% else %>
     <%= render "properties/list_properties" %>
   <% end %>
-<div>
+</div>
+
+<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <%= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user), loading: "lazy" %>
+</div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
 <div class="bg-white rounded-lg">

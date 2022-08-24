@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       resources :build, controller: 'wills/build'
       resources :delegates
       resources :properties
+      resources :finances
       resource :testator
       # put 'release', to: 'wills#release'
 
