@@ -6,11 +6,7 @@ class PropertiesController < ApplicationController
 
   # GET /properties or /properties.json
   def index
-    @properties = @will.properties
-    @properties.each do |property| 
-      property.primary_valid?
-      property.secondary_valid?
-    end
+    @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
   end
 
   # GET /properties/1 or /properties/1.json

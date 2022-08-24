@@ -38,6 +38,7 @@ class DelegatesController < ApplicationController
   def update
     respond_to do |format|
       if @delegate.update(delegate_params)
+        @update_properties =  @delegate.properties.to_a
         format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Delegate was successfully updated." }
         format.json { render :show, status: :ok, location: @delegate }

@@ -20,8 +20,9 @@ class Property < ApplicationRecord
   validates :property_type, inclusion: { in: PROPERTY_TYPES }
   validates :title, length: { in: 3..20 }
 
+  after_initialize :primary_valid?, :secondary_valid?
+
   def primary_valid?
-    p 'eval'
     if self.primary_bequests.empty?
       self.errors.add(:primary_bequests, "can't be blank")
     end

@@ -108,12 +108,8 @@ class WillsController < ApplicationController
       @testator = @will.testator
       @delegates = @will.delegates
       @accessors = @will.accessors
-      @properties = @will.properties
-      @properties.each do |property| 
-        property.primary_valid?
-        property.secondary_valid?
-      end
-      @finances = @will.finances
+      @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
+      @finances = @will.finances.preload(:beneficiaries)
     end
 
     # Only allow a list of trusted parameters through.

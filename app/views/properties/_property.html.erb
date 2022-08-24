@@ -17,22 +17,24 @@
           </div>
           <p class="mt-1 text-gray-500 text-sm truncate">Address: <%= property.address.short_address %></p>
 
-          <% unless property.primary_beneficiaries.empty? %>
+          <% primary_beneficiaries = property.primary_beneficiaries%>
+          <% unless primary_beneficiaries.empty? %>
           <div class="mt-1">
             <h2 class="text-gray-500 text-sm font-medium">Main beneficiaries:</h2>
             <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <% property.primary_beneficiaries.each do |delegate| %>
+              <% primary_beneficiaries.each do |delegate| %>
                 <%= render "shared/delegate_small", delegate: delegate, color: "bg-indigo-600" %>
               <% end %>
             </ul>
           </div>  
           <% end %>
 
-          <% unless property.secondary_beneficiaries.empty? %>
+          <% secondary_beneficiaries = property.secondary_beneficiaries%>
+          <% unless secondary_beneficiaries.empty? %>
           <div class="mt-3">
             <h2 class="text-gray-500 text-sm font-medium">Content beneficiaries:</h2>
             <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <% property.secondary_beneficiaries.each do |delegate| %>
+              <% secondary_beneficiaries.each do |delegate| %>
                 <%= render "shared/delegate_small", delegate: delegate, color: "bg-pink-500" %>
               <% end %>
             </ul>
