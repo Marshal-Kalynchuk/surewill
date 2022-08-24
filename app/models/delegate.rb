@@ -17,6 +17,10 @@ class Delegate < ApplicationRecord
   before_save :update_ranks, :set_rank
   after_destroy :update_ranks
 
+  def initials
+    "#{self.first_name.first}#{self.last_name.first}".upcase
+  end
+
   def update_ranks
     if self.destroyed? && self.executor == 1 || self.executor_changed? && self.executor == 0
       Delegate.where(will: self.will).where("executor_rank >= ?", self.executor_rank).each_with_index{|delegate, i| delegate.update(executor_rank: delegate.executor_rank - 1)}  

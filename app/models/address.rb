@@ -1,6 +1,11 @@
 class Address < ApplicationRecord
   validates :line_1, :postal_code, :city, :zone, :country_code, presence: true
+
   def full_address
-    "#{number} #{street}, #{zipcode} #{city}, #{country_code}"
+    "#{self.line_1}, #{self.postal_code} #{self.city}, #{self.zone}, #{self.country_code}"
+  end
+  
+  def short_address
+    "#{self.line_1}, #{self.city}, #{self.country_code}"
   end
 end
