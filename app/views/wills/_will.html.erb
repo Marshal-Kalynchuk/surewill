@@ -24,21 +24,17 @@
   <% end %>
 </div>
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <% if @delegates.empty? %>
-    <%= render "delegates/no_delegates"%>
-  <% else %>
-    <%= render "delegates/list_delegates"%>
-  <% end %>
-</div>
-
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <%= turbo_frame_tag "properties_section", src: user_will_properties_path(current_user), loading: "lazy" %>
+  <%= render template: "delegates/index", delegates: @delegates %>
 </div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <%= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user), loading: "lazy" %>
+  <%= render template: "properties/index", properties: @properties %>
+</div>
+
+<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <%#= turbo_frame_tag "finances_section", src: user_will_finances_path(current_user, will_id: @will.id), loading: "lazy" %>
 </div>
 
 <div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">

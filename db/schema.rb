@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_173517) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -253,6 +253,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_173517) do
     t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "properties_count"
+    t.integer "finances_count"
+    t.integer "delegates_count"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 

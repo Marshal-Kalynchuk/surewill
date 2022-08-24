@@ -108,6 +108,11 @@ class WillsController < ApplicationController
       @testator = @will.testator
       @delegates = @will.delegates
       @accessors = @will.accessors
+      @properties = @will.properties
+      @properties.each do |property| 
+        property.primary_valid?
+        property.secondary_valid?
+      end
     end
 
     # Only allow a list of trusted parameters through.

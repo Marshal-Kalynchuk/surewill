@@ -35,10 +35,12 @@ class PropertiesController < ApplicationController
 
     respond_to do |format|
       if @property.save
+        @size = @will.properties.size
         format.turbo_stream
         format.html { redirect_to user_will_properties_path(current_user), notice: "property was successfully created." }
         format.json { render :show, status: :created, location: @property }
       else
+        @delegates = @will.delegates
         format.turbo_stream { render turbo_stream: turbo_stream.replace("new_property_form", partial: "form", locals: { property: @property }), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @property.errors, status: :unprocessable_entity }
@@ -54,6 +56,7 @@ class PropertiesController < ApplicationController
         format.html { redirect_to user_will_properties_path(current_user), notice: "property was successfully updated." }
         format.json { render :show, status: :ok, location: @property }
       else
+        @delegates = @will.delegates
         format.turbo_stream { render turbo_stream: turbo_stream.replace("property_#{@property.id}_form", partial: "form", locals: { property: @property }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @property.errors, status: :unprocessable_entity }
@@ -64,6 +67,7 @@ class PropertiesController < ApplicationController
   # DELETE /properties/1 or /properties/1.json
   def destroy
     @property.destroy
+    @size = @will.properties.size
 
     respond_to do |format|
       format.turbo_stream

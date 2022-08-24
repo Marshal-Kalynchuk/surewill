@@ -23,6 +23,7 @@ class DelegatesController < ApplicationController
 
     respond_to do |format|
       if @delegate.save
+        @size = @will.delegates.size
         format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Delegate was successfully created." }
         format.json { render :show, status: :created, location: @delegate }
@@ -51,6 +52,7 @@ class DelegatesController < ApplicationController
   def destroy
     @update_properties =  @delegate.properties.to_a
     @delegate.destroy
+    @size = @will.delegates.size
     @update_properties.each do |property| 
       property.primary_valid?
       property.secondary_valid?

@@ -1,6 +1,6 @@
 class Property < ApplicationRecord
   include Collocable
-  belongs_to :will
+  belongs_to :will, counter_cache: true
 
   has_many :bequests, as: :asset, dependent: :destroy
   

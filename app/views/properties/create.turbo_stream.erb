@@ -1,5 +1,5 @@
-<% if @properties.length == 1 %>
-  <%= turbo_stream.update "properties_section" do %>
+<% if @size == 1 %>
+  <%= turbo_stream.replace "properties_section" do %>
     <%= turbo_frame_tag "properties_section", src: user_will_properties_path(current_user) %>
   <% end %>
 <% else %>

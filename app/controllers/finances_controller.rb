@@ -6,7 +6,6 @@ class FinancesController < ApplicationController
   # GET /finances or /finances.json
   def index
     @finances = @will.finances
-
   end
 
   # GET /finances/1 or /finances/1.json
