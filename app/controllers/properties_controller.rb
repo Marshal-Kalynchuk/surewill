@@ -1,13 +1,16 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, except: :index
+  before_action :set_will
   before_action :set_property, only: %i[ show edit update destroy ]
   layout "dashboard"
 
   # GET /properties or /properties.json
   def index
-    # Cheeky optimization for performance reasons
-    @properties = []
+    @properties = @will.properties
+    @properties.each do |property| 
+      property.primary_valid?
+      property.secondary_valid?
+    end
   end
 
   # GET /properties/1 or /properties/1.json
@@ -16,7 +19,7 @@ class PropertiesController < ApplicationController
 
   # GET /properties/new
   def new
-    @property = Property.new(will: @will)
+    @property = @will.properties.build
     @property.build_address
     @delegates = @will.delegates
   end
@@ -28,8 +31,7 @@ class PropertiesController < ApplicationController
 
   # POST /properties or /properties.json
   def create
-    @properties = @will.properties
-    @property = @properties.build(property_params)
+    @property = @will.properties.build(property_params)
 
     respond_to do |format|
       if @property.save
@@ -61,7 +63,6 @@ class PropertiesController < ApplicationController
 
   # DELETE /properties/1 or /properties/1.json
   def destroy
-    @properties = @will.properties
     @property.destroy
 
     respond_to do |format|

@@ -106,22 +106,9 @@ class WillsController < ApplicationController
       @will = current_user.will
       redirect_to :root if @will.nil?
       @testator = @will.testator
-      @properties = @will.properties 
-      @properties.each do |property| 
-        property.primary_valid?
-        property.secondary_valid?
-      end
       @delegates = @will.delegates
       @accessors = @will.accessors
     end
-
-    # def authenticate_testator
-    #   current_user.will == @will
-    # end
-
-    # def authenticate_current_beneficiary
-    #   @current_beneficiary
-    # end
 
     # Only allow a list of trusted parameters through.
     def will_params

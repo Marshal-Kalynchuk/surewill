@@ -1,6 +1,6 @@
 <% if @properties.length == 1 %>
-  <%= turbo_stream.replace "properties_section" do %>
-    <%= render "list_properties", properties: @properties %>
+  <%= turbo_stream.update "properties_section" do %>
+    <%= turbo_frame_tag "properties_section", src: user_will_properties_path(current_user) %>
   <% end %>
 <% else %>
   <%= turbo_stream.append "properties" do %>
