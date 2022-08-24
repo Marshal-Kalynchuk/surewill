@@ -15,7 +15,6 @@ class PropertiesController < ApplicationController
   # GET /properties/new
   def new
     @property = @properties.build
-
     @property.build_address
   end
 
