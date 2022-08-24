@@ -15,8 +15,7 @@ class PropertiesController < ApplicationController
   # GET /properties/new
   def new
     @property = @properties.build
-    @property.primary_bequests.build
-    @property.secondary_bequests.build
+
     @property.build_address
   end
 
@@ -83,9 +82,9 @@ class PropertiesController < ApplicationController
     def property_params
       params.require(:property).permit(
         :id, :property_type, :title, 
-        address_attributes: [:id, :line_1, :line_2, :city, :zone, :postal_code, :country_code ],
-        primary_bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ],
-        secondary_bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id, :"_destroy" ]
+        address_attributes: [ :id, :line_1, :line_2, :city, :zone, :postal_code, :country_code ],
+        primary_bequests_attributes: [ :primary, :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ],
+        secondary_bequests_attributes: [ :primary, :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ]
       )
     end
 end
