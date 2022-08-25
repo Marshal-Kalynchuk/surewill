@@ -16,7 +16,9 @@
   </div>
 </div>
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+<% spacing = "mt-5" %>
+
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <% if @testator.nil? %>
     <%= render "testators/no_testator" %>
   <% else %>
@@ -25,20 +27,20 @@
 </div>
 
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "delegates/index", delegates: @delegates %>
 </div>
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "properties/index", properties: @properties %>
 </div>
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "finances/index", finances: @finances %>
 </div>
 
-<div class="relative mt-20 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-<div class="bg-white rounded-lg">
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <div class="bg-white rounded-lg">
   <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
     <% if true || @will.status == 'active' %>
       <% if @will.prepaid %>

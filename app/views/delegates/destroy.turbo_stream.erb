@@ -11,6 +11,12 @@
   <% end %>
 <% end %>
 
+<% @update_finances.each do |finance| %>
+  <%= turbo_stream.update "#{dom_id(finance)}_item" do %>
+    <%= render "finances/finance", finance: finance %>
+  <% end %>
+<% end %>
+
 <% @delegates.each do |delegate| %>
   <% if delegate.saved_changes %>
     <%= turbo_stream.update "#{dom_id(delegate)}_item" do %>

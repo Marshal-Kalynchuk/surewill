@@ -102,7 +102,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.integer "will_id", null: false
     t.string "finance_type"
     t.string "bank_name"
+    t.integer "bank_code"
     t.string "account_type"
+    t.integer "account_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_finances_on_will_id"

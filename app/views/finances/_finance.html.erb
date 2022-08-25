@@ -12,16 +12,15 @@
           <% end %>
 
           <div class="flex items-center space-x-3">
-            <h3 class="text-lg leading-6 font-medium text-gray-900"><%= finance.title %></h3>
-            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-200 rounded-full">Personal</span>
+            <h3 class="text-lg leading-6 font-medium text-gray-900"><%= finance.finance_type %></h3>
+            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-200 rounded-full"></span>
           </div>
-          <p class="mt-1 text-gray-500 text-sm truncate">Address: <%#= finance.address.short_address %></p>
 
-          <% unless finance.beneficiaries.empty? %>
+          <% unless finance.primary_beneficiaries.empty? %>
           <div class="mt-1">
             <h2 class="text-gray-500 text-sm font-medium">Beneficiaries:</h2>
-            <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <% finance.beneficiaries.each do |delegate| %>
+            <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3 sm:grid-cols-2 lg:grid-cols-2">
+              <% finance.primary_beneficiaries.each do |delegate| %>
                 <%= render "shared/delegate_small", delegate: delegate, color: "bg-indigo-600" %>
               <% end %>
             </ul>

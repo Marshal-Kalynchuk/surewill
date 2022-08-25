@@ -52,12 +52,14 @@ class DelegatesController < ApplicationController
 
   def destroy
     @update_properties =  @delegate.properties.to_a
+    @update_finances = @delegate.finances.to_a
     @delegate.destroy
     @size = @will.delegates.size
     @update_properties.each do |property| 
       property.primary_valid?
       property.secondary_valid?
     end
+    @update_finances.each{ |finance| finance.primary_valid? }
 
     respond_to do |format|
       format.turbo_stream

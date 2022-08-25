@@ -5,7 +5,7 @@ class FinancesController < ApplicationController
 
   # GET /finances or /finances.json
   def index
-    @finances = @will.finances
+    @finances = @will.finances.preload(:primary_beneficiaries)
   end
 
   # GET /finances/1 or /finances/1.json
@@ -30,6 +30,7 @@ class FinancesController < ApplicationController
 
     respond_to do |format|
       if @finance.save
+        @size = @finances.size
         format.turbo_stream
         format.html { redirect_to user_will_finance_url(current_user, @finance), notice: "Finance was successfully created." }
         format.json { render :show, status: :created, location: @finance }
@@ -59,6 +60,7 @@ class FinancesController < ApplicationController
   # DELETE /finances/1 or /finances/1.json
   def destroy
     @finance.destroy
+    @size = @will.finances.size
 
     respond_to do |format|
       format.turbo_stream
@@ -81,7 +83,7 @@ class FinancesController < ApplicationController
     def finance_params
       params.require(:finance).permit(
         :finance_type, :bank_name, :bank_number, :account_type, :account_number,
-        bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ]
+        primary_bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ]
       )
     end
 end

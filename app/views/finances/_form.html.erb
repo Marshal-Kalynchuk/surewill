@@ -36,9 +36,9 @@
             </div>
 
             <div class="col-span-6 sm:col-span-3">
-              <%= f.label :bank_number, value: "Bank number (optional)", class: "block text-sm font-medium text-gray-700" %>
-              <p class="mt-1 text-sm font-light text-gray-600 md:truncate">The bank number helps identify the correct bank.</p>
-              <%= f.text_field :bank_number, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+              <%= f.label :bank_code, value: "Bank code (optional)", class: "block text-sm font-medium text-gray-700" %>
+              <p class="mt-1 text-sm font-light text-gray-600 md:truncate">The bank code helps identify the correct bank.</p>
+              <%= f.text_field :bank_code, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
             </div>
 
             <div class="col-span-6 sm:col-span-3">
@@ -57,12 +57,12 @@
             <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
 
               <template data-nested-form-target='template'>
-                <%= f.fields_for :bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                <%= f.fields_for :priamry_bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
                   <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
                 <% end %>
               </template>
 
-              <%= f.fields_for :bequests do |ff| %>
+              <%= f.fields_for :primary_bequests do |ff| %>
                 <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
               <% end %>
 

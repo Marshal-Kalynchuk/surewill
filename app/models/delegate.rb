@@ -3,6 +3,7 @@ class Delegate < ApplicationRecord
   belongs_to :will, counter_cache: true
   has_many :bequests, as: :beneficiariable, dependent: :destroy
   has_many :properties, through: :bequests, source: :asset, source_type: "Property"
+  has_many :finances, through: :bequests, source: :asset, source_type: "Finance"
 
   before_validation :exempt_address
 
