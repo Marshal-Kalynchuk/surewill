@@ -5,7 +5,7 @@ class BelongingsController < ApplicationController
 
   # GET /belongings or /belongings.json
   def index
-    @belongings = @will.belongins.preload(:primary_beneficiaries)
+    @belongings = @will.belongings.preload(:primary_beneficiaries)
   end
 
   # GET /belongings/1 or /belongings/1.json
