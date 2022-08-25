@@ -65,7 +65,6 @@ class TestatorsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_testator
       @testator = @will.testator
-      redirect_to new_user_will_testator_path(current_user) unless @testator
     end
 
     def set_will

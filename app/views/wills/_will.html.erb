@@ -19,13 +19,8 @@
 <% spacing = "mt-5" %>
 
 <div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <% if @testator.nil? %>
-    <%= render "testators/no_testator" %>
-  <% else %>
-    <%= render "testators/testator" %>
-  <% end %>
+  <%= render template: "testators/show", testator: @testator %>
 </div>
-
 
 <div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "delegates/index", delegates: @delegates %>
@@ -42,6 +37,8 @@
 <div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "belongings/index", belongings: @belongings %>
 </div>
+
+
 
 <div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <div class="bg-white rounded-lg">
