@@ -17,21 +17,10 @@
     <div class="self-end flex flex-wrap w-full mt-4 sm:mt-5 ">
       <div class="self-start w-full">
         <% if belonging.errors.any? %>
-          <div class="rounded-md bg-red-50 p-4">
-            <div class="flex">
-              <div id="error_explanation" class="ml-3">
-                <h3 class="text-sm font-medium text-red-800">There is <%= pluralize(belonging.errors.count, 'error') %> with your submission</h3>
-                <div class="mt-2 text-sm text-red-700">
-                  <ul role="list" class="list-disc pl-5 space-y-1">
-                    <% belonging.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
+            <div class="mb-3">
+              <%= render "shared/error_messages", resource: belonging %>
+            </div>  
+          <% end %>
         <% primary_beneficiaries = belonging.primary_beneficiaries %>
         <% unless primary_beneficiaries.empty? %>
         <div class="mt-1 self-end h-full">
