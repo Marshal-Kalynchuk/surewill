@@ -8,4 +8,8 @@ class Address < ApplicationRecord
   def short_address
     "#{self.line_1}, #{self.city}, #{self.country_code}"
   end
+
+  def formatted_address
+    "#{self.city}, Country of #{self.country_code}, State of #{self.zone}"
+  end
 end

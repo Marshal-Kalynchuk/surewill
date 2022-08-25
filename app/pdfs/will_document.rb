@@ -1,13 +1,14 @@
 class WillDocument < Prawn::Document
 
-  def initialize(will, testator, delegates, bequests)
+  def initialize(will, testator, delegates, properties, finances, belongings)
     super(top_margin: 50, font: 'Times-Roman')
 
     @will = will
     @testator = testator
     @delegates = delegates
-    @bequests = bequests
-    @addr = "3927 Vincent Drive NW, Calgary, Alberta, Canada"
+    @properties = properties
+    @finances = finances
+    @belongings = belongings
     @executors = @delegates.select {|delegate| delegate.executor == 1}.sort{|a,b| a.executor_rank <=> b.executor_rank}
 
     font 'Times-Roman'
@@ -61,7 +62,7 @@ class WillDocument < Prawn::Document
   end
 
   def opening
-    text "I, #{@testator.full_name}, resident in the City of #{"@testator.city"}, Country of #{"@testator.country"}, being of sound mind, not acting under duress or undue influence, and fully understanding the nature and extent of all my property and of this disposition thereof, do hereby make, publish, and declare this document to be my Last Will and Testament, and hereby revoke any and all other wills and codiclies heretofore made by me either jointy or severally."
+    text "I, #{@testator.full_name}, resident in the City of #{@testator.address.formatted_address}, being of sound mind, not acting under duress or undue influence, and fully understanding the nature and extent of all my property and of this disposition thereof, do hereby make, publish, and declare this document to be my Last Will and Testament, and hereby revoke any and all other wills and codiclies heretofore made by me either jointy or severally."
   end
   
   def expenses_and_taxes
@@ -74,7 +75,7 @@ class WillDocument < Prawn::Document
     primary_executor = @executors.first
 
     text "II. PERSONAL REPRESENTATIVE"
-    text "I nominate and appoint #{primary_executor.full_name}, of #{primary_executor.address.city}, County of #{primary_executor.address.country_code}, State of #{primary_executor.address.zone} as Personal Representative of my estate and I request that (he/she) be appointed temporary Personal Representative if (he/she) applies."
+    text "I nominate and appoint #{primary_executor.full_name}, of #{primary_executor.address.formatted_address}, as Personal Representative of my estate and I request that (he/she) be appointed temporary Personal Representative if (he/she) applies."
 
     if @executors.length == 2
       text "If my personal Representative fails or ceases to so serve then I nominate #{@executors[1].full_name}, of #{@executors[1].address.city}, County of #{@executors[1].address.country_code}, State of #{@executors[1].address.zone} to serve."
@@ -82,29 +83,49 @@ class WillDocument < Prawn::Document
       text "If my personal Representative fails or ceases to so serve then I nominate the following personal Representatives listed in order of precedence to serve:"
       @executors.drop(1).each_with_index do |executor, i|
         move_down 4
-        text "#{i+1}. #{executor.full_name}, of #{executor.address.city}, County of #{executor.address.country_code}, State of #{executor.address.zone}."
+        text "#{i+1}. #{executor.full_name}, of #{executor.address.formatted_address}.", indent_paragraphs: 10
       end
     end
   end
 
+
   def disposition_of_property
     text "III. DISPOSITION OF PROPERTY"
-    text "I devise and bequeath my property, both real and personal and wherever situated, as follows:"
-    @delegates.each_with_index do |delegate, i|
+    k = 0
+    text "I nominate and appoint the following beneficiaries: "
+    @delegates.each do |delegate|
       unless delegate.bequests.empty?
-        move_down 4
-        text "Beneficiary #{i+1}: #{delegate.full_name}, currently of #{"Canada, Calgary"}, as my #{delegate.relation.downcase}, with the following property"
-        delegate.bequests.each_with_index do |bequest, j|
-          move_down 4
-          if bequest.percentage != 100
-            #text "#{j+1}. #{bequest.percentage}% of the #{bequest.asset.title}, at the address #{@addr}.", indent_paragraphs: 30
-          else 
-            #text "#{j+1}. #{bequest.asset.title}, at the address #{@addr}", indent_paragraphs: 30
-          end
-        end
-        move_down 12
+        k += 1
+        move_down 6
+        text "#{k}. #{delegate.full_name}, currently of #{delegate.address.formatted_address}, as my #{delegate.relation.downcase}.", indent_paragraphs: 10
       end
     end
+    move_down 6
+    text "I devise and bequeath my property, both real and personal and wherever situated, as follows:"
+    i = 0
+    unless @properties.empty?
+      @properties.each do |property|
+        i += 1
+        move_down 6
+        text "#{i}. #{property.title}, at the address of #{property.address.full_address}, to #{"be split in equal shares amoungst the following benficiaries: " unless property.primary_beneficiaries.size == 1}#{property.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}. Furthermore, I declare that the contents of this property shall be #{property.secondary_beneficiaries.size == 1 ? "bequest to " : "split equally amoungst the following beneficiaries: "}#{property.secondary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}. They are entitled to the contents of this property unless otherwise specified.", indent_paragraphs: 10
+
+      end
+    end
+    unless @finances.empty?
+      @finances.each do |finance|
+        i += 1
+        move_down 6
+        text "#{i}. #{finance.finance_type}, at the bank of #{finance.bank_name}, who's account type is #{finance.account_type}, to #{"be split in equal shares amoungst the following benficiaries: " unless finance.primary_beneficiaries.size == 1}#{finance.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}.", indent_paragraphs: 10
+      end
+    end
+    unless @belongings.empty?
+      @belongings.each do |belonging|
+        i += 1
+        move_down 6
+        text "#{i}. #{belonging.title}, to #{"be split in equal shares amoungst the following benficiaries: " unless belonging.primary_beneficiaries.size == 1}#{belonging.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}.", indent_paragraphs: 10
+      end
+    end
+    move_down 6
     text "If any of my beneficiaries have pre-deceased me, then any property that they would have received if they had not pre-deceased me shall be distributed in equal shares to the remaining beneficiaries. If any of my property cannot be readily sold and distributed, then it may be donated to any charitable organization or organizations of my Personal Representative’s choice. If any property cannot be readily sold or donated, my Personal Representative may, without liability, dispose of such property as my Personal Representative may deem appropriate. I authorize my Personal Representative to pay as an administration expense of my estate the expense of selling, advertising for sale, packing, shipping, insuring and delivering such property."
   end
 
@@ -125,51 +146,30 @@ class WillDocument < Prawn::Document
 
   def powers_of_executor
     text "VI. DISCRETIONARY POWERS OF PERSONAL REPRESENTATIVE"
-    text "My Personal Representative, shall have and may exercise the following discretionary
-    powers in addition to any common law or statutory powers without the necessity of court
-    license or approval:
-    A. To retain for whatever period my Personal Representative deems advisable any
-    property, including property owned by me at my death, and to invest and reinvest in any
-    property, both real and personal, regardless of whether any particular investment would
-    be proper for a Personal Representative and regardless of the extent of diversification
-    of the assets held hereunder.
-    B. To sell and to grant options to purchase all or any part of my estate, both real
-    and personal, at any time, at public or private sale, for consideration, whether or not the
-    highest possible consideration, and upon terms, including credit, as my Personal
-    Representative deems advisable, and to execute, acknowledge, and deliver deeds or
-    other instruments in connection therewith.
-    C. To lease any real estate for terms and conditions as my Personal Representative
-    deems advisable, including the granting of options to renew, options to extend the term
-    or terms, and options to purchase.
-    D. To pay, compromise, settle or otherwise adjust any claims, including taxes,
-    asserted in favor of or against me, my estate or my Personal Representative.
-    E. To make any separation into shares in whole or in part in kind and at values
-    determined by my Personal Representative, with or without regard to tax basis, and to
-    allocate different kinds and disproportionate amounts of property and undivided
-    interests in property among the shares.
-    F. To make such elections under the tax laws as my Personal Representative shall
-    deem appropriate, including elections with respect to qualified terminable interest
-    property, exemptions and the use of deductions as income tax or estate tax deductions,
-    and to determine whether to make any adjustments between income and principal on
-    account of any election so made.
-    G. To make any elections permitted under any pension, profit sharing, employee
-    stock ownership or other benefit plan.
-    H. To employ others in connection with the administration of my estate, including
-    legal counsel, investment advisors, brokers, accountants and agents and to pay
-    reasonable compensation in addition to my Personal Representative’s compensation.
-    I. To vote any shares of stock or other securities in person or by proxy; to assert or
-    waive any stockholder’s rights or privilege to subscribe for or otherwise acquire
-    additional stock; to deposit securities in any voting trust or with any committee.
-    J. To borrow and to pledge or mortgage any property as collateral, and to make
-    secured or unsecured loans. My Personal Representative is specifically authorized to
-    make loans without interest to any beneficiary hereunder. No individual or entity loaning
-    property to my Personal Representative or trustee shall be held to see to the application
-    of such property.
-    K. My Personal Representative shall also in his or her absolute discretion determine
-    the allocation of any GST exemption available to me at my death to property passing
-    under this Will or otherwise. The determination of my Personal Representative with
-    respect to any elections or allocation, if made or taken in good faith, shall be binding
-    upon all affected."
+    move_down 6
+    text "My Personal Representative, shall have and may exercise the following discretionary powers in addition to any common law or statutory powers without the necessity of court license or approval:"
+    move_down 6
+    text "A. To retain for whatever period my Personal Representative deems advisable any property, including property owned by me at my death, and to invest and reinvest in any property, both real and personal, regardless of whether any particular investment would be proper for a Personal Representative and regardless of the extent of diversification of the assets held hereunder."
+    move_down 6
+    text "B. To sell and to grant options to purchase all or any part of my estate, both real and personal, at any time, at public or private sale, for consideration, whether or not the highest possible consideration, and upon terms, including credit, as my Personal Representative deems advisable, and to execute, acknowledge, and deliver deeds or other instruments in connection therewith."
+    move_down 6
+    text "C. To lease any real estate for terms and conditions as my Personal Representative deems advisable, including the granting of options to renew, options to extend the term or terms, and options to purchase."
+    move_down 6
+    text "D. To pay, compromise, settle or otherwise adjust any claims, including taxes, asserted in favor of or against me, my estate or my Personal Representative."
+    move_down 6
+    text "E. To make any separation into shares in whole or in part in kind and at values determined by my Personal Representative, with or without regard to tax basis, and to allocate different kinds and disproportionate amounts of property and undivided interests in property among the shares."
+    move_down 6
+    text "F. To make such elections under the tax laws as my Personal Representative shall deem appropriate, including elections with respect to qualified terminable interest property, exemptions and the use of deductions as income tax or estate tax deductions, and to determine whether to make any adjustments between income and principal on account of any election so made."
+    move_down 6
+    text "G. To make any elections permitted under any pension, profit sharing, employee stock ownership or other benefit plan."
+    move_down 6
+    text "H. To employ others in connection with the administration of my estate, including legal counsel, investment advisors, brokers, accountants and agents and to pay reasonable compensation in addition to my Personal Representative’s compensation."
+    move_down 6
+    text "I. To vote any shares of stock or other securities in person or by proxy; to assert or waive any stockholder’s rights or privilege to subscribe for or otherwise acquire additional stock; to deposit securities in any voting trust or with any committee."
+    move_down 6
+    text "J. To borrow and to pledge or mortgage any property as collateral, and to make secured or unsecured loans. My Personal Representative is specifically authorized to make loans without interest to any beneficiary hereunder. No individual or entity loaning property to my Personal Representative or trustee shall be held to see to the application of such property."
+    move_down 6
+    text "K. My Personal Representative shall also in his or her absolute discretion determine the allocation of any GST exemption available to me at my death to property passing under this Will or otherwise. The determination of my Personal Representative with respect to any elections or allocation, if made or taken in good faith, shall be binding upon all affected."
   end
 
   def contesting_beneficiary

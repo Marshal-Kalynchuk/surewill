@@ -19,14 +19,17 @@ class WillsController < ApplicationController
     respond_to do |format|
       format.html { render :show }
       format.json { render :show }
-      format.pdf do
-        pdf = WillDocument.new(@will, @testator, @delegates, @properties)
-        send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
-      end
     end
   end
 
-  def pdf
+  def last_will_and_testament
+    @delegates.preload(:bequests)
+    respond_to do |format|
+      format.pdf do
+        pdf = WillDocument.new(@will, @testator, @delegates, @properties, @finances, @belongings)
+        send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
+      end
+    end
   end
 
   # GET /wills/new
@@ -106,7 +109,7 @@ class WillsController < ApplicationController
       @will = current_user.will
       redirect_to :root if @will.nil?
       @testator = @will.testator
-      @delegates = @will.delegates
+      @delegates = @will.delegates.preload(:address)
       @accessors = @will.accessors
       @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
       @finances = @will.finances.preload(:primary_beneficiaries)

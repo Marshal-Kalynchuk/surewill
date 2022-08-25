@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     resource :billing_account
 
     resource :will, except: :index do 
+      
+      get 'last_will_and_testament', to: 'wills#last_will_and_testament'
+      
 
       resources :bequests, only: [], param: :index do
         member do

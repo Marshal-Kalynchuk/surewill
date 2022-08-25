@@ -13,7 +13,7 @@ class Delegate < ApplicationRecord
   scope :ordered, -> { order(id: :desc) }
 
   def full_name
-    "#{self.first_name} #{self.middle_name} #{self.last_name}"
+    "#{self.first_name}#{" #{self.middle_name}" unless self.middle_name.nil?} #{self.last_name}".to_s
   end
 
   before_save :update_ranks, :set_rank
