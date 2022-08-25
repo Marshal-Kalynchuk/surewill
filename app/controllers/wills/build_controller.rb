@@ -5,7 +5,7 @@ class Wills::BuildController < ApplicationController
   #before_action :set_progress, only: :show
   layout "dashboard"
 
-  steps :add_testator, :add_delegates, :add_assets
+  steps :add_testator, :add_delegates, :add_properties, :add_finances, :add_belongings
 
   def show
     case step
@@ -13,8 +13,12 @@ class Wills::BuildController < ApplicationController
       @testator = @will.testator ? @will.testator : @will.build_testator 
     when :add_delegates
       @delegates = @will.delegates
-    when :add_assets
-      @assets = @will.assets
+    when :add_properties
+      @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:addresses)
+    when :add_finances
+      @finances = @will.finances.preload(:primary_beneficiaries)
+    when :add_belongings
+      @belongings = @will.belongings.preload(:primary_beneficiaries)
     end
     render_wizard
   end

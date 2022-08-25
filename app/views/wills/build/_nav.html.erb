@@ -1,0 +1,4 @@
+<div class="relative mt-16 bg-white rounded-md shadow-md min-h-full flex justify-between py-4 px-5 mx-3 sm:mx-0">
+  <%= button_to "Back", previous_wizard_path, method: :get, class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  <%= button_to "Next", wizard_path, method: :put, params: {will: {status: @will.status}}, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+</div>

@@ -1,17 +1,8 @@
-<div>
-  <% if @testator %>
-    <%= turbo_frame_tag @testator do %>
-      <%= render partial: "testators/testator" %>
-    <% end %>
+<div class="relative mt-15 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <% if @testator.nil? %>
+    <%= render "testators/no_testator" %>
   <% else %>
-    <%= turbo_frame_tag Testator.new %>
-    <%= link_to "Add testator",
-                  new_user_will_testator_path,
-                  class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium",
-                  data: { turbo_frame: dom_id(Testator.new) } %>
+    <%= render "testators/testator" %>
   <% end %>
 </div>
-
-<%= button_to "Next", wizard_path, method: :put, params: {will: {status: @will.status}}, class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-<br/>
-<%= button_to "Back", previous_wizard_path, method: :get, class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+<%= render "nav", will: @will %>

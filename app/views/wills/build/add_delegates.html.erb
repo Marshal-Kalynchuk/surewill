@@ -1,18 +1,4 @@
-<%= render "errors" %>
-<div>
-
-  <%= turbo_frame_tag "delegates" do %>
-    <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <%= render partial: "delegates/delegate", collection: @delegates %>
-    </ul>
-  <% end %>
-  
-  <%= turbo_frame_tag Delegate.new %>
-  <%= link_to "New delegate",
-                new_user_will_delegate_path,
-                class: "btn btn--primary",
-                data: { turbo_frame: dom_id(Delegate.new) } %>
+<div class="relative mt-16 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <%= render template: "delegates/index", delegates: @delegates %>
 </div>
-
-<%= button_to "Next", wizard_path, method: :put, params: {will: {status: @will.status}} %>
-<%= button_to "Back", previous_wizard_path, method: :get %>
+<%= render "nav", will: @will %>
