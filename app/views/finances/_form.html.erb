@@ -57,7 +57,7 @@
             <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
 
               <template data-nested-form-target='template'>
-                <%= f.fields_for :priamry_bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                <%= f.fields_for :primary_bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
                   <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
                 <% end %>
               </template>

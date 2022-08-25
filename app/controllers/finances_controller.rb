@@ -50,6 +50,7 @@ class FinancesController < ApplicationController
         format.html { redirect_to user_will_finance_url(current_user, @finance), notice: "Finance was successfully updated." }
         format.json { render :show, status: :ok, location: @finance }
       else
+        @delegates = @will.delegates
         format.turbo_stream { render turbo_stream: turbo_stream.replace("finance_#{@finance.id}_form", partial: "form", locals: { finance: @finance }), status: :unprocessable_entity }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @finance.errors, status: :unprocessable_entity }

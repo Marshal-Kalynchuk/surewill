@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :belongings
   resources :finances
   
   root to: 'pages#home'

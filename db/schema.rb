@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
   create_table "accessors", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "will_id", null: false
@@ -59,6 +59,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.string "country_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "belongings", force: :cascade do |t|
+    t.integer "will_id", null: false
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["will_id"], name: "index_belongings_on_will_id"
   end
 
   create_table "bequests", force: :cascade do |t|
@@ -265,6 +274,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
   add_foreign_key "accessors", "wills"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "belongings", "wills"
   add_foreign_key "delegates", "wills"
   add_foreign_key "finances", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
