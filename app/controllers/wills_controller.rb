@@ -110,6 +110,7 @@ class WillsController < ApplicationController
       @accessors = @will.accessors
       @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
       @finances = @will.finances.preload(:primary_beneficiaries)
+      @belongings = @will.belongings.preload(:primary_beneficiaries)
     end
 
     # Only allow a list of trusted parameters through.

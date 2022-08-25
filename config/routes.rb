@@ -28,10 +28,12 @@ Rails.application.routes.draw do
       end
       
       resources :build, controller: 'wills/build'
+      resource :testator
       resources :delegates
       resources :properties
       resources :finances
-      resource :testator
+      resources :belongings
+      
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'

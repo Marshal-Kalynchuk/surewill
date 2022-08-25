@@ -267,6 +267,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
     t.integer "properties_count"
     t.integer "finances_count"
     t.integer "delegates_count"
+    t.integer "belongings_count"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 

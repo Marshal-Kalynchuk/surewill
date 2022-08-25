@@ -4,6 +4,7 @@ class Delegate < ApplicationRecord
   has_many :bequests, as: :beneficiariable, dependent: :destroy
   has_many :properties, through: :bequests, source: :asset, source_type: "Property"
   has_many :finances, through: :bequests, source: :asset, source_type: "Finance"
+  has_many :belongings, through: :bequests, source: :asset, source_type: "Belonging"
 
   before_validation :exempt_address
 
