@@ -45,6 +45,8 @@ en:
         secondary_bequests: "Content beneficiaries"
       finance:
         primary_bequests: "Beneficiaries"
+      belonging:
+        primary_bequests: "Beneficiaries"
     errors:
       models:
         user:
@@ -70,6 +72,10 @@ en:
             secondary_bequests:
               blank: "is required"
         finance:
+          attributes:
+            primary_bequests:
+              blank: "is required"
+        belonging:
           attributes:
             primary_bequests:
               blank: "is required"

@@ -36,7 +36,7 @@
         <%= link_to "Add belonging", new_user_will_belonging_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
       </div>
     </div>
-    <ul id="belongings" role="list" class="relative mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <ul id="belongings" role="list" class="relative mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 place-items-stretch">
       <%= render @belongings %>
     </ul>
   <% end %>
