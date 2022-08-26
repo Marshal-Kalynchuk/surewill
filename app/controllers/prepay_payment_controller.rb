@@ -1,6 +1,7 @@
 class PrepayPaymentController < ApplicationController
   before_action :authenticate_user!
   before_action :validate_will
+  layout "dashboard"
 
   def show
     current_user.set_payment_processor :stripe
@@ -10,7 +11,7 @@ class PrepayPaymentController < ApplicationController
       .payment_processor
       .checkout(
         mode: 'payment',
-        line_items: 'price_1LVN8nA4TChht1jz8YnUS17Y',
+        line_items: 'price_1LapioA4TChht1jzDj1OHTjd',
         success_url: prepay_success_user_will_url
       )
   end
