@@ -1,8 +1,4 @@
 <div class="relative mt-15 min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
-  <% if @testator.nil? %>
-    <%= render "testators/no_testator" %>
-  <% else %>
-    <%= render "testators/testator" %>
-  <% end %>
+  <%= render template: "testators/show", testator: @testator %>
 </div>
 <%= render "nav", will: @will %>
