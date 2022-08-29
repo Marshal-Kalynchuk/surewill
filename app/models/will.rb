@@ -10,8 +10,8 @@ class Will < ApplicationRecord
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets, reject_if: :all_blank, allow_destroy: true
   # Remaining estate
-  has_many :remaining_estate_bequests, dependent: :destroy
-  accepts_nested_attributes_for :remaining_estate_bequests, reject_if: :all_blank, allow_destroy: true
+  has_many :dependents, dependent: :destroy
+  accepts_nested_attributes_for :dependents, reject_if: :all_blank, allow_destroy: true
 
   # Accessors
   has_many :accessors, dependent: :destroy

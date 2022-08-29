@@ -110,6 +110,7 @@ class WillsController < ApplicationController
       redirect_to :root if @will.nil?
       @testator = @will.testator
       @delegates = @will.delegates.preload(:address)
+      @dependents = @will.dependents
       @assets = @will.assets.preload(:beneficiaries).preload(:address)
       # @accessors = @will.accessors
     end

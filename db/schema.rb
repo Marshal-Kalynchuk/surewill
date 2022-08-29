@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_29_032852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["will_id"], name: "index_delegates_on_will_id"
+  end
+
+  create_table "dependents", force: :cascade do |t|
+    t.bigint "will_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["will_id"], name: "index_dependents_on_will_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -248,6 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.datetime "updated_at", null: false
     t.integer "assets_count"
     t.integer "delegates_count"
+    t.integer "dependents_count"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
@@ -257,6 +267,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assets", "wills"
   add_foreign_key "delegates", "wills"
+  add_foreign_key "dependents", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

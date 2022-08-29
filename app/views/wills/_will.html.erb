@@ -23,6 +23,10 @@
 </div>
 
 <div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
+  <%= render template: "dependents/index", dependents: @dependents %>
+</div>
+
+<div class="relative <%=spacing%> min-h-full flex flex-col justify-center py-5 px-3 sm:px-0">
   <%= render template: "delegates/index", delegates: @delegates %>
 </div>
 

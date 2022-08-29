@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :dependents
   resources :belongings
   
   root to: 'pages#home'
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
       resources :build, controller: 'wills/build'
       resource :testator
       resources :delegates
+      resources :dependents
       resources :assets
               
       # put 'release', to: 'wills#release'

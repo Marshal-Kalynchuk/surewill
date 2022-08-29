@@ -1,6 +1,6 @@
 class DelegatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, execpt: %i[ destory ]
+  before_action :set_will
   before_action :set_delegate, only: %i[ show edit update destroy ]
   layout "dashboard"
 
