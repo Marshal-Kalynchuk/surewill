@@ -5,11 +5,16 @@ class Address < ApplicationRecord
     "#{self.line_1}, #{self.postal_code} #{self.city}, #{self.zone}, #{self.country_code}"
   end
   
-  def short_address
+  def short_line_address
     "#{self.line_1}, #{self.city}, #{self.country_code}"
   end
 
   def formatted_address
     "#{self.city}, Country of #{self.country_code}, State of #{self.zone}"
   end
+
+  def short_broad_address
+    "#{self.city}, #{self.zone}, #{self.country_code}"
+  end
+
 end
