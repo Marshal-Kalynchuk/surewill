@@ -6,7 +6,7 @@ class AssetsController < ApplicationController
 
   # GET /assets or /assets.json
   def index
-    @assets = @will.assets.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
+    @assets = @will.assets.preload(:beneficiaries).preload(:address)
   end
 
   # GET /assets/1 or /assets/1.json
@@ -85,10 +85,9 @@ class AssetsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def asset_params
       params.require(:asset).permit(
-        :id, :asset_type, :title, 
+        :id, :title, 
         address_attributes: [ :id, :line_1, :line_2, :city, :zone, :postal_code, :country_code ],
-        primary_bequests_attributes: [ :primary, :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ],
-        secondary_bequests_attributes: [ :primary, :beneficiariable_id, :beneficiariable_type, :percentage, :id, :_destroy ]
+        bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :id, :_destroy ]
       )
     end
 end

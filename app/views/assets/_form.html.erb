@@ -25,6 +25,19 @@
               <%= f.text_field :title, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
             </div>
 
+            <div class="col-span-6 sm:col-span-4">
+              <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+              <p class="text-sm text-gray-600">Optional</p>
+              <%= f.text_area :description, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Address:</h3>
+                <p class="mt-1 text-sm text-gray-600">Please add a legal address if applicable. This helps your beneficiaries identify the asset.</p>
+              </div>
+            </div>
+
             <%= f.fields_for :address do |ff| %>
 
             <div class="col-span-6 sm:col-span-3">
@@ -51,6 +64,7 @@
               <%= ff.label :postal_code, class: "block text-sm font-medium text-gray-700"%>
               <%= ff.text_field :postal_code, autocomplete: "postal-code", class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
             </div>
+
             <% end %>
 
             <div class="col-span-6">
@@ -61,19 +75,17 @@
               </div>
             </div>
 
-
             <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
 
               <template data-nested-form-target='template'>
                 <%= f.fields_for :bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
-                  <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
+                  <%= render "bequests/form", f: ff, delegates: @delegates %>
                 <% end %>
               </template>
 
               <%= f.fields_for :bequests do |ff| %>
-                <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
+                <%= render "bequests/form", f: ff, delegates: @delegates %>
               <% end %>
-
 
               <div class="relative flex items-center" data-nested-form-target="add_item">
                 <%= link_to "Add Beneficiary", "#", data: { action: "nested-form#add_association" }, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>

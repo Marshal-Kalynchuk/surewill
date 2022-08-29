@@ -243,7 +243,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "properties_count"
+    t.integer "assets_count"
     t.integer "delegates_count"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
