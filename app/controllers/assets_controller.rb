@@ -16,7 +16,6 @@ class AssetsController < ApplicationController
   # GET /assets/new
   def new
     @asset = @will.assets.build
-    @asset.build_address
     @delegates = @will.delegates
   end
 
@@ -85,8 +84,8 @@ class AssetsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def asset_params
       params.require(:asset).permit(
-        :id, :title, 
-        address_attributes: [ :id, :line_1, :line_2, :city, :zone, :postal_code, :country_code ],
+        :id, :title, :description,
+        address_attributes: [ :id, :line_1, :line_2, :city, :zone, :postal_code, :country_code, :_destroy ],
         bequests_attributes: [ :beneficiariable_id, :beneficiariable_type, :id, :_destroy ]
       )
     end

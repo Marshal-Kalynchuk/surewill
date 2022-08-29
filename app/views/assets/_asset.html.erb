@@ -15,8 +15,9 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900"><%= asset.title %></h3>
             <!--span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-200 rounded-full">Personal</span-->
           </div>
-          <p class="mt-1 text-gray-500 text-sm truncate">Address: <%= asset.address.short_line_address %></p>
-
+          <% unless asset.address.nil? %>
+            <p class="mt-1 text-gray-500 text-sm truncate">Address: <%= asset.address.short_line_address %></p>
+          <% end %>
           <% unless asset.beneficiaries.empty? %>
           <div class="mt-1">
             <h2 class="text-gray-500 text-sm font-medium">Main beneficiaries:</h2>
