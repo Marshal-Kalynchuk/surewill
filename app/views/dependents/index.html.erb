@@ -10,7 +10,7 @@
               d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
           </svg>
           <h3 class="mt-2 text-sm font-medium text-gray-900">No Dependents</h3>
-          <p class="mt-1 text-sm text-gray-500">Continue by adding your dependents. dependents are the people that will be eligible to recieve the assets you choose. You can also choose which ones you want to be executors.</p>
+          <p class="mt-1 text-sm text-gray-500">A dependent classifies as a child under the age of 18. Skip this section if you do not have any children.</p>
           <div class="mt-6">
             <%= link_to(new_user_will_dependent_path, data: { turbo_frame: "model" }, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500") do %>
             <!-- Heroicon name: solid/plus -->
@@ -30,7 +30,7 @@
     <div class="flex items-center">
       <div class="flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">Dependents</h1>
-        <p class="mt-2 text-sm text-gray-700">Dependents are your children, biologic or not, that are under the age of adulthood.</p>
+        <p class="mt-2 text-sm text-gray-700">A dependent classifies as a child under the age of 18.</p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 flex-none">
         <%= link_to "Add dependent", new_user_will_dependent_path, data: { turbo_frame: "model" }, class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"%>
