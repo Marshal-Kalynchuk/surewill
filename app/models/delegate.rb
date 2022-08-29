@@ -2,9 +2,7 @@ class Delegate < ApplicationRecord
   include Collocable
   belongs_to :will, counter_cache: true
   has_many :bequests, as: :beneficiariable, dependent: :destroy
-  has_many :properties, through: :bequests, source: :asset, source_type: "Property"
-  has_many :finances, through: :bequests, source: :asset, source_type: "Finance"
-  has_many :belongings, through: :bequests, source: :asset, source_type: "Belonging"
+  has_many :assets, through: :bequests, source: :asset
 
   before_validation :exempt_address
 

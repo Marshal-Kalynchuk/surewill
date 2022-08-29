@@ -1,6 +1,0 @@
-<%= turbo_stream.remove "#{dom_id(@property)}_item" %>
-<% if @size == 0 %>
-  <%= turbo_stream.replace "properties_section" do %>
-    <%= turbo_frame_tag "properties_section", src: user_will_properties_path(current_user) %>
-  <% end %>
-<% end %>

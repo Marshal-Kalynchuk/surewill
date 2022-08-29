@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       resources :build, controller: 'wills/build'
       resource :testator
       resources :delegates
-      resources :properties
+      resources :assets
               
       # put 'release', to: 'wills#release'
 

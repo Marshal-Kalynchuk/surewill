@@ -5,22 +5,16 @@
   <% end %>
 <% end %>
 
-<% @update_properties.each do |property| %>
-  <%= turbo_stream.update "#{dom_id(property)}_item" do %>
-    <%= render "properties/property", property: property %>
-  <% end %>
-<% end %>
-
-<% @update_finances.each do |finance| %>
-  <%= turbo_stream.update "#{dom_id(finance)}_item" do %>
-    <%= render "finances/finance", finance: finance %>
-  <% end %>
-<% end %>
-
 <% @delegates.each do |delegate| %>
   <% if delegate.saved_changes %>
     <%= turbo_stream.update "#{dom_id(delegate)}_item" do %>
       <%= render "delegate", delegate: delegate %>
     <% end %>
+  <% end %>
+<% end %>
+
+<% @update_assets.each do |asset| %>
+  <%= turbo_stream.update "#{dom_id(asset)}_item" do %>
+    <%= render "assets/asset", asset: asset %>
   <% end %>
 <% end %>

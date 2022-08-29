@@ -6,15 +6,10 @@ class Will < ApplicationRecord
   # Delegates
   has_many :delegates, dependent: :destroy
   accepts_nested_attributes_for :delegates, reject_if: :all_blank, allow_destroy: true
-  # Properties
-  has_many :properties, dependent: :destroy
-  accepts_nested_attributes_for :properties
-  # Finances
-  has_many :finances, dependent: :destroy
-  accepts_nested_attributes_for :finances, reject_if: :all_blank, allow_destroy: true
-  # Belongings
-  has_many :belongings, dependent: :destroy
-  accepts_nested_attributes_for :belongings, reject_if: :all_blank, allow_destroy: true
+  # Assets
+  has_many :assets, dependent: :destroy
+  accepts_nested_attributes_for :assets, reject_if: :all_blank, allow_destroy: true
+
   # Accessors
   has_many :accessors, dependent: :destroy
 

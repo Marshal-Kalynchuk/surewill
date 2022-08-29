@@ -26,7 +26,7 @@ class WillsController < ApplicationController
     @delegates.preload(:bequests)
     respond_to do |format|
       format.pdf do
-        pdf = WillDocument.new(@will, @testator, @delegates, @properties, @finances, @belongings)
+        pdf = WillDocument.new(@will, @testator, @delegates, @assets, @finances, @belongings)
         send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
       end
     end
@@ -110,10 +110,8 @@ class WillsController < ApplicationController
       redirect_to :root if @will.nil?
       @testator = @will.testator
       @delegates = @will.delegates.preload(:address)
-      @accessors = @will.accessors
-      @properties = @will.properties.preload(:primary_beneficiaries).preload(:secondary_beneficiaries).preload(:address)
-      @finances = @will.finances.preload(:primary_beneficiaries)
-      @belongings = @will.belongings.preload(:primary_beneficiaries)
+      @assets = @will.assets.preload(:beneficiaries).preload(:address)
+      # @accessors = @will.accessors
     end
 
     # Only allow a list of trusted parameters through.

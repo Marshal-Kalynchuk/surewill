@@ -1,4 +1,4 @@
-<%= form_with model: [:user, :will, property], id: "#{dom_id(property)}_form", data: { turbo_frame: "_top" }, class: "sm:flex mt-5 sm:items-center" do |f| %>
+<%= form_with model: [:user, :will, asset], id: "#{dom_id(asset)}_form", data: { turbo_frame: "_top" }, class: "sm:flex mt-5 sm:items-center" do |f| %>
 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
   <div class="fixed z-10 inset-0 overflow-y-auto">
@@ -10,20 +10,14 @@
           <div class="grid grid-cols-6 gap-6">
 
             <div class="col-span-6">
-              <%= render "shared/error_messages", resource: property %>
+              <%= render "shared/error_messages", resource: asset %>
             </div>
 
             <div class="col-span-6">
               <div class="px-0 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Property Information</h3>
-                <p class="mt-1 text-sm text-gray-600">Use the permanent legal address. This helps identify the propety
-                  in the will.</p>
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Asset Information</h3>
+                <p class="mt-1 text-sm text-gray-600"></p>
               </div>
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-              <%= f.label :property_type, class: "block text-sm font-medium text-gray-700" %>
-              <%= f.select :property_type, ['Personal', 'Commercial'], {}, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
@@ -62,7 +56,7 @@
             <div class="col-span-6">
               <div class="px-0 sm:px-0">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">Inheritance Information</h3>
-                <p class="mt-1 text-sm text-gray-600">Choose which beneficiaries will inherit this property. This
+                <p class="mt-1 text-sm text-gray-600">Choose which beneficiaries will inherit this asset. This
                   includes the land and building.</p>
               </div>
             </div>
@@ -71,12 +65,12 @@
             <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
 
               <template data-nested-form-target='template'>
-                <%= f.fields_for :primary_bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                <%= f.fields_for :bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
                   <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
                 <% end %>
               </template>
 
-              <%= f.fields_for :primary_bequests do |ff| %>
+              <%= f.fields_for :bequests do |ff| %>
                 <%= render "bequests/form", f: ff, primary: true, delegates: @delegates %>
               <% end %>
 
@@ -87,35 +81,9 @@
 
             </div>
 
-            <div class="col-span-6">
-              <div class="px-0 sm:px-0">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Contents Information</h3>
-                <p class="mt-1 text-sm text-gray-600">Choose which beneficiaries will inherit the contents of this
-                  property. The contents will be split equally amoungst the beneficiaries you specify.</p>
-              </div>
-            </div>
-
-            <div class="nested_form col-span-6 grid grid-cols-1 gap-4 sm:grid-cols-2" data-controller="nested-form">
-
-              <template data-nested-form-target='template'>
-                <%= f.fields_for :secondary_bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
-                  <%= render "bequests/form", f: ff, primary: false, delegates: @delegates %>
-                <% end %>
-              </template>
-
-              <%= f.fields_for :secondary_bequests do |ff| %>
-                <%= render "bequests/form", f: ff, primary: false, delegates: @delegates %>
-              <% end %>
-
-              <div class="relative flex items-center" data-nested-form-target="add_item" >
-                <%= link_to "Add Beneficiary", "#", data: { action: "nested-form#add_association" }, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-              </div>
-
-            </div>
-
           </div>
           <div class="px-0 py-4 text-right justify-end">
-            <%= link_to "Cancel", user_will_properties_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+            <%= link_to "Cancel", user_will_assets_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
             <%= f.submit value: "Save", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
           </div>
         </div>
