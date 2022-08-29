@@ -4,7 +4,7 @@
   <div class="fixed z-10 inset-0 overflow-y-auto">
     <div class="sm:flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
       <div
-        class="relative bg-white rounded-lg px-4 pt-3 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
+        class="relative bg-white rounded-lg px-4 pt-3 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full sm:p-6">
         <div class="px-4 py-3 bg-white sm:p-6">
 
           <div class="grid grid-cols-6 gap-6">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="ml-3 text-sm">
                   <%= f.label :inherits_remainder, class: "font-medium text-gray-700" %>
-                  <p id="inherits_remainder-description" class="text-gray-500">Select them inherit the remainder of your estate.</p>
+                  <p id="inherits_remainder-description" class="text-gray-500">Select them to inherit the remainder of your estate. They, and others you select will inherit your estate in equal shares.</p>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="ml-3 text-sm">
                   <%= f.label :guardian, class: "font-medium text-gray-700" %>
-                  <p id="guardian-description" class="text-gray-500">Select them as an guardian to your kids.</p>
+                  <p id="guardian-description" class="text-gray-500">Select them as an guardian to the dependents you listed.</p>
                 </div>
               </div>
             </div>

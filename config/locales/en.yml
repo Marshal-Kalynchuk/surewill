@@ -40,13 +40,13 @@ en:
         zone: "State / Province"
         line_1: "Street address"
         postal_code: "ZIP / Postal code"
-      property:
-        primary_bequests: "Beneficiaries"
-        secondary_bequests: "Content beneficiaries"
-      finance:
-        primary_bequests: "Beneficiaries"
-      belonging:
-        primary_bequests: "Beneficiaries"
+      asset:
+        bequests: "Beneficiaries"
+      delegate:
+        executor: "Executor"
+        guardian: "Guardian"
+        inherits_remainder: "Inherits Estate"
+
     errors:
       models:
         user:
@@ -65,18 +65,10 @@ en:
               blank: "is required"
             line_1:
               blank: "is required"
-        property:
+        asset:
           attributes:
-            primary_bequests:
+            bequests:
               blank: "is required"
-            secondary_bequests:
-              blank: "is required"
-        finance:
-          attributes:
-            primary_bequests:
-              blank: "is required"
-        belonging:
-          attributes:
-            primary_bequests:
-              blank: "is required"
+
+
 
