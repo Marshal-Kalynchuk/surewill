@@ -1,4 +1,0 @@
-<%= turbo_stream.update "#{dom_id(@belonging)}_item" do %>
-  <%= render "belonging", belonging: @belonging %>
-<% end %>
-<%= turbo_stream.remove "#{dom_id(@belonging)}_form" %>

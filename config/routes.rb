@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   resources :belongings
-  resources :finances
   
   root to: 'pages#home'
 
@@ -34,9 +33,7 @@ Rails.application.routes.draw do
       resource :testator
       resources :delegates
       resources :properties
-      resources :finances
-      resources :belongings
-      
+              
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'
