@@ -20,8 +20,8 @@
           <% end %>
           <% unless asset.beneficiaries.empty? %>
           <div class="mt-1">
-            <h2 class="text-gray-500 text-sm font-medium">Main beneficiaries:</h2>
-            <ul role="list" class="mt-3 grid grid-cols-1 gap-3 sm:gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <h2 class="text-gray-500 text-sm font-medium">Beneficiaries:</h2>
+            <ul role="list" class="mt-2 flex flex-wrap gap-2">
               <% asset.beneficiaries.each do |delegate| %>
                 <%= render "shared/delegate_small", delegate: delegate, color: "bg-indigo-600" %>
               <% end %>

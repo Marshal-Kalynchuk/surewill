@@ -8,23 +8,23 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900"><%= delegate.full_name %></h3>
           </div>
           <p class="mt-1 text-gray-500 text-sm truncate"><%= delegate.relation %> | <%= delegate.address.short_broad_address %></p>
-          <div class="flex flex-wrap gap-1 mt-3">
+          <div class="flex flex-wrap gap-2 mt-2">
             <% if delegate.executor == true %>
               <% if delegate.executor_rank == 1 %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-xs font-medium bg-emerald-200 rounded-full">Primary Executor</span>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-sm font-medium bg-emerald-200 rounded-full">Primary Executor</span>
               <% else %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-xs font-medium bg-emerald-200 rounded-full">Alternate Executor <%= (delegate.executor_rank - 1) %></span>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-sm font-medium bg-emerald-200 rounded-full">Alternate Executor <%= (delegate.executor_rank - 1) %></span>
               <% end %>
             <% end %>
             <% if delegate.guardian == true %>
               <% if delegate.guardian_rank == 1 %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-xs font-medium bg-sky-200 rounded-full">Primary Guardian</span>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-sm font-medium bg-sky-200 rounded-full">Primary Guardian</span>
               <% else %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-xs font-medium bg-sky-200 rounded-full">Alternate Guardian <%= (delegate.guardian_rank - 1) %></span>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-sm font-medium bg-sky-200 rounded-full">Alternate Guardian <%= (delegate.guardian_rank - 1) %></span>
               <% end %>
             <% end %>
             <% if delegate.inherits_remainder == true %>
-              <span class="flex-shrink-0 inline-block px-2 py-0.5 text-pink-800 text-xs font-medium bg-pink-200 rounded-full">Inherits Estate</span>
+              <span class="flex-shrink-0 inline-block px-2 py-0.5 text-pink-800 text-sm font-medium bg-pink-200 rounded-full">Inherits Estate</span>
             <% end %>
           </div>
         </div>
