@@ -9,6 +9,9 @@ class Will < ApplicationRecord
   # Assets
   has_many :assets, dependent: :destroy
   accepts_nested_attributes_for :assets, reject_if: :all_blank, allow_destroy: true
+  # Remaining estate
+  has_many :remaining_estate_bequests, dependent: :destroy
+  accepts_nested_attributes_for :remaining_estate_bequests, reject_if: :all_blank, allow_destroy: true
 
   # Accessors
   has_many :accessors, dependent: :destroy
@@ -41,20 +44,8 @@ class Will < ApplicationRecord
     self.status.include?('delegates') || active?
   end
 
-  def active_or_executors?
-    self.status.include?('executors') || active?
-  end
-
-  def active_or_beneficiaries?
-    self.status.include?('beneficiaries') || active?
-  end
-
   def active_or_assets?
     self.status.include?('assets') || active?
-  end
-
-  def active_or_bequests?
-    self.status.include?('bequests') || active?
   end
 
   def init

@@ -6,15 +6,27 @@
         <div class="flex-1 truncate">
           <div class="flex items-center space-x-3">
             <h3 class="text-lg leading-6 font-medium text-gray-900"><%= delegate.full_name %></h3>
-            <% if delegate.executor == 1 %>
-              <% if delegate.executor_rank == 1 %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-200 rounded-full">Primary executor</span>
-              <% else %>
-                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-yellow-800 text-xs font-medium bg-yellow-100 rounded-full">Alternate executor <%= (delegate.executor_rank - 1) %></span>
-              <% end %>
-            <% end %>
           </div>
           <p class="mt-1 text-gray-500 text-sm truncate"><%= delegate.relation %></p>
+          <div class="flex flex-wrap gap-1 mt-3">
+            <% if delegate.executor == true %>
+              <% if delegate.executor_rank == 1 %>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-xs font-medium bg-emerald-200 rounded-full">Primary Executor</span>
+              <% else %>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-emerald-800 text-xs font-medium bg-emerald-200 rounded-full">Alternate Executor <%= (delegate.executor_rank - 1) %></span>
+              <% end %>
+            <% end %>
+            <% if delegate.guardian == true %>
+              <% if delegate.guardian_rank == 1 %>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-xs font-medium bg-sky-200 rounded-full">Primary Guardian</span>
+              <% else %>
+                <span class="flex-shrink-0 inline-block px-2 py-0.5 text-sky-800 text-xs font-medium bg-sky-200 rounded-full">Alternate Guardian <%= (delegate.guardian_rank - 1) %></span>
+              <% end %>
+            <% end %>
+            <% if delegate.inherits_remainder == true %>
+              <span class="flex-shrink-0 inline-block px-2 py-0.5 text-pink-800 text-xs font-medium bg-pink-200 rounded-full">Inherits Estate</span>
+            <% end %>
+          </div>
         </div>
       </div>
     <div>

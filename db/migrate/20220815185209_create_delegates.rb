@@ -5,8 +5,11 @@ class CreateDelegates < ActiveRecord::Migration[7.0]
       t.string :first_name, null: false
       t.string :middle_name
       t.string :last_name, null:false
-      t.integer :executor, null: false, default: false
+      t.boolean :executor, null: false, default: false
       t.integer :executor_rank, null: false, default: 0
+      t.boolean :guardian, null: false, default: false
+      t.integer :guardian_rank, null: false, default: 0
+      t.boolean :inherits_remainder, null: false, default: false
       t.string :relation, null:false
       t.text :note
 

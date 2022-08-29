@@ -98,8 +98,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_193243) do
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name", null: false
-    t.integer "executor", default: 0, null: false
+    t.boolean "executor", default: false, null: false
     t.integer "executor_rank", default: 0, null: false
+    t.boolean "guardian", default: false, null: false
+    t.integer "guardian_rank", default: 0, null: false
+    t.boolean "inherits_remainder", default: false, null: false
     t.string "relation", null: false
     t.text "note"
     t.datetime "created_at", null: false
