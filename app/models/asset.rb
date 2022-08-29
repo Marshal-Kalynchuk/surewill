@@ -7,5 +7,13 @@ class Asset < ApplicationRecord
   
   validates :bequests, :title, presence: true
   validates :title, length: { in: 3..20 }
+  after_initialize :bequests_valid?, unless: :new_record?
+
+  def bequests_valid?
+    if self.bequests.empty?
+      self.errors.add(:beneficiaries, "can't be blank")
+    end
+    self.errors.empty?
+  end
 
 end

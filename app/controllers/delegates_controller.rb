@@ -38,7 +38,7 @@ class DelegatesController < ApplicationController
   def update
     respond_to do |format|
       if @delegate.update(delegate_params)
-        @update_properties =  @delegate.properties.to_a
+        @update_assets =  @delegate.assets.to_a
         format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Delegate was successfully updated." }
         format.json { render :show, status: :ok, location: @delegate }
@@ -51,15 +51,10 @@ class DelegatesController < ApplicationController
   end
 
   def destroy
-    @update_properties =  @delegate.properties.to_a
-    @update_finances = @delegate.finances.to_a
+    @update_assets =  @delegate.assets.to_a
     @delegate.destroy
     @size = @will.delegates.size
-    @update_properties.each do |property| 
-      property.primary_valid?
-      property.secondary_valid?
-    end
-    @update_finances.each{ |finance| finance.primary_valid? }
+    @update_assets.each{ |property| property.bequests_valid? }
 
     respond_to do |format|
       format.turbo_stream
