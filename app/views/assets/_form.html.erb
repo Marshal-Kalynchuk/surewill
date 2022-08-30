@@ -1,0 +1,92 @@
+<%= form_with model: [:user, :will, asset], id: "#{dom_id(asset)}_form", data: { turbo_frame: "_top" }, class: "sm:flex mt-5 sm:items-center" do |f| %>
+<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div class="fixed z-10 inset-0 overflow-y-auto">
+    <div class="sm:flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+      <div
+        class="relative sm:mx-3 bg-white rounded-lg px-4 pt-3 pb-3 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-4xl sm:w-full sm:p-6">
+        <div class="px-4 py-3 bg-white sm:p-6">
+
+          <div class="grid grid-cols-6 gap-6">
+
+            <div class="col-span-6">
+              <%= render "shared/error_messages", resource: asset %>
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Asset Information</h3>
+                <p class="mt-1 text-sm text-gray-600">Please describe the asset or belonging you wish to bequest.</p>
+              </div>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <%= f.label :title, class: "block text-sm font-medium text-gray-700" %>
+              <%= f.text_field :title, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <%= f.label :description, class: "block text-sm font-medium text-gray-700" %>
+              <p class="text-sm text-gray-600">Optional</p>
+              <%= f.text_area :description, class: "mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"%>
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Address:</h3>
+                <p class="mt-1 text-sm text-gray-600">Please add a legal address if applicable. This helps your beneficiaries identify the asset.</p>
+              </div>
+            </div>
+            <div class="address_form col-span-6" data-controller="address-form">
+
+              <template data-address-form-target='template'>
+                <%= f.fields_for :address, Address.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                  <%= render "addresses/form", f: ff %>
+                <% end %>
+              </template>
+
+              <%= f.fields_for :address do |ff| %>
+                <%= render "addresses/form", f: ff %>
+              <% end %>
+
+              <div class="add_item relative flex items-center" data-address-form-target="add_item">
+                <%= link_to "Add Address", "#", data: { action: "address-form#add_association" }, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+              </div>
+
+            </div>
+
+            <div class="col-span-6">
+              <div class="px-0 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Beneficiary Information</h3>
+                <p class="mt-1 text-sm text-gray-600">Choose which beneficiaries will recieve this asset or belonging.</p>
+              </div>
+            </div>
+
+            <div class="nested_form col-span-6 grid grid-cols-1 gap-6 sm:grid-cols-2 " data-controller="nested-form">
+
+              <template data-nested-form-target='template'>
+                <%= f.fields_for :bequests, Bequest.new, child_index: 'TEMPLATE_RECORD' do |ff| %>
+                  <%= render "bequests/form", f: ff, delegates: @delegates %>
+                <% end %>
+              </template>
+
+              <%= f.fields_for :bequests do |ff| %>
+                <%= render "bequests/form", f: ff, delegates: @delegates %>
+              <% end %>
+
+              <div class="relative flex items-center" data-nested-form-target="add_item">
+                <%= link_to "Add Beneficiary", "#", data: { action: "nested-form#add_association" }, class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="px-0 py-4 text-right justify-end">
+            <%= link_to "Cancel", user_will_assets_path(current_user), class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+            <%= f.submit value: "Save", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>

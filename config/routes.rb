@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
+  resources :dependents
   resources :belongings
-  resources :finances
   
   root to: 'pages#home'
 
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     resource :will, except: :index do 
       
-      get 'last_will_and_testament', to: 'wills#last_will_and_testament'
+      get 'preview', to: 'wills#preview'
       
 
       resources :bequests, only: [], param: :index do
@@ -33,10 +33,9 @@ Rails.application.routes.draw do
       resources :build, controller: 'wills/build'
       resource :testator
       resources :delegates
-      resources :properties
-      resources :finances
-      resources :belongings
-      
+      resources :dependents
+      resources :assets
+              
       # put 'release', to: 'wills#release'
 
       # get 'access', to: 'access_payment#show'

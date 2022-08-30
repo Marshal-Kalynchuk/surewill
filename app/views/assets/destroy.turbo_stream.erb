@@ -1,0 +1,6 @@
+<%= turbo_stream.remove "#{dom_id(@asset)}_item" %>
+<% if @size == 0 %>
+  <%= turbo_stream.replace "assets_section" do %>
+    <%= turbo_frame_tag "assets_section", src: user_will_assets_path(current_user) %>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 class DelegatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_will, execpt: %i[ destory ]
+  before_action :set_will
   before_action :set_delegate, only: %i[ show edit update destroy ]
   layout "dashboard"
 
@@ -38,7 +38,7 @@ class DelegatesController < ApplicationController
   def update
     respond_to do |format|
       if @delegate.update(delegate_params)
-        @update_properties =  @delegate.properties.to_a
+        @update_assets =  @delegate.assets.to_a
         format.turbo_stream
         format.html { redirect_to user_will_delegates_path(current_user), notice: "Delegate was successfully updated." }
         format.json { render :show, status: :ok, location: @delegate }
@@ -51,15 +51,10 @@ class DelegatesController < ApplicationController
   end
 
   def destroy
-    @update_properties =  @delegate.properties.to_a
-    @update_finances = @delegate.finances.to_a
+    @update_assets =  @delegate.assets.to_a
     @delegate.destroy
     @size = @will.delegates.size
-    @update_properties.each do |property| 
-      property.primary_valid?
-      property.secondary_valid?
-    end
-    @update_finances.each{ |finance| finance.primary_valid? }
+    @update_assets.each{ |property| property.bequests_valid? }
 
     respond_to do |format|
       format.turbo_stream
@@ -83,7 +78,7 @@ class DelegatesController < ApplicationController
   def delegate_params
     params.require(:delegate).permit(
       :first_name, :middle_name, :last_name, 
-      :executor, :relation, :note, :id, :_destroy,
+      :executor, :inherits_remainder, :guardian, :relation, :note, :id, :_destroy,
       address_attributes: [:id, :line_1, :postal_code, :city, :zone, :country_code ])
   end
 

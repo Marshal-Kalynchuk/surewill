@@ -1,6 +1,0 @@
-<%= turbo_stream.remove "#{dom_id(@belonging)}_item" %>
-<% if @size == 0 %>
-  <%= turbo_stream.replace "belongings_section" do %>
-    <%= turbo_frame_tag "belongings_section", src: user_will_belongings_path(current_user) %>
-  <% end %>
-<% end %>

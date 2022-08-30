@@ -1,17 +1,20 @@
 class WillDocument < Prawn::Document
 
-  def initialize(will, testator, delegates, properties, finances, belongings)
+  def initialize(will, testator, dependents, delegates, assets)
     super(top_margin: 50, font: 'Times-Roman')
 
+    @draft = "app/assets/images/draft.png"
     @will = will
     @testator = testator
+    @dependents = dependents
     @delegates = delegates
-    @properties = properties
-    @finances = finances
-    @belongings = belongings
-    @executors = @delegates.select {|delegate| delegate.executor == 1}.sort{|a,b| a.executor_rank <=> b.executor_rank}
+    @assets = assets
+    @executors = @delegates.select {|delegate| delegate.executor == true}.sort{|a,b| a.executor_rank <=> b.executor_rank}
+    @guardians = @delegates.select {|delegate| delegate.guardian == true}.sort{|a,b| a.guardian_rank <=> b.guardian_rank}
 
     font 'Times-Roman'
+
+    encrypt_document permissions: { print_document: false, copy_contents: false, modify_contents: false, modify_annotations: false} unless @will.prepaid
 
     title
 
@@ -24,6 +27,11 @@ class WillDocument < Prawn::Document
     move_down 12
     personal_representatives
 
+    put_draft
+
+    move_down 12
+    beneficiaries
+
     move_down 12
     disposition_of_property
 
@@ -32,6 +40,8 @@ class WillDocument < Prawn::Document
 
     move_down 12
     bond
+
+    put_draft
 
     move_down 12
     powers_of_executor
@@ -45,6 +55,8 @@ class WillDocument < Prawn::Document
     move_down 12
     gender
 
+    put_draft
+
     move_down 12
     assignment
 
@@ -54,6 +66,12 @@ class WillDocument < Prawn::Document
     move_down 12
     binding_arrangment
     
+  end
+
+  def put_draft
+    unless @will.prepaid
+      image @draft, at: [50, 700], width: 450
+    end
   end
 
   def title
@@ -76,61 +94,60 @@ class WillDocument < Prawn::Document
 
     text "II. PERSONAL REPRESENTATIVE"
     text "I nominate and appoint #{primary_executor.full_name}, of #{primary_executor.address.formatted_address}, as Personal Representative of my estate and I request that (he/she) be appointed temporary Personal Representative if (he/she) applies."
-
     if @executors.length == 2
-      text "If my personal Representative fails or ceases to so serve then I nominate #{@executors[1].full_name}, of #{@executors[1].address.city}, County of #{@executors[1].address.country_code}, State of #{@executors[1].address.zone} to serve."
+      text "If my personal Representative fails or ceases to so serve then I nominate #{@executors[1].full_name}, of #{@executors[1].address.formatted_address} to serve."
     elsif @executors.length > 2
       text "If my personal Representative fails or ceases to so serve then I nominate the following personal Representatives listed in order of precedence to serve:"
       @executors.drop(1).each_with_index do |executor, i|
         move_down 4
-        text "#{i+1}. #{executor.full_name}, of #{executor.address.formatted_address}.", indent_paragraphs: 10
+        text "#{i+1}. #{executor.full_name}, of #{executor.address.formatted_address}."
       end
     end
   end
 
-
-  def disposition_of_property
-    text "III. DISPOSITION OF PROPERTY"
-    k = 0
+  def beneficiaries
+    text "III. BENEFICIARIES"
     text "I nominate and appoint the following beneficiaries: "
+    i = 0
     @delegates.each do |delegate|
       unless delegate.bequests.empty?
-        k += 1
+        i += 1
         move_down 6
-        text "#{k}. #{delegate.full_name}, currently of #{delegate.address.formatted_address}, as my #{delegate.relation.downcase}.", indent_paragraphs: 10
+        text "#{i}. #{delegate.full_name}, currently of #{delegate.address.formatted_address}, as my #{delegate.relation.downcase}."
       end
     end
-    move_down 6
+  end
+  
+  def disposition_of_property
+    text "IV. DISPOSITION OF PROPERTY"
     text "I devise and bequeath my property, both real and personal and wherever situated, as follows:"
     i = 0
-    unless @properties.empty?
-      @properties.each do |property|
+    unless @assets.empty?
+      @assets.each do |asset|
         i += 1
         move_down 6
-        text "#{i}. #{property.title}, at the address of #{property.address.full_address}, to #{"be split in equal shares amoungst the following benficiaries: " unless property.primary_beneficiaries.size == 1}#{property.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}. Furthermore, I declare that the contents of this property shall be #{property.secondary_beneficiaries.size == 1 ? "bequest to " : "split equally amoungst the following beneficiaries: "}#{property.secondary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}. They are entitled to the contents of this property unless otherwise specified.", indent_paragraphs: 10
-
-      end
-    end
-    unless @finances.empty?
-      @finances.each do |finance|
-        i += 1
-        move_down 6
-        text "#{i}. #{finance.finance_type}, at the bank of #{finance.bank_name}, who's account type is #{finance.account_type}, to #{"be split in equal shares amoungst the following benficiaries: " unless finance.primary_beneficiaries.size == 1}#{finance.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}.", indent_paragraphs: 10
-      end
-    end
-    unless @belongings.empty?
-      @belongings.each do |belonging|
-        i += 1
-        move_down 6
-        text "#{i}. #{belonging.title}, to #{"be split in equal shares amoungst the following benficiaries: " unless belonging.primary_beneficiaries.size == 1}#{belonging.primary_beneficiaries.collect { |delegate| delegate.full_name }.join(", ")}.", indent_paragraphs: 10
+        address = "at the address of #{asset.address.full_address}," unless asset.address.nil?
+        plural = "be split in equal shares amoungst" unless asset.beneficiaries.size == 1
+        receivers = asset.beneficiaries.collect { |delegate| delegate.full_name }
+        l = receivers.length
+        if l > 1
+          last = receivers.pop
+          beneficiaries = receivers.join(", ") << " and " << last
+        else
+          beneficiaries = receivers.first
+        end
+        text "#{i}. #{asset.title}, #{address} to #{plural} #{beneficiaries}."
       end
     end
     move_down 6
+    text "Any property not listed here above will be distributed in equal shared to the following beneficiaries: "
+    
+
     text "If any of my beneficiaries have pre-deceased me, then any property that they would have received if they had not pre-deceased me shall be distributed in equal shares to the remaining beneficiaries. If any of my property cannot be readily sold and distributed, then it may be donated to any charitable organization or organizations of my Personal Representative’s choice. If any property cannot be readily sold or donated, my Personal Representative may, without liability, dispose of such property as my Personal Representative may deem appropriate. I authorize my Personal Representative to pay as an administration expense of my estate the expense of selling, advertising for sale, packing, shipping, insuring and delivering such property."
   end
 
   def omission
-    text "IV. OMISSION"
+    text "V. OMISSION"
     text "Except to the extent that I have included them in this Will, I have intentionally, and not
     as a result of any mistake or inadvertence, omitted in this Will to provide for any family
     members and/or issue of mine, if any, however defined by law, presently living or
@@ -138,14 +155,14 @@ class WillDocument < Prawn::Document
   end
 
   def bond
-    text "V. BOND"
+    text "VI. BOND"
     text "No bond shall be required of any fiduciary serving hereunder, whether or not specifically
     named in this Will, or if a bond is required by law, then no surety will be required on
     such bond."
   end
 
   def powers_of_executor
-    text "VI. DISCRETIONARY POWERS OF PERSONAL REPRESENTATIVE"
+    text "VII. DISCRETIONARY POWERS OF PERSONAL REPRESENTATIVE"
     move_down 6
     text "My Personal Representative, shall have and may exercise the following discretionary powers in addition to any common law or statutory powers without the necessity of court license or approval:"
     move_down 6
@@ -173,7 +190,7 @@ class WillDocument < Prawn::Document
   end
 
   def contesting_beneficiary
-    text "VII. CONTESTING BENEFICIARY"
+    text "VIII. CONTESTING BENEFICIARY"
     text "If any beneficiary under this Will, or any trust herein mentioned, contests or attacks this
     Will or any of its provisions, any share or interest in my estate given to that contesting 
     beneficiary under this Will is revoked and shall be disposed of in the same manner
@@ -181,14 +198,14 @@ class WillDocument < Prawn::Document
   end
 
   def guardian
-    text "VIII. GUARDIAN AD LITEM NOT REQUIRED"
+    text "IX. GUARDIAN AD LITEM NOT REQUIRED"
     text "I direct that the representation by a guardian ad litem of the interests of persons unborn,
     unascertained or legally incompetent to act in proceedings for the allowance of
     accounts hereunder be dispensed with to the extent permitted by law."
   end
 
   def gender
-    text "IX. GENDER"
+    text "X. GENDER"
     text "Whenever the context permits, the term “Personal Representative” shall include
     “Executor” and “Administrator,” the use of a particular gender shall include any other
     gender, and references to the singular or the plural shall be interchangeable. All
@@ -198,7 +215,7 @@ class WillDocument < Prawn::Document
   end
 
   def assignment
-    text "X. ASSIGNMENT"
+    text "XI. ASSIGNMENT"
     text "The interest of any beneficiary in this Will, shall not be alienable, assignable, attachable,
     transferable nor paid by way of anticipation, nor in compliance with any order,
     assignment or covenant and shall not be applied to, or held liable for, any of their debts
@@ -208,13 +225,13 @@ class WillDocument < Prawn::Document
   end
 
   def governing_law
-    text "XI. GOVERNING LAW"
+    text "XII. GOVERNING LAW"
     text "This document shall be governed by the laws of the State of _____________________."
 
   end
 
   def binding_arrangment
-    text "XII. BINDING ARRANGEMENT"
+    text "XIII. BINDING ARRANGEMENT"
     text "Any decision by my Personal Representative with respect to any discretionary power
     hereunder shall be final and binding on all persons interested. Unless due to my
     Executor’s own willful default or gross negligence, no Executor shall be liable for said

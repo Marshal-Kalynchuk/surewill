@@ -1,0 +1,13 @@
+<% @dependents.each do |dependent| %>
+  <% if dependent.saved_changes %>
+    <%= turbo_stream.update "#{dom_id(dependent)}_item" do %>
+      <%= render "dependent", dependent: dependent %>
+    <% end %>
+  <% end %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(@dependent)}_form" %>
+<% @update_assets.each do |asset| %>
+  <%= turbo_stream.update "#{dom_id(asset)}_item" do %>
+    <%= render "assets/asset", asset: asset %>
+  <% end %>
+<% end %>

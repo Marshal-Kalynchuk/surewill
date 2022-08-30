@@ -1,0 +1,10 @@
+<% if @size == 1 %>
+  <%= turbo_stream.replace "assets_section" do %>
+    <%= turbo_frame_tag "assets_section", src: user_will_assets_path(current_user) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append "assets" do %>
+    <%= render "asset", asset: @asset %>
+  <% end %>
+<% end %>
+<%= turbo_stream.remove "#{dom_id(Asset.new)}_form" %>

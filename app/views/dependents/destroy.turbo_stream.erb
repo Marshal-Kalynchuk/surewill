@@ -1,0 +1,14 @@
+<%= turbo_stream.remove "#{dom_id(@dependent)}_item" %>
+<% if @size == 0 %>
+  <%= turbo_stream.replace "dependents_section" do %>
+    <%= turbo_frame_tag "dependents_section", src: user_will_dependents_path(current_user) %>
+  <% end %>
+<% end %>
+
+<% @dependents.each do |dependent| %>
+  <% if dependent.saved_changes %>
+    <%= turbo_stream.update "#{dom_id(dependent)}_item" do %>
+      <%= render "dependent", dependent: dependent %>
+    <% end %>
+  <% end %>
+<% end %>

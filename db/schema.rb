@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_29_032852) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "accessors", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "will_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "will_id", null: false
     t.boolean "can_release", default: false, null: false
     t.boolean "payed", default: false, null: false
     t.datetime "created_at", null: false
@@ -61,32 +64,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "belongings", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.string "title"
+  create_table "assets", force: :cascade do |t|
+    t.bigint "will_id", null: false
+    t.string "title", null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["will_id"], name: "index_belongings_on_will_id"
+    t.index ["will_id"], name: "index_assets_on_will_id"
   end
 
   create_table "bequests", force: :cascade do |t|
-    t.integer "percentage", default: 10000, null: false
-    t.string "primary", default: "t", null: false
-    t.string "asset_type", null: false
-    t.integer "asset_id", null: false
+    t.bigint "asset_id", null: false
     t.string "beneficiariable_type", null: false
-    t.integer "beneficiariable_id", null: false
+    t.bigint "beneficiariable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["asset_type", "asset_id"], name: "index_bequests_on_asset"
+    t.index ["asset_id"], name: "index_bequests_on_asset_id"
     t.index ["beneficiariable_type", "beneficiariable_id"], name: "index_bequests_on_beneficiariable"
   end
 
   create_table "collocations", force: :cascade do |t|
-    t.integer "address_id", null: false
+    t.bigint "address_id", null: false
     t.string "collocable_type", null: false
-    t.integer "collocable_id", null: false
+    t.bigint "collocable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address_id"], name: "index_collocations_on_address_id"
@@ -94,12 +94,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
   end
 
   create_table "delegates", force: :cascade do |t|
-    t.integer "will_id", null: false
+    t.bigint "will_id", null: false
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name", null: false
-    t.integer "executor", default: 0, null: false
+    t.boolean "executor", default: false, null: false
     t.integer "executor_rank", default: 0, null: false
+    t.boolean "guardian", default: false, null: false
+    t.integer "guardian_rank", default: 0, null: false
+    t.boolean "inherits_remainder", default: false, null: false
     t.string "relation", null: false
     t.text "note"
     t.datetime "created_at", null: false
@@ -107,28 +110,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
     t.index ["will_id"], name: "index_delegates_on_will_id"
   end
 
-  create_table "finances", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.string "finance_type"
-    t.string "bank_name"
-    t.integer "bank_code"
-    t.string "account_type"
-    t.integer "account_number"
+  create_table "dependents", force: :cascade do |t|
+    t.bigint "will_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["will_id"], name: "index_finances_on_will_id"
+    t.index ["will_id"], name: "index_dependents_on_will_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.integer "subscription_id"
+    t.bigint "customer_id", null: false
+    t.bigint "subscription_id"
     t.string "processor_id", null: false
     t.integer "amount", null: false
     t.string "currency"
     t.integer "application_fee_amount"
     t.integer "amount_refunded"
-    t.json "metadata"
-    t.json "data"
+    t.jsonb "metadata"
+    t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_charges_on_customer_id_and_processor_id", unique: true
@@ -137,11 +137,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
 
   create_table "pay_customers", force: :cascade do |t|
     t.string "owner_type"
-    t.integer "owner_id"
+    t.bigint "owner_id"
     t.string "processor", null: false
     t.string "processor_id"
     t.boolean "default"
-    t.json "data"
+    t.jsonb "data"
     t.datetime "deleted_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -151,29 +151,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
 
   create_table "pay_merchants", force: :cascade do |t|
     t.string "owner_type"
-    t.integer "owner_id"
+    t.bigint "owner_id"
     t.string "processor", null: false
     t.string "processor_id"
     t.boolean "default"
-    t.json "data"
+    t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id", "processor"], name: "index_pay_merchants_on_owner_type_and_owner_id_and_processor"
   end
 
   create_table "pay_payment_methods", force: :cascade do |t|
-    t.integer "customer_id", null: false
+    t.bigint "customer_id", null: false
     t.string "processor_id", null: false
     t.boolean "default"
     t.string "type"
-    t.json "data"
+    t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_payment_methods_on_customer_id_and_processor_id", unique: true
   end
 
   create_table "pay_subscriptions", force: :cascade do |t|
-    t.integer "customer_id", null: false
+    t.bigint "customer_id", null: false
     t.string "name", null: false
     t.string "processor_id", null: false
     t.string "processor_plan", null: false
@@ -182,8 +182,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
     t.datetime "trial_ends_at", precision: nil
     t.datetime "ends_at", precision: nil
     t.decimal "application_fee_percent", precision: 8, scale: 2
-    t.json "metadata"
-    t.json "data"
+    t.jsonb "metadata"
+    t.jsonb "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_subscriptions_on_customer_id_and_processor_id", unique: true
@@ -192,22 +192,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
   create_table "pay_webhooks", force: :cascade do |t|
     t.string "processor"
     t.string "event_type"
-    t.json "event"
+    t.jsonb "event"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "properties", force: :cascade do |t|
-    t.integer "will_id", null: false
-    t.string "property_type", null: false
-    t.string "title", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["will_id"], name: "index_properties_on_will_id"
   end
 
   create_table "testators", force: :cascade do |t|
-    t.integer "will_id", null: false
+    t.bigint "will_id", null: false
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name", null: false
@@ -246,7 +237,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
     t.datetime "invitation_accepted_at"
     t.integer "invitation_limit"
     t.string "invited_by_type"
-    t.integer "invited_by_id"
+    t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -258,16 +249,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
   end
 
   create_table "wills", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.boolean "released", default: false, null: false
     t.boolean "prepaid", default: false, null: false
     t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "properties_count"
-    t.integer "finances_count"
+    t.integer "assets_count"
     t.integer "delegates_count"
-    t.integer "belongings_count"
+    t.integer "dependents_count"
     t.index ["user_id"], name: "index_wills_on_user_id"
   end
 
@@ -275,14 +265,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_25_015141) do
   add_foreign_key "accessors", "wills"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "belongings", "wills"
+  add_foreign_key "assets", "wills"
   add_foreign_key "delegates", "wills"
-  add_foreign_key "finances", "wills"
+  add_foreign_key "dependents", "wills"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
-  add_foreign_key "properties", "wills"
   add_foreign_key "testators", "wills"
   add_foreign_key "wills", "users"
 end

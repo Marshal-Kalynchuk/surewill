@@ -6,8 +6,8 @@
   <% end %>
 <% end %>
 <%= turbo_stream.remove "#{dom_id(@delegate)}_form" %>
-<% @update_properties.each do |property| %>
-  <%= turbo_stream.update "#{dom_id(property)}_item" do %>
-    <%= render "properties/property", property: property %>
+<% @update_assets.each do |asset| %>
+  <%= turbo_stream.update "#{dom_id(asset)}_item" do %>
+    <%= render "assets/asset", asset: asset %>
   <% end %>
 <% end %>

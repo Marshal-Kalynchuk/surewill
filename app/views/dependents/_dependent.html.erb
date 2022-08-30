@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "#{dom_id(dependent)}_item" do %>
+<div class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3">
+  <div class="flex-1 min-w-0">
+    <p class="text-sm font-medium text-gray-900"><%= dependent.full_name %></p>
+    <p class="text-sm text-gray-500 truncate">Dependent</p>
+  </div>
+  <div class="relative z-0 inline-flex shadow-sm rounded-md">
+    <%= link_to "Edit", edit_user_will_dependent_path(current_user, dependent), data: { turbo_frame: "model" }, class: "relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"%>
+    <%= button_to "Delete", user_will_dependent_path(current_user, dependent), form: { data: { turbo_confirm: "Are you sure?", turbo_frame: "_top" }}, method: :delete, class: "-ml-px relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500" %>
+  </div>
+</div>
+<% end %>
