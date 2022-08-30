@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     resource :will, except: :index do 
       
-      get 'last_will_and_testament', to: 'wills#last_will_and_testament'
+      get 'preview', to: 'wills#preview'
       
 
       resources :bequests, only: [], param: :index do

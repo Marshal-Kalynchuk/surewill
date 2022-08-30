@@ -22,14 +22,10 @@ class WillsController < ApplicationController
     end
   end
 
-  def last_will_and_testament
+  def preview
     @delegates.preload(:bequests)
-    respond_to do |format|
-      format.pdf do
-        pdf = WillDocument.new(@will, @testator, @delegates, @assets, @finances, @belongings)
-        send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
-      end
-    end
+    pdf = WillDocument.new(@will, @testator, @dependents, @delegates, @assets)
+    send_data pdf.render, filename: "last_will_and_testament.pdf", type: "application/pdf", disposition: "inline"
   end
 
   # GET /wills/new

@@ -60,7 +60,7 @@
           <p class="text-gray-500 mt-6">You must download, print and sign your will with two witnesses. To download the PDF version of your will you must pay a one time service fee. Paying gives you access to your will PDF and all future features of Surewill.</p>
           <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
             <%= link_to "Checkout", prepay_user_will_path(current_user), class: "w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"%>
-            <%= link_to "Preview", "#", class: "w-full bg-indigo-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"%>
+            <%= link_to "Preview", preview_user_will_path(current_user), class: "w-full bg-indigo-50 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"%>
           </div>
         </div>
       </div>
