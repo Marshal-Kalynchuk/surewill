@@ -16,9 +16,9 @@
         <% end %>
         <% if delegate.guardian == true %>
           <% if delegate.guardian_rank == 1 %>
-            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-blue-800 text-sm font-medium bg-blue-200 rounded-full">Primary Guardian</span>
+            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-cyan-800 text-sm font-medium bg-cyan-200 rounded-full">Primary Guardian</span>
           <% else %>
-            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-blue-800 text-sm font-medium bg-blue-200 rounded-full">Alternate Guardian <%= (delegate.guardian_rank - 1) %></span>
+            <span class="flex-shrink-0 inline-block px-2 py-0.5 text-cyan-800 text-sm font-medium bg-cyan-200 rounded-full">Alternate Guardian <%= (delegate.guardian_rank - 1) %></span>
           <% end %>
         <% end %>
         <% if delegate.inherits_remainder == true %>
