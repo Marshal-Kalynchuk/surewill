@@ -1,24 +1,27 @@
-# README
+# Surewill
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> Last will & testament platform with authentication, built with Ruby on Rails.
 
-Things you may want to cover:
+## Table of Contents
 
-* Ruby version
+* [Features](#features)
+* [Tech Stack](#tech-stack)
+* [License](#license)
 
-* System dependencies
+## Features
 
-* Configuration
+* User registration, login, and profile management
+* Create, edit, and delete wills and testament documents
+* Generate and download formatted PDF versions
+* Secure data storage and access
 
-* Database creation
+## Tech Stack
 
-* Database initialization
+* **Ruby on Rails** (backend)
+* **Devise** for authentication
+* **Tailwind CSS** for styling
+* **PostgreSQL** (production) / SQLite (development)
 
-* How to run the test suite
+## License
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
